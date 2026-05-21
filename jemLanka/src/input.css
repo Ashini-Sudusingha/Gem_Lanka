@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'VelvetMango';
+  src: url('./resources/fonts/VelvetMango-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

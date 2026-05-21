@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Sign In</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href="src/output.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+  
+</head>
+
+<body class="w-screen h-screen  bg-gradient-to-r from-[#460809] via-[#930003] to-[#460809] overflow-hidden">
+  <div class="grid w-screen h-screen grid-cols-12 gap-2 ">
+    
+    <!-- Alert Error -->
+    <div
+      class="absolute right-0 flex items-center hidden px-6 py-4 text-sm bg-white border-t-4 border-red-500 rounded-b shadow-sm" id="errorMessage">
+      <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-500 stroke-current" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M12 8V12V8ZM12 16H12.01H12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <div class="ml-3">
+        <div class="font-bold text-left text-black d">Access denied</div>
+        <div class="w-full mt-1 text-gray-900" id="errortype">You don&#x27;t have access to this page.</div>
+      </div>
+       <button type="button" class=" my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg  p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 mr-5" data-dismiss-target="#toast-success" aria-label="Close" 
+       onclick="closealert();">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+    </div>
+    <!-- End Alert Error -->
+
+    <div class=" absolute w-[150px] h-[150px] ml-[55px]">
+      <img src="resources/flower1.png" alt="Description of image" width="150" height="150">
+    </div>
+    <div
+      class="col-start-2 col-span-5 rounded-2xl w-[600px] h-[460px]  mt-[70px] mr-8 bg-[#D9D9D9] opacity-55 mb-[46px]">
+      <div class="w-full pt-3 ">
+        <p class="w-full text-4xl  ms-[60px] font-semibold font-['Poppins',sans-serif] ">Sign In</p>
+        <div class="w-[576px]  h-[2px] bg-gray-400 mt-3 mx-3"></div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-2 py-3 px-14 w-full my-[26px]">
+
+        <div class="col-span-4 mb-4">
+          <label for="email" class="block mb-2 text-sm font-medium font-['Poppins',sans-serif]">Email</label>
+          <input type="text" id="email"
+            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+            placeholder="anne@gmail.com" required value="">
+        </div>
+
+        <div class="col-span-4 mb-4">
+          <label for="email" class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] ">Password</label>
+          <input type="password" id="password"
+            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+            placeholder="*******" required value="">
+        </div>
+
+        <div class="col-span-4 mb-4">
+          <a href="" class=" text-gray-600 mb-2 text-sm font-medium font-['Poppins',sans-serif] underline">Foget
+            Password? try anotherway
+
+          </a>
+        </div>
+
+
+        <div class="flex items-center justify-center col-span-4 mb-4">
+          <button type="button it"
+            class="text-black hover:bg-gray-100 ring-2 ring-[#930003] focus:outline-none font-bold rounded-full text-lg px-5 py-1 inline-flex items-center bg-[#FCF0E0] text-center" onclick="signIn();">
+            Sign In
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="w-[50px] h-[50px] items-end pl-3.5">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                  stroke="#930003" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <g opacity="0.54">
+                  <path d="M8.5 12H14.5" stroke="#930003" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                  </path>
+                  <path d="M12.5 15L15.5 12L12.5 9" stroke="#930003" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </g>
+              </g>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <!--create account section-->
+
+    <!--verification popup model close-->
+
+    <div id="otp-modal" class=" modal-overlay">
+      <div class="p-5 bg-amber-50 rounded-2xl">
+        <div class="flex justify-end mb-4">
+          <button id="close-otp-modal-button" class="text-gray-400 hover:text-gray-200 focus:outline-none"
+            onclick="closeOtpModal();">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <!-- Animated Circle SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" class="w-48 h-48 mx-auto mb-6 animate-pulse">
+            <circle cx="200" cy="200" r="150" fill="#460809" />
+            <circle cx="200" cy="200" r="120" fill="#930003" />
+            <circle cx="200" cy="200" r="90" fill="#460809" />
+            <circle cx="200" cy="200" r="60" fill="#930003" />
+            <text x="200" y="200" text-anchor="middle" fill="#FDC12F" font-size="40" font-weight="bold" dy=".3em"
+              class="text-center text-amber-50">OTP</text>
+          </svg>
+
+          <h2 class="mb-2 text-2xl font-bold text-black">Verify OTP</h2>
+          <p class="mb-6 text-sm text-gray-400" id="message"></p>
+
+          <div class="flex justify-center mb-6 space-x-2 sm:space-x-4">
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="num1"
+              class="w-10 text-xl text-center text-white transition-transform duration-300 bg-gray-700 border-2 border-blue-500 otp-input h-14 sm:w-12 sm:h-16 sm:text-2xl rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-110">
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"  id="num2"
+              class="w-10 text-xl text-center text-white transition-transform duration-300 bg-gray-700 border-2 border-blue-500 otp-input h-14 sm:w-12 sm:h-16 sm:text-2xl rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-110">
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"  id="num3"
+              class="w-10 text-xl text-center text-white transition-transform duration-300 bg-gray-700 border-2 border-blue-500 b otp-input h-14 sm:w-12 sm:h-16 sm:text-2xl rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-110">
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"  id="num4"
+              class="w-10 text-xl text-center text-white transition-transform duration-300 bg-gray-700 border-2 border-blue-500 otp-input h-14 sm:w-12 sm:h-16 sm:text-2xl rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-110">
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"  id="num5"
+              class="w-10 text-xl text-center text-white transition-transform duration-300 bg-gray-700 border-2 border-blue-500 otp-input h-14 sm:w-12 sm:h-16 sm:text-2xl rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-110">
+            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*"  id="num6"
+              class="w-10 text-xl text-center text-white transition-transform duration-300 bg-gray-700 border-2 border-blue-500 otp-input h-14 sm:w-12 sm:h-16 sm:text-2xl rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-110">
+          </div>
+
+          <div class="mb-6 text-sm text-gray-400">
+            Didn't receive code?
+            <a href="#" class="text-blue-400 transition-colors duration-300 hover:underline hover:text-blue-500">Resend
+              OTP</a>
+          </div>
+          <button
+            class="w-full py-4 text-white transition-transform duration-300 bg-blue-600 rounded-xl hover:bg-blue-700 hover:scale-105" onclick="verifyAccount();">
+            Verify OTP
+          </button>
+        </div>
+      </div>
+    </div>
+
+   
+
+    <a href="resources/fonts/Cavier Dream.ttf" <div class="col-span-5 col-start-7 place-content-stretch ">
+      <div class="justify-center items-center w-full mt-[50px] ">
+        <img src="resources/logo.png" alt="Description of image" width="500" height="300" class="block mx-auto">
+        <p style="font-family: 'Red Rose', cursive;" class="text-white items-center mt-[4px] w-full px-2 text-center">
+          warm welcome to
+          hear you are . we are 25 year old trust hear. we give best jams for you. </p>
+      </div>
+      <div class="w-full">
+        <img src="resources/signman.png" alt="Description of image" width="325
+             " height="178" class="items-center mx-auto mt-[46px]">
+      </div>
+  </div>
+
+  </div>
+   <script src="js/verify-email.js"></script>
+  <script src="js/alert.js"></script>
+  <script src="js/sign-in.js"></script>
+
+</body>
+
+</html>

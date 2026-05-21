@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <!-- Include Tailwind CSS -->
+    <link href="src/output.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles if needed for specific icon sizes or complex layouts not easily done with Tailwind */
+        body {
+
+            /* Dark background color */
+            color: #E2E8F0;
+            /* Light text color */
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Custom styling for the checkmark icon in the steps */
+        .step-icon-checked {
+            background-color: #38A169;
+            /* Green background for checked steps */
+            border-color: #38A169;
+            color: white;
+        }
+
+        .step-icon-unchecked {
+            background-color: transparent;
+            border-color: #4A5568;
+            /* Gray border for unchecked steps */
+            color: #4A5568;
+        }
+
+        .step-line {
+            background-color: #4A5568;
+            /* Gray line */
+        }
+
+        .step-line-active {
+            background-color: #38A169;
+            /* Green line for active/completed */
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden bg-white" onload="loadStoreData();">
+    <div class="flex flex-col justify-center p-4 ">
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-30 flex items-center justify-between px-6 py-4 bg-white shadow-sm md:justify-start">
+
+
+            <div class="flex items-center ">
+                <svg fill="#FDC12F" viewBox="0 0 512 512" id="_x30_1" version="1.1" xml:space="preserve"
+                    class="mr-2 w-15 h-15" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M256,90 c37.02,0,67.031,35.468,67.031,79.219S293.02,248.438,256,248.438s-67.031-35.468-67.031-79.219S218.98,90,256,90z M369.46,402 H142.54c-11.378,0-20.602-9.224-20.602-20.602C121.938,328.159,181.959,285,256,285s134.062,43.159,134.062,96.398 C390.062,392.776,380.839,402,369.46,402z">
+                        </path>
+                    </g>
+                </svg>
+
+                <h1 class="text-xl font-bold text-gray-900 hidden font-['Poppins',sans-serif] md:block mr-6 ">Create
+                    store
+                </h1>
+            </div>
+            <div class="flex items-center ml-auto md:ml-0">
+                <h2 class="text-sm font-medium text-gray-800 md:block ml-3 font-['Poppins',sans-serif] ">create
+                   store</h2>
+                <span class="hidden mx-2 text-gray-500 md:block">/</span>
+                <nav class="items-center hidden text-sm text-gray-600 md:flex">
+                    <a href="#" class="hover:text-blue-600 font-['Poppins',sans-serif] ">Home</a>
+                    <span class="mx-1">&gt;</span>
+                    <a href="#" class="text-blue-600">Profile</a>
+                </nav>
+            </div>
+            <button class="ml-auto text-gray-500 md:hidden hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 12h.01M12 12h.01M19 12h.01"></path>
+                </svg>
+            </button>
+
+        </header>
+        <!--end header-->
+
+        <!--guid line-->
+        <div class="flex justify-center">
+            <div class="w-full max-w-2xl p-6 mt-3 rounded-lg shadow-md">
+                <!-- Step Indicator -->
+                <div class="relative flex items-center justify-between">
+                    <!-- Line connecting steps -->
+                    <div
+                        class="absolute left-0 right-0 h-0.5 bg-gray-600 -translate-y-1/2 sm:ml-[70px] sm:mr-[55px] mb-5 ">
+                    </div>
+                    <!-- Step 1: Cart (Completed) -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div
+                            class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-full">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="mt-2 text-sm font-medium text-blue-700 ">Add Bussiness Information </span>
+                    </div>
+
+                    <!-- Step 2: Checkout (Completed) -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div
+                            class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-full">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="mt-2 text-sm font-medium text-blue-700">Comfirm mail</span>
+                    </div>
+
+                    <!-- Step 3: Order summary (Completed) -->
+                    <!-- Step 2: Checkout (Completed) -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div
+                            class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-full">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="mt-2 text-sm font-medium text-blue-700">Active Store</span>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="max-w-3xl p-6 mx-auto mb-2 bg-white border border-blue-300 rounded-lg shadow ">
+        <h2 class="mb-4 text-2xl font-semibold text-blue-700 font-['Poppins',sans-serif]">📝 Gem Shop Registration
+            Guidelines</h2>
+        <ul class="pl-5 space-y-2 text-sm leading-relaxed text-blue-800 list-disc font-['Poppins',sans-serif]">
+            <li>Use your official business name as registered with local authorities.</li>
+            <li>Enter a valid email address — it will be used for verification and login.</li>
+            <li>Provide accurate shop address details for better customer trust.</li>
+            <li>Upload your business license or certificate, if required.</li>
+            <li>Create a strong password (minimum 8 characters, include letters and numbers).</li>
+            <li>Do not share your login credentials with others.</li>
+            <li>After registration, your shop will be reviewed by an admin (if applicable).</li>
+        </ul>
+    </div>
+
+
+    <!--create store-->
+    <div class="flex items-center justify-center p-4">
+        <div class="">
+              <h2 class="mb-4 text-2xl font-profile text-blue-700 font-['Poppins',sans-serif] font-bold">Welcome, join the JemLanka Global Seller Cente</h2>
+
+ <label for="name" class="block mb-2 text-sm font-medium  font-['Poppins',sans-serif] text-red-600" id="message"></label>
+              
+            <div
+                class="grid grid-cols-4 gap-4 px-14 w-full my-[26px] p-6 mb-6 bg-white rounded-lg shadow-md md:lg:px-14 py-10 md:w-[800px]">
+
+                <div class="col-span-4 mb-4 ">
+                    <label for="name"
+                        class="block mb-2 text-sm font-medium  font-['Poppins',sans-serif] text-gray-400">Business
+                        Name</label>
+                    <input type="text" id="bussName"
+                        class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+                        placeholder="Andrew Jackson" required value="">
+                </div>
+
+                <div class="col-span-4 mb-4 ">
+                    <label for="name"
+                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Business Email
+                    </label>
+                    <input type="email" id="email"
+                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+                        placeholder="Andrew Jackson" required value="">
+                </div>
+
+                <div class="col-span-2 mb-4">
+                    <label for="mobile"
+                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Mobile</label>
+                    <input type="text" id="mobile"
+                        class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+                        placeholder="Sudusinghe" required value="">
+                </div>
+
+                <div class="col-span-2 mb-4">
+                    <label for="email"
+                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Business
+                        category</label>
+                     <select id="category"
+                                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] ">
+                                    <option value="0" class="text-gray-300" selected>Select</option>
+                                </select>
+                </div>
+
+
+                <div class="col-span-2 mb-4">
+                    <label for="position"
+                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Your
+                        Position</label>
+                    <select id="position"
+                                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] ">
+                                    <option value="0" class="text-gray-300" selected>Select</option>
+                                </select>
+                </div>
+
+                <div class="col-span-2 mb-4">
+                    <label for="password"
+                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400"> Business
+                        License</label>
+                    <input type="file" id="liseImage"
+                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+                        placeholder="Send Image" required value="">
+                </div>
+
+                <div class="col-span-2 mb-4">
+                    <label for="password"
+                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] ">Password</label>
+                    <input type="password" id="password"
+                        class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+                        placeholder="*********" required value="">
+                </div>
+
+
+
+                <div class="col-span-2 mb-4">
+                    <label for="password"
+                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Comfirm
+                        password</label>
+                    <input type="password" id="comfirmPassword"
+                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
+                        placeholder="*********" required value="">
+                </div>
+
+                <div class="col-span-4 text-center">
+
+                    <button type="submit" onclick="storeRegistor();"
+                        class="flex justify-center w-full px-6 py-3 text-white bg-blue-800 rounded-md font-xl sm:mb-0">Create
+                        Store
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="w-[20px] h-[20px] ml-3">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M8 16H5.43C3.14 16 2 14.86 2 12.57V5.43C2 3.14 3.14 2 5.43 2H10C12.29 2 13.43 3.14 13.43 5.43"
+                                    stroke="#fdfcfc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                                <path
+                                    d="M18.57 22H14C11.71 22 10.57 20.86 10.57 18.57V11.43C10.57 9.14 11.71 8 14 8H18.57C20.86 8 22 9.14 22 11.43V18.57C22 20.86 20.86 22 18.57 22Z"
+                                    stroke="#fdfcfc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                                <path d="M14.87 15H18.13" stroke="#fdfcfc" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                                <path d="M16.5 16.6301V13.3701" stroke="#fdfcfc" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+            <p class="text-2xl">
+            </p>
+        </div>
+    </div>
+    <!--create account section-->
+    <!-- Submit Button (Optional, not in image but common for forms) -->
+    <!---->
+    <div class="hidden max-w-3xl p-6 mx-auto mb-8 bg-white border border-gray-300 rounded-lg shadow">
+        <h2 class="mb-6 text-2xl font-semibold text-gray-800">📨 Formal Request Letter to Admin for Gem Shop Approval
+        </h2>
+
+        <div
+            class="p-6 text-sm leading-relaxed text-gray-800 whitespace-pre-wrap border border-gray-200 rounded shadow-inner bg-gray-50">
+            <strong>To:</strong> Platform Administrator<br>
+            <strong>From:</strong> [Your Full Name]<br>
+            <strong>Date:</strong> [Today’s Date]<br><br>
+
+            <strong>Subject:</strong> Formal Request for Approval of Gem Shop Registration<br><br>
+
+            Dear Sir/Madam,<br><br>
+
+            I am writing this letter to formally request approval for registering my gem business, <strong>[Gem Shop
+                Name]</strong>, on your platform. I am the proprietor of this business, and I am genuinely interested in
+            expanding our online presence through your marketplace.<br>
+
+            Our gem shop specializes in selling high-quality, ethically-sourced precious and semi-precious stones
+            including sapphires, rubies, and emeralds. We ensure authenticity by working directly with licensed miners
+            and gem dealers across Sri Lanka. I believe that listing our shop on your platform will allow us to better
+            reach local and global clients while maintaining full transparency and credibility.<br>
+
+            As part of the registration process, I have submitted the following documents and details:<br>
+            - Business registration license<br>
+            - Government-issued ID copy<br>
+            - Store address and contact details<br>
+            - Email and phone verification<br>
+            - Product sample images<br><br>
+
+            I understand the platform’s commitment to maintaining a high standard for all vendors. I assure you that my
+            gem shop adheres to all applicable laws and ethical practices. I am also committed to providing excellent
+            customer service and accurate product listings.<br><br>
+
+            I respectfully request that you review my application and consider approving my store so that I can begin
+            showcasing our collection on your site. Please feel free to contact me if you require any further details or
+            clarifications.<br><br>
+
+            Thank you for your time and consideration.<br><br>
+
+            Yours sincerely,<br>
+            <strong>[Your Full Name]</strong><br>
+            Email: [your@email.com]<br>
+            Phone: [Your Contact Number]<br>
+            Business Name: [Gem Shop Name]<br>
+            Address: [Shop Address]
+        </div>
+    </div>
+    <!--end letter Section-->
+    <!--start cetreficate-->
+    <div class="hidden max-w-md mx-auto mt-6">
+        <div class="overflow-hidden border border-gray-200 shadow-lg rounded-2xl">
+      
+        </div>
+    </div>
+    <!--end-->
+
+    </div>
+    <script src="js/store-register.js"></script>
+
+</body>
+
+</html>

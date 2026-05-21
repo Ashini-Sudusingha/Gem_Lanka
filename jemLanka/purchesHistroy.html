@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <!-- Include Tailwind CSS -->
+    <link href="src/output.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for light theme body */
+        body {
+            background-color: #F3F4F6;
+            /* Light gray background color */
+            color: #1F2937;
+            /* Dark text color */
+            font-family: "Inter", sans-serif;
+        }
+    </style>
+</head>
+
+<body class="p-4 sm:p-6 lg:p-8" onload="deliverProductList();">
+
+    <div class="max-w-6xl p-6 mx-auto bg-white rounded-lg shadow-md sm:p-8" >
+        <!-- Header -->
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-30 flex items-center justify-between px-2 py-4 bg-white shadow-sm md:justify-start">
+            <div class="flex items-center">
+                <svg fill="#FDC12F" viewBox="0 0 512 512" id="_x30_1" version="1.1" xml:space="preserve"
+                    class="mr-2 w-15 h-15" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M256,90 c37.02,0,67.031,35.468,67.031,79.219S293.02,248.438,256,248.438s-67.031-35.468-67.031-79.219S218.98,90,256,90z M369.46,402 H142.54c-11.378,0-20.602-9.224-20.602-20.602C121.938,328.159,181.959,285,256,285s134.062,43.159,134.062,96.398 C390.062,392.776,380.839,402,369.46,402z">
+                        </path>
+                    </g>
+                </svg>
+
+                <h1 class="text-xl font-bold text-gray-900 hidden font-['Poppins',sans-serif] md:block">Purchase history
+                </h1>
+            </div>
+            <div class="flex items-center ml-auto md:ml-0">
+                <h2 class="text-sm font-medium text-gray-800 md:block ml-3 font-['Poppins',sans-serif] ">profile
+                    Details</h2>
+                <span class="hidden mx-2 text-gray-500 md:block">/</span>
+                <nav class="items-center hidden text-sm text-gray-600 md:flex">
+                    <a href="#" class="hover:text-blue-600 font-['Poppins',sans-serif] ">Home</a>
+                    <span class="mx-1">&gt;</span>
+                    <a href="#" class="text-blue-600">Profile</a>
+                </nav>
+            </div>
+            
+
+        </header>
+   
+         <button
+                    class="flex items-center w-full px-4 py-2 mt-auto text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">Button
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>Print
+                </button>
+
+        <div id="printuserReports">
+            <div class="container px-4 py-8 mx-auto sm:px-6 lg:px-8">
+
+                <table id="example" class="w-full table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Oder ID</th>
+                            <th class="px-4 py-2">Summery</th>
+                            <th class="px-4 py-2">QTY</th>
+                            <th class="px-4 py-2">Total</th>
+                            <th class="px-4 py-2">Buy Date</th>
+                            <th class="px-4 py-2">Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+
+
+
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            
+            </div>
+             <button class="px-4 py-2 border-4 border-violet-400 hover:bg-violet-100 rounded-xl" onclick="printUser();">Get
+					copy
+                    </button>
+              
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#example').DataTable({
+                        // Add any customization options here
+                    });
+                });
+            </script>
+        </div>
+    </div>
+
+    <script src="js/complete-order.js"></script>
+
+</body>
+
+</html>

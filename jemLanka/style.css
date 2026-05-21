@@ -1,0 +1,166 @@
+.verifypopup {
+display: none;
+}
+
+  @font-face {
+      font-family: 'VelvetMango';
+      src: url('/resources/fonts/VelvetMango-Regular.otf') format('opentype');
+    }
+
+    .font-velvet {
+      font-family: 'VelvetMango', sans-serif;
+    }
+
+    @font-face {
+      font-family: 'Strider';
+      src: url('resources/fonts/Strider.otf') format('opentype');
+    }
+
+    .font-strider {
+      font-family: 'Strider', sans-serif;
+    }
+
+    @font-face {
+  font-family: 'MagicalParadise';
+  src: url('./resources/fonts/Magical Paradise Personal Use Only.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-magical {
+  font-family: 'MagicalParadise', sans-serif;
+}
+
+@font-face {
+  font-family: 'CavierDream';
+  src: url('./resources/fonts/Cavier Dream.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-cavier {
+  font-family: 'CavierDream', sans-serif;
+}
+
+@font-face {
+  font-family: 'MarseilleFree';
+  src: url('./resources/fonts/Marseille Free.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-free {
+  font-family: 'MarseilleFree', sans-serif;
+}
+
+@font-face {
+  font-family: 'Profilen';
+  src: url('./resources/fonts/Profilen.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-profile {
+  font-family: 'Profilen', sans-serif;
+}
+
+.modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay for modal */
+            z-index: 1000; /* Ensure modal is on top */
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto; /* Allow scrolling if content is too long */
+        }
+
+.modal-overlay.active {
+            display: flex; /* Show when active */
+        }
+
+.marque-container .Marquee-content {
+         animation: marquee 40s linear infinite running;
+    }
+    .marque-container .Marquee-content:hover {
+         animation-play-state: paused;
+    }
+     @-moz-keyframes marquee {
+         0% {
+             transform: translateX(0);
+        }
+         100% {
+             transform: translate(-50%);
+        }
+    }
+     @-webkit-keyframes marquee {
+         0% {
+             transform: translateX(0);
+        }
+         100% {
+             transform: translate(-50%);
+        }
+    }
+     @-o-keyframes marquee {
+         0% {
+             transform: translateX(0);
+        }
+         100% {
+             transform: translate(-50%);
+        }
+    }
+     @keyframes marquee {
+         0% {
+             transform: translateX(0);
+        }
+         100% {
+             transform: translate(-50%);
+        }
+    }
+
+      .cart-dropdown-container {
+            position: relative;
+            display: inline-block; /* Allows it to sit next to other nav items */
+        }
+        .cart-dropdown-content {
+            display: none; /* Hidden by default */
+            position: absolute;
+            right: 0; /* Align to the right of its parent */
+            top: 100%; /* Position below the button */
+            z-index: 50; /* Ensure it's above other content */
+            min-width: 320px; /* Minimum width for readability */
+            max-width: 90vw; /* Max width to be responsive on small screens */
+            background-color: #1F2937; /* Dark background */
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            color: #D1D5DB; /* Light text color */
+        }
+        .cart-dropdown-container.active .cart-dropdown-content {
+            display: block; /* Show when active */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 640px) { /* Tailwind's 'sm' breakpoint */
+            .cart-dropdown-content {
+                left: 50%; /* Center on small screens */
+                transform: translateX(-50%);
+                width: 95vw; /* Almost full width */
+                min-width: unset; /* Remove min-width constraint */
+            }
+        }
+
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.no-spinner {
+  appearance: textfield;
+}
+

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart Dropdown</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the dropdown to ensure it appears over content */
+        .cart-dropdown-container {
+            position: relative;
+            display: inline-block; /* Allows it to sit next to other nav items */
+        }
+        .cart-dropdown-content {
+            display: none; /* Hidden by default */
+            position: absolute;
+            right: 0; /* Align to the right of its parent */
+            top: 100%; /* Position below the button */
+            z-index: 50; /* Ensure it's above other content */
+            min-width: 320px; /* Minimum width for readability */
+            max-width: 90vw; /* Max width to be responsive on small screens */
+            background-color: #1F2937; /* Dark background */
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            color: #D1D5DB; /* Light text color */
+        }
+        .cart-dropdown-container.active .cart-dropdown-content {
+            display: block; /* Show when active */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 640px) { /* Tailwind's 'sm' breakpoint */
+            .cart-dropdown-content {
+                left: 50%; /* Center on small screens */
+                transform: translateX(-50%);
+                width: 95vw; /* Almost full width */
+                min-width: unset; /* Remove min-width constraint */
+            }
+        }
+    </style>
+</head>
+<body class="p-4 font-sans text-white bg-gray-800">
+
+    <!-- Example Navigation Bar (simplified for context) -->
+    <nav class="flex justify-end p-4 bg-gray-900">
+        <div id="cart-icon-container" class="cart-dropdown-container">
+            <button id="cart-button" class="relative flex items-center p-2 text-gray-300 rounded-md hover:text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span id="cart-item-count" class="absolute flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full -top-1 -right-1">5</span>
+            </button>
+
+            <!-- Shopping Cart Dropdown Content -->
+            <div id="cart-dropdown-content" class="cart-dropdown-content">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-700">
+                    <h3 class="text-lg font-semibold">Your shopping cart <span class="text-gray-400" id="cart-header-item-count">(5 items)</span></h3>
+                    <button id="close-cart-button" class="text-gray-400 hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <div id="cart-items-list" class="pr-2 space-y-4 overflow-y-auto max-h-80">
+                    <!-- Cart Item Example 1 -->
+                    <div class="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0" data-item-id="1" data-price="1299">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/60x60/374151/D1D5DB?text=IMG" alt="Apple iPhone 15" class="w-16 h-16 bg-gray-700 rounded-md">
+                            <div>
+                                <p class="font-medium text-gray-200">Apple iPhone 15</p>
+                                <p class="text-sm text-gray-400">$<span class="item-price">1,299</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-minus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                            </button>
+                            <span class="font-medium text-gray-200 item-quantity">2</span>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-plus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </button>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full remove-item hover:bg-red-500 hover:text-white">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item Example 2 -->
+                    <div class="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0" data-item-id="2" data-price="1899">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/60x60/374151/D1D5DB?text=IMG" alt="Apple iPad PRO" class="w-16 h-16 bg-gray-700 rounded-md">
+                            <div>
+                                <p class="font-medium text-gray-200">Apple iPad PRO</p>
+                                <p class="text-sm text-gray-400">$<span class="item-price">1,899</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-minus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                            </button>
+                            <span class="font-medium text-gray-200 item-quantity">3</span>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-plus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </button>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full remove-item hover:bg-red-500 hover:text-white">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item Example 3 -->
+                    <div class="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0" data-item-id="3" data-price="899">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/60x60/374151/D1D5DB?text=IMG" alt="Apple iPad PRO" class="w-16 h-16 bg-gray-700 rounded-md">
+                            <div>
+                                <p class="font-medium text-gray-200">Apple iPad PRO</p>
+                                <p class="text-sm text-gray-400">$<span class="item-price">899</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-minus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                            </button>
+                            <span class="font-medium text-gray-200 item-quantity">1</span>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-plus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </button>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full remove-item hover:bg-red-500 hover:text-white">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item Example 4 -->
+                    <div class="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0" data-item-id="4" data-price="999">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/60x60/374151/D1D5DB?text=IMG" alt="Apple iPhone 15" class="w-16 h-16 bg-gray-700 rounded-md">
+                            <div>
+                                <p class="font-medium text-gray-200">Apple iPhone 15</p>
+                                <p class="text-sm text-gray-400">$<span class="item-price">999</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-minus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                            </button>
+                            <span class="font-medium text-gray-200 item-quantity">1</span>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-plus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </button>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full remove-item hover:bg-red-500 hover:text-white">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item Example 5 -->
+                    <div class="flex items-center justify-between py-2 border-b border-gray-700 last:border-b-0" data-item-id="5" data-price="1099">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/60x60/374151/D1D5DB?text=IMG" alt="Apple Watch" class="w-16 h-16 bg-gray-700 rounded-md">
+                            <div>
+                                <p class="font-medium text-gray-200">Apple Watch</p>
+                                <p class="text-sm text-gray-400">$<span class="item-price">1,099</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-minus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                            </button>
+                            <span class="font-medium text-gray-200 item-quantity">2</span>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full quantity-plus hover:bg-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </button>
+                            <button class="p-1 text-gray-300 bg-gray-700 rounded-full remove-item hover:bg-red-500 hover:text-white">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-4 mt-4 border-t border-gray-700">
+                    <p class="text-lg font-semibold">Total</p>
+                    <p class="text-lg font-bold text-gray-100">$<span id="cart-total">6,196</span></p>
+                </div>
+
+                <button class="w-full px-4 py-2 mt-4 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                    See your cart
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartButton = document.getElementById('cart-button');
+            const cartDropdownContainer = document.getElementById('cart-icon-container');
+            const cartDropdownContent = document.getElementById('cart-dropdown-content');
+            const closeCartButton = document.getElementById('close-cart-button');
+            const cartItemsList = document.getElementById('cart-items-list');
+            const cartItemCountSpan = document.getElementById('cart-item-count');
+            const cartHeaderItemCountSpan = document.getElementById('cart-header-item-count');
+            const cartTotalSpan = document.getElementById('cart-total');
+
+            // Function to calculate and update total
+            function updateCartTotal() {
+                let total = 0;
+                document.querySelectorAll('#cart-items-list > div').forEach(itemElement => {
+                    const price = parseFloat(itemElement.dataset.price);
+                    const quantity = parseInt(itemElement.querySelector('.item-quantity').textContent);
+                    total += price * quantity;
+                });
+                cartTotalSpan.textContent = total.toLocaleString(); // Format with commas
+                updateCartItemCount();
+            }
+
+            // Function to update item count in header
+            function updateCartItemCount() {
+                const itemCount = document.querySelectorAll('#cart-items-list > div').length;
+                cartItemCountSpan.textContent = itemCount;
+                cartHeaderItemCountSpan.textContent = `(${itemCount} items)`;
+            }
+
+            // Toggle cart dropdown visibility
+            cartButton.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent document click from immediately closing
+                cartDropdownContainer.classList.toggle('active');
+            });
+
+            // Close cart dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!cartDropdownContainer.contains(event.target) && cartDropdownContainer.classList.contains('active')) {
+                    cartDropdownContainer.classList.remove('active');
+                }
+            });
+
+            // Close button inside the dropdown
+            closeCartButton.addEventListener('click', function() {
+                cartDropdownContainer.classList.remove('active');
+            });
+
+            // Event delegation for quantity change and remove buttons
+            cartItemsList.addEventListener('click', function(event) {
+                const target = event.target;
+                const itemElement = target.closest('[data-item-id]'); // Find the parent item div
+
+                if (!itemElement) return; // Not an item-related button
+
+                const quantitySpan = itemElement.querySelector('.item-quantity');
+                let currentQuantity = parseInt(quantitySpan.textContent);
+
+                if (target.closest('.quantity-plus')) {
+                    currentQuantity++;
+                    quantitySpan.textContent = currentQuantity;
+                    updateCartTotal();
+                } else if (target.closest('.quantity-minus')) {
+                    if (currentQuantity > 1) {
+                        currentQuantity--;
+                        quantitySpan.textContent = currentQuantity;
+                        updateCartTotal();
+                    } else {
+                        // If quantity is 1 and minus is clicked, remove the item
+                        itemElement.remove();
+                        updateCartTotal();
+                    }
+                } else if (target.closest('.remove-item')) {
+                    itemElement.remove();
+                    updateCartTotal();
+                }
+            });
+
+            // Initial calculation on load
+            updateCartTotal();
+        });
+    </script>
+</body>
+</html>
+ <div class="items-center col-span-4 mb-4">
+          <button type="button it"
+            class="text-black  hover:bg-gray-100 ring-2 ring-[#930003] focus:outline-none  font-bold rounded-full text-lg  px-5 py-2.5  inline-flex items-center bg-[#FCF0E0] text-center">
+            Sign In
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="w-[50px] h-[50px] items-end pl-3.5">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                  stroke="#930003" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <g opacity="0.54">
+                  <path d="M8.5 12H14.5" stroke="#930003" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                  </path>
+                  <path d="M12.5 15L15.5 12L12.5 9" stroke="#930003" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </g>
+              </g>
+            </svg>
+          </button>
+        </div>

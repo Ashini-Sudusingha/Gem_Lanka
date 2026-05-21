@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking</title>
+    <!-- Include Tailwind CSS -->
+    <link href="src/output.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for light theme body */
+        body {
+            background-color: #F3F4F6;
+            /* Light gray background color */
+            color: #1F2937;
+            /* Dark text color */
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Custom styling for input focus rings */
+        input:focus,
+        select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+            /* blue-500 with opacity */
+            border-color: #3B82F6;
+            /* blue-500 */
+        }
+
+        /* Custom styling for dropdown arrows (for select elements) */
+        .custom-select-arrow {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            /* Darker arrow for light background */
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            /* Make space for the arrow */
+        }
+
+        /* Modal specific styles */
+        .modal-overlay {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Dark overlay for modal */
+            z-index: 1000;
+            /* Ensure modal is on top */
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            /* Allow scrolling if content is too long */
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            /* Show when active */
+        }
+
+        .modal-content {
+            background-color: #1F2937;
+            /* Dark background for modal content */
+            border-radius: 0.75rem;
+            /* rounded-xl */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            /* shadow-xl */
+            width: 95%;
+            /* Responsive width for mobile */
+            max-width: 400px;
+            /* Max width for desktop */
+            margin: 20px auto;
+            /* Margin for vertical centering and spacing */
+            padding: 1.5rem;
+            /* p-6 */
+            position: relative;
+            color: #E2E8F0;
+            /* Light text color for modal */
+        }
+
+        /* Responsive adjustments for modal */
+        @media (min-width: 640px) {
+
+            /* sm breakpoint */
+            .modal-content {
+                width: 80%;
+                /* Slightly wider on small tablets */
+            }
+        }
+    </style>
+</head>
+
+<body class="items-start justify-center min-h-screen p-4 " onload="loadUserOrders();">
+    <header class="sticky top-0 z-30 flex items-center justify-between px-6 py-4 bg-white shadow-sm md:justify-start">
+
+
+        <div class="flex items-center">
+            <svg fill="#FDC12F" viewBox="0 0 512 512" id="_x30_1" version="1.1" xml:space="preserve"
+                class="mr-2 w-15 h-15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path
+                        d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M256,90 c37.02,0,67.031,35.468,67.031,79.219S293.02,248.438,256,248.438s-67.031-35.468-67.031-79.219S218.98,90,256,90z M369.46,402 H142.54c-11.378,0-20.602-9.224-20.602-20.602C121.938,328.159,181.959,285,256,285s134.062,43.159,134.062,96.398 C390.062,392.776,380.839,402,369.46,402z">
+                    </path>
+                </g>
+            </svg>
+
+            <h1 class="text-xl font-bold text-gray-900 hidden font-['Poppins',sans-serif] md:block">My Profile
+            </h1>
+        </div>
+        <div class="flex items-center ml-auto md:ml-0">
+            <h2 class="text-sm font-medium text-gray-800 md:block ml-3 font-['Poppins',sans-serif] ">profile
+                Details</h2>
+            <span class="hidden mx-2 text-gray-500 md:block">/</span>
+            <nav class="items-center hidden text-sm text-gray-600 md:flex">
+                <a href="#" class="hover:text-blue-600 font-['Poppins',sans-serif] ">Home</a>
+                <span class="mx-1">&gt;</span>
+                <a href="#" class="text-blue-600">Profile</a>
+            </nav>
+        </div>
+        <button class="ml-auto text-gray-500 md:hidden hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01">
+                </path>
+            </svg>
+        </button>
+    </header>
+
+    <div class="flex w-full px-4 mt-3">
+        <div class="w-full max-w-[1200px]">
+            <!-- Search and Filter Section -->
+            <div
+                class="flex flex-col items-center justify-between mb-6 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+                <!-- Search Input -->
+                <div class="relative flex-1 w-full sm:w-auto">
+                    <input type="text" placeholder="Search by Order ID"
+                        class="w-full py-2 pl-10 pr-4 text-gray-800 placeholder-gray-500 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <button
+                    class="w-full px-6 py-2 text-white bg-blue-600 rounded-md sm:w-auto hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                    Search
+                </button>
+
+                <!-- Filter by Completed Dropdown -->
+                <div class="relative w-full sm:w-auto">
+                    <select
+                        class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Filter by: Completed</option>
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <!-- Last 7 days Dropdown -->
+                <div class="relative w-full sm:w-auto">
+                    <select
+                        class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="7days">Last 7 days</option>
+                        <option value="30days">Last 30 days</option>
+                        <option value="90days">Last 90 days</option>
+                        <option value="all">All time</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Order Cards Section -->
+            <div class="space-y-6 " id="orderContainer">
+                <!-- Order Card 1: Pre-order -->
+
+                <!--oder card start-->
+
+            </div>
+
+        </div>
+
+      
+    </div>
+
+
+    <div id="notificatoion"></div>
+
+    <!-- The Modal Pop-up -->
+<div id="orderModal" class="fixed inset-0 z-[9999] overflow-y-auto hidden" id="printuserReports">
+    <!-- Modal Overlay -->
+    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+
+        <!-- Dark background overlay -->
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true" onclick="closeModal()">
+            <div class="absolute inset-0 bg-gray-800 opacity-75"></div>
+        </div>
+
+        <!-- Centering trick -->
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <!-- Modal Card -->
+        <div class="relative inline-block w-full max-w-md p-6 overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-2xl sm:my-8 sm:align-middle md:p-8">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute text-gray-400 transition-colors duration-200 top-4 right-4 hover:text-gray-600">
+                <i class="text-xl fas fa-times">*</i>
+            </button>
+
+            <!-- Content -->
+            <div class="w-full">
+                <!-- Header -->
+                <h2 class="text-2xl font-bold text-center text-gray-800">Order Details</h2>
+                <p class="mt-1 text-center text-gray-500">Complete your purchase</p>
+
+                <!-- Product Details -->
+                <div class="flex items-center mt-6 space-x-4" id="productLoad">
+                    <img src="https://media.istockphoto.com/id/913851526/photo/white-headphones.webp?a=1&b=1&s=612x612&w=0&k=20&c=1XeKlfmsO28pA3VLjiJFvvyl9AwFYjilm5AOMJGrwqM=" alt="Product Image" class="w-20 h-20 rounded-lg shadow">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800" id="title">Wireless Headphones</h3>
+                        <p class="text-sm text-gray-500" id="details">Noise Cancelling, Bluetooth 5.0</p>
+                    </div>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div class="mt-6 space-y-3">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span id="total">$149.99</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Shipping</span>
+                        <span class="text-green-500" id="shipping">Free</span>
+                    </div>
+                    <div class="flex justify-between font-semibold text-gray-800">
+                        <span>Total</span>
+                        <span id="Subtotal">$149.99</span>
+                    </div>
+                </div>
+
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteOrderModal = document.getElementById('delete-order-modal');
+            const closeDeleteModalButton = document.getElementById('close-delete-modal-button');
+            const modalCancelButton = document.getElementById('modal-cancel-button');
+            const modalDeleteButton = document.getElementById('modal-delete-button');
+            const modalUsernameSpan = document.getElementById('modal-username');
+
+            // Select all "Cancel order" buttons
+            const cancelOrderButtons = document.querySelectorAll('.cancel-order-button');
+
+            // Function to open the modal
+            function openDeleteModal(orderId, username) {
+                if (modalUsernameSpan) {
+                    modalUsernameSpan.textContent = `@${username}`;
+                }
+                // You can also store the orderId in a data attribute on the modal itself
+                deleteOrderModal.dataset.currentOrderId = orderId;
+                deleteOrderModal.classList.add('active');
+            }
+
+            // Function to close the modal
+            function closeDeleteModal() {
+                deleteOrderModal.classList.remove('active');
+            }
+
+            // Event listener for each "Cancel order" button
+            cancelOrderButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const orderId = this.dataset.orderId;
+                    const username = this.dataset.username || 'user'; // Default to 'user' if no username provided
+                    openDeleteModal(orderId, username);
+                });
+            });
+
+            // Event listeners for modal buttons
+            closeDeleteModalButton.addEventListener('click', closeDeleteModal);
+            modalCancelButton.addEventListener('click', closeDeleteModal);
+
+            // Event listener for "Yes, delete" button
+            modalDeleteButton.addEventListener('click', function () {
+                const orderIdToDelete = deleteOrderModal.dataset.currentOrderId;
+                console.log(`Deleting order: ${orderIdToDelete}`);
+                // In a real application, you would send a request to your backend here
+                // After successful deletion, you would close the modal and update the UI
+                closeDeleteModal();
+                // Optionally, remove the deleted order card from the DOM
+                // For demonstration, let's just log.
+            });
+
+            // Close modal when clicking outside of it
+            deleteOrderModal.addEventListener('click', function (event) {
+                if (event.target === deleteOrderModal) {
+                    closeDeleteModal();
+                }
+            });
+        });
+    </script>
+    <script src="js/order-traking.js"></script>
+    <script src="js/alert.js"></script>
+</body>
+
+</html>

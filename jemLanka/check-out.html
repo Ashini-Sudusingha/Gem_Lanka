@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Sign In</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href="src/output.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+   <script src="js/notification.js"></script>
+  <style>
+    /* Modal specific styles */
+    .modal-overlay {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      /* Darker overlay for modal */
+      z-index: 1000;
+      /* Ensure modal is on top */
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      /* Allow scrolling if content is too long */
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      /* Show when active */
+    }
+
+
+
+    .modal-content {
+      background-color: white;
+      border-radius: 0.75rem;
+      /* rounded-xl */
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      /* shadow-xl */
+      width: 95%;
+      /* Responsive width for mobile */
+      max-width: 600px;
+      /* Max width for desktop */
+      margin: 20px auto;
+      /* Margin for vertical centering and spacing */
+      padding: 1.5rem;
+      /* p-6 */
+      position: relative;
+    }
+
+    /* Responsive adjustments for modal */
+    @media (min-width: 640px) {
+
+      /* sm breakpoint */
+      .modal-content {
+        width: 80%;
+        /* Slightly wider on small tablets */
+      }
+    }
+
+    @media (min-width: 768px) {
+
+      /* md breakpoint */
+      .modal-content {
+        width: 600px;
+        /* Fixed width on desktop */
+      }
+    }
+  </style>
+</head>
+
+<body class="w-screen h-screen  bg-gradient-to-r from-[#460809] via-[#930003] to-[#460809] overflow-x-hidden"
+  onload="loadNavBar();loadFooter();loadCheckoutData();">
+  <div class="sticky w-screen" id="navBar"></div>
+  <section
+    class="py-8  bg-[#FCF0E0] md:py-16 font-['Poppins',sans-serif] md:lg:mx-[300px] rounded-4xl mt-[50px] mb-[50px]">
+    <form action="#" class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">complete your oder</h2>
+        <h5 class="text-xl font-semibold text-gray-900 sm:text-6xl">Order summary</h5>
+
+        <div class="py-8 mt-6 space-y-4 border-t border-b border-gray-950 sm:mt-8">
+          <h4 class="text-lg font-semibold text-gray-900 ">Billing & Delivery information</h4>
+          <div class="flex items-center justify-center">
+            <div class="max-w-6xl px-12 mx-auto">
+              <div class="flex flex-wrap justify-center gap-3" id="addressContainer">
+
+                <!-- Repeat similar structure for other pricing options load Address -->
+                <!-- Repeat similar structure for other pricing options load Address-->
+              </div>
+            </div>
+          </div>
+
+          <button type="button" onclick="openEditAddressModelCkeckout();loadAddressData();"
+            class="text-base font-medium text-primary-700 hover:underline dark:text-primary-500">Edit</button>
+        </div>
+
+        <div class="mt-6 sm:mt-8">
+          <div class="relative overflow-x-auto border-b border-gray-200 dark:border-gray-800">
+            <table class="w-full font-medium text-left text-gray-900 md:table-fixed">
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-800" id="cartTable">
+                <!--row 1 start-->
+          
+                <!--row 1 end-->
+             
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mt-4 space-y-6">
+            <h4 class="text-xl font-semibold text-gray-900 ">Order summary</h4>
+
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-gray-500 dark:text-gray-400">Total</dt>
+                  <dd class="text-base font-medium text-blue-600" id="Total">$0</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-gray-500 dark:text-gray-400">Quantitiy</dt>
+                  <dd class="text-base font-medium" id="qty">$0</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-gray-500 dark:text-gray-400">Shop keeping</dt>
+                  <dd class="text-base font-medium text-gray-900">$2</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-gray-500 dark:text-gray-400">Shipping cost</dt>
+                  <dd class="text-base font-medium text-gray-900">$20</dd>
+                </dl>
+              </div>
+
+              <dl class="flex items-center justify-between gap-4 pt-2 border-t dark:border-gray-700">
+                <dt class="text-lg font-bold text-gray-900 ">Total</dt>
+                <dd class="text-lg font-bold text-green-500" id="subtotal">$0</dd>
+              </dl>
+            </div>
+
+            <div class="flex items-start sm:items-center">
+              <input id="terms-checkbox-2" type="checkbox" value=""
+                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+              <label for="terms-checkbox-2" class="text-sm font-medium text-gray-700 ms-2 "> I agree
+                with the <a href="#" title=""
+                  class="underline text-primary-700 hover:no-underline dark:text-primary-500">Terms and Conditions</a>
+                of use of the Flowbite marketplace </label>
+            </div>
+
+            <div class="flex items-center space-x-3">
+              <button class="flex-1 p-3 transition rounded-lg hover:bg-gray-200">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard"
+                  class="h-6 mx-auto">
+              </button>
+              <button class="flex-1 p-3 transition rounded-lg hover:bg-gray-200">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" class="h-6 mx-auto">
+              </button>
+              <button class="flex-1 p-3 transition rounded-lg hover:bg-gray-200">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"
+                  class="h-6 mx-auto">
+              </button>
+            </div>
+
+            <div class="gap-4 sm:flex sm:items-center">
+              <button type="button"
+                class="w-full rounded-lg  border border-gray-200 bg-white px-5  py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Return
+                to Shopping</button>
+
+              <button type="submit" onclick="checkout();"
+                class="mt-4 flex w-full items-center justify-center rounded-lg bg-primary-700  px-5 py-2.5 text-sm  text-amber-800 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold  sm:mt-0">Send
+                the order</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <!--address edit-->
+  <div id="edit-address-modal" class="modal-overlay bg-amber-50">
+    <div class="modal-content">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-200">
+
+        <h3 class="text-xl font-bold font-profile text-amber-900">Edit Personal Information</h3>
+        <button id="close-modal-button" class="text-gray-400 hover:text-gray-600 focus:outline-none"
+          onclick="addressModelClose();">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <p class="mb-6 text-sm text-gray-600 font-['Poppins',sans-serif]" id="messageAddress">Addyour shipping address</p>
+
+      <div class="space-y-6">
+
+        <!-- Information -->
+        <div>
+          <h4 class="mb-3 text-lg font-semibold text-gray-800 font-['Poppins',sans-serif]">Address
+            Information</h4>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="country"
+                class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Select
+                country</label>
+              <select id="country" onchange="loadProvince();"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
+                <option value="0" selected>Select</option>
+
+              </select>
+
+            </div>
+            <div>
+              <label for="last-name" class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">
+                Province</label>
+              <select id="province" onchange="loadCity();"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
+                <option value="0" selected>Select</option>
+
+              </select>
+            </div>
+            <div>
+              <label for=""
+                class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">City</label>
+              <select id="city"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
+                <option value="0" selected>Select</option>
+
+              </select>
+            </div>
+            <div class="">
+              <label for="email-address"
+                class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Posatal
+                code</label>
+              <input type="text" id="postalcode"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
+                value="">
+            </div>
+            <div class="col-span-2 ">
+              <label for="phone" class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Line
+                01</label>
+              <input type="tel" id="line1"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
+                value="">
+            </div>
+            <div class="col-span-2">
+              <label for="bio" class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Line
+                02</label>
+              <input type="tel" id="line2"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
+                value="">
+            </div>
+            <div class="col-span-2">
+              <label for="bio" class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Mobile
+              </label>
+              <input type="tel" id="mobile"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
+                value="">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-4 space-x-3 border-t border-gray-200">
+        <button id="modal-close-button"
+          class="px-6 py-2 text-gray-700 transition-colors duration-200 border border-gray-300 rounded-md hover:bg-gray-50"
+          onclick="addressModelClose();">
+          Close
+        </button>
+        <button id="save-changes-button" onclick="saveAddressChanges();"
+          class="px-6 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="footer" class=""></div>
+  <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+  <script src="script.js"></script>
+  <script src="js/notification.js"></script>
+  <script src="my-account.js"></script>
+  <script src="js/checkout.js"></script>
+  <script>
+    function loadFooter() {
+      fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("footer").innerHTML = data;
+        })
+        .catch(error => {
+          console.error("Footer loading failed:", error);
+        });
+    }
+
+  </script>
+</body>
+
+</html>

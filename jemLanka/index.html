@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Home</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="src/output.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="w-screen overflow-x-hidden" onload="loadFooter();loadProductData();loadNavBar()">
+    <!--call nav bar hear-->
+  <div class="sticky w-screen" id="navBar"></div>
+
+  <section class="w-screen h-[557px] flex flex-col bg-[#E8D8C4] md:lg:flex-row">
+    <div class="flex-1 mt-[50px]">
+        <h1 class="text-[25px] font-bold font-profile px-[20px] text-start">Your Trusted Marketplace for Buying & Selling Precious Gems Worldwide.</h1>
+         <h1 class="font-magical text-[150px] font-bold text-[#460809] mt-[10px] ml-[30px]">JemLanka</h1>
+         <P class="">From rare Ceylon sapphires to exquisite global gemstones, find the perfect stone or sell yours effortlessly. We provide expert verification and a seamless trading experience for gem enthusiasts worldwide.</P>
+    </div>
+    <div class="flex-1 p-2 justify-center flex w-[350px]">
+        <img src="resources/fontimage.png" alt="Description of image" width="330" height="330" class="mt-[40px] mr-[90px]">
+        <h1>dd</h1>
+    </div>
+  </section>
+
+    <div class="w-screen h-[557px] flex flex-col bg-[#E8D8C4] md:lg:flex-row">
+          
+        <div class="flex-1 mt-3 ">
+            <h2 class="p-2 text-2xl font-semibold font-cavier">concise introduction</h2>
+            <p class="ml-10">Through this platform, you will primarily be able to obtain various types of gemstones
+                sourced from Sri
+                Lanka on a wholesale basis, as well as have your jewelry manufactured through trusted Sri Lankan
+                factories. Additionally, if you wish, you can also acquire gemstone varieties from other countries.
+
+                All gemstones offered here are certified by recognized institutions that conduct thorough quality
+                testing. If needed, you can also directly connect with those institutions.</p>
+            <h1 class="font-magical text-[90px] font-bold ml-10 text-[#460809]">JemLanka</h1>
+            <div class="ml-[50px] mt-7">
+                <button class="
+          relative
+          px-6 py-2.5
+          bg-[#6D2932]
+          backdrop-blur-md
+          border border-white/30
+          text-teal-950 dark:text-white
+          font-medium
+          rounded-lg
+          shadow-lg
+          overflow-hidden
+          hover:bg-[#6D2932]
+          hover:shadow-xl
+          active:transform active:scale-95
+          transition-all duration-300
+          before:content-['']
+          before:absolute
+          before:top-0
+          before:left-0
+          before:w-full
+          before:h-full
+          before:bg-gradient-to-r
+          before:from-transparent
+          before:via-white/20
+          before:to-transparent
+          before:-translate-x-full
+          hover:before:translate-x-full
+          before:transition-transform
+          before:duration-700
+        ">
+                    About Us
+                </button>
+            </div>
+        </div>
+        <!--methana thiyenne 2 kotasa-->
+        <div class="grid grid-cols-6 opacity-0 flex-2 md:lg:opacity-100">
+            <p class="col-start-3 my-6 font-profile text-[40px] col-span-3 font-semibold ml-5 mt-[100px]
+            ">Partner with us to source your gemstones and receive the services you need.</p>
+            <!--start the service-->
+        </div>
+        <div
+            class="hidden absolute w-[400px] h-[400px]  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-[67px]  opacity-0 md:lg:opacity-100">
+            <img src="resources/fontimage.png" alt="Description of image" width="300" height="300">
+        </div>
+    </div>
+    <!--special anounsment start-->
+    <div x-data="{ activeSlide: 0, slides: 3, timer: null }"
+        x-init="timer = setInterval(() => activeSlide = (activeSlide + 1) % slides, 3000)"
+        class="relative mx-auto mt-4 max-w-[1200px] group">
+
+        <div class="relative overflow-hidden rounded-lg shadow-xl">
+            <div class="flex transition-transform duration-500 ease-in-out"
+                :style="`transform: translateX(-${activeSlide * 100}%)`">
+                <div class="flex items-center justify-center min-w-full text-4xl text-white bg-blue-500 h-100">
+                    <img src="resources/banner1.png" alt="" srcset=""/>
+                </div>
+                <div class="flex items-center justify-center min-w-full text-4xl text-white bg-green-500 h-100">
+                    <img src="resources/banner2.png" alt="" srcset=""/>
+                </div>
+                <div class="flex items-center justify-center min-w-full text-4xl text-white bg-purple-500 h-100">
+                    <img src="resources/banner3.png" alt="" srcset=""/>
+                </div>
+            </div>
+        </div>
+
+        <button @click="activeSlide = (activeSlide - 1 + slides) % slides; clearInterval(timer)"
+            class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2.5 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+        </button>
+
+        <button @click="activeSlide = (activeSlide + 1) % slides; clearInterval(timer)"
+            class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2.5 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+        </button>
+
+        <div class="absolute flex space-x-2 -translate-x-1/2 bottom-4 left-1/2">
+            <template x-for="i in slides" :key="i">
+                <button @click="activeSlide = i - 1; clearInterval(timer)"
+                    class="w-3 h-3 transition-colors rounded-full"
+                    :class="activeSlide === i - 1 ? 'bg-white' : 'bg-white/50'">
+                </button>
+            </template>
+        </div>
+    </div>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!--special anounsment end-->
+
+
+    <!--Indroduction of jems start-->
+    <div class="marque-container  h-full w-full flex items-center justify-center  text-base bg-[#460809] mt-5">
+        <h1 class="font-magical text-[60px] font-bold ml-10 text-amber-50">Jemstone Categories</h1>
+        <div
+            class="Marquee w-full box-border p-4 text-white font-light flex items-center overflow-hidden  bg-[#460809]">
+            <div class="Marquee-content flex animate-marquee hover:animate-pause  bg-[#460809]">
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/1.png" alt="" srcset="" />
+                </div>
+
+
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/2.png" alt="" srcset="" />
+                </div>
+
+
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/3.png" alt="" srcset="" />
+                </div>
+
+
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/4.png" alt="" srcset="" />
+                </div>
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/5.png" alt="" srcset="" />
+                </div>
+
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/6.png" alt="" srcset="" />
+                </div>
+
+
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/1.png" alt="" srcset="" />
+                </div>
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="resources/2.png" alt="" srcset="" />
+                </div>
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="3.png" alt="" srcset="" />
+                </div>
+                <div
+                    class="inline-flex items-center justify-center p-2 mx-2 transition-all ease-in-out Marquee-tag w-52 duration-900 hover:scale-110">
+                    <img src="4.png" alt="" srcset="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Indroduction of jems start-->
+    <!--Indroduction of about us-->
+
+    <!--Indroduction of jabout us-->
+
+
+
+
+    <div class="w-screen mt-5 bg-amber-50">
+        <h1 class="font-magical text-[60px] font-bold ml-10 text-[#460809]">New Araivals</h1>
+        <section class="py-8 antialiased bg-[#E8D8C4] md:py-12">
+            <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+                <!-- Heading & Filters -->
+                <div class="items-end justify-between mb-4 space-y-4 sm:flex sm:space-y-0 md:mb-8">
+
+                    <!--filter-->
+                    <div class="flex items-center space-x-4">
+
+                    </div>
+                </div>
+                <!--product card start-->
+                <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"
+                    id="new-arrival-product-container">
+
+                </div>
+
+                <!--product end-->
+
+
+                <div class="w-full text-center">
+                    <button type="button"
+                        class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Show
+                        more</button>
+                </div>
+            </div>
+            <!-- Filter modal -->
+
+        </section>
+
+    </div>
+    <div id="footer" class=""></div>
+    <!--call nav bar hear-->
+    <script src="script.js"></script>
+    <script src="home.js"></script>
+    <script src="js/index.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jemdb?useSSL=false&amp;allowPublicKeyRetrieval=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">AMS#2004681anusha</property>
+    <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
+        <property name="hibernate.show_sql">true</property>
+        <mapping class="hibernate.User"/> 
+        <mapping class="hibernate.Address"/> 
+        <mapping class="hibernate.City"/> 
+        <mapping class="hibernate.Country"/> 
+        <mapping class="hibernate.Province"/> 
+        <mapping class="hibernate.Position"/> 
+        <mapping class="hibernate.BusinessCat"/> 
+        <mapping class="hibernate.Store"/> 
+        <mapping class="hibernate.ActiveState"/> 
+        <mapping class="hibernate.States"/> 
+        <mapping class="hibernate.Category"/> 
+        <mapping class="hibernate.Color"/> 
+        <mapping class="hibernate.Clarity"/> 
+        <mapping class="hibernate.Treatment"/> 
+        <mapping class="hibernate.Shape"/> 
+        <mapping class="hibernate.Product"/> 
+        <mapping class="hibernate.Cart"/> 
+        <mapping class="hibernate.DeliveryTypes"/>
+        <mapping class="hibernate.Orders"/>
+        <mapping class="hibernate.OrderStatus"/>
+        <mapping class="hibernate.OrderItems"/>
+        
+        
+    </session-factory>
+</hibernate-configuration>

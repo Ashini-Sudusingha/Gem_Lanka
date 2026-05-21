@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Sign In</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href="src/output.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+
+</head>
+
+<body class="w-screen h-screen  bg-[#FCF0E0] overflow-x-hidden" onload="loadCartItems();loadNavBar();">
+   <div class="sticky w-screen" id="navBar"></div>
+  <section class="py-8 antialiased ">
+    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+      <h1 class="font-magical text-[60px] font-bold ml-10 text-[#460809]">Shopping cart</h1>
+      <!--cart iteams-->
+      <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+        <div class="flex-none w-full mx-auto lg:max-w-2xl xl:max-w-4xl">
+          <div class="space-y-6" id="cart-item-container">
+          
+            <!--cart iteam end-->
+       
+          </div>
+     
+        
+          <div class="hidden xl:mt-8 xl:block">
+            <h3 class="text-2xl font-semibold text-gray-900" >Advertisement</h3>
+            <div class="grid grid-cols-3 gap-4 mt-6 sm:mt-8" id="othher-iteam">
+              <div
+                class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800 w-[500px] h-[500px]" id="card">
+                <a href="#" class="overflow-hidden rounded">
+                  <img class="mx-auto  w-[500px] h-[500px] "
+                    src="resources/a1.png" alt="imac image" />
+                  
+                </a>
+                
+              </div>
+              
+            </div></div></div>
+
+<!--oder summery-->
+        <div class="flex-1 max-w-4xl mx-auto mt-6 space-y-6 lg:mt-0 lg:w-full text-">
+          <div
+            class="p-4 space-y-4 border border-gray-200 rounded-lg shadow-sm sm:p-6 bg-[#460809] font-['Poppins',sans-serif]">
+            <p class="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
+
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-base font-normal text-gray-500 dark:text-gray-400" >Original price</dt>
+                  <dd class="text-base font-medium text-gray-900 dark:text-white subtotal" id="order-total-amount">$0</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Total Quantitiy</dt>
+                  <dd class="text-base font-medium text-green-600" id="order-total-quantity">$</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
+                  <dd class="text-base font-medium text-gray-900 dark:text-white" id="store">$0</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4">
+                  <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Shipping cost</dt>
+                  <dd class="text-base font-medium text-gray-900 dark:text-white" id="ship">$0</dd>
+                </dl>
+              </div>
+
+              <dl class="flex items-center justify-between gap-4 pt-2 border-t border-gray-200 dark:border-gray-700">
+                <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                <dd class="text-base font-bold text-gray-900 dark:text-white" id="order-total-subamount">$0</dd>
+              </dl>
+            </div>
+
+            <a href="check-out.html"
+              class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed
+              to Checkout</a>
+
+            <div class="flex items-center justify-center gap-2">
+              <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> or </span>
+              <a href="#" title=""
+                class="inline-flex items-center gap-2 text-sm font-medium underline text-primary-700 hover:no-underline dark:text-primary-500">
+                Continue Shopping
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 12H5m14 0-4 4m4-4-4-4" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script src="js/notification.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="script.js"></script>
+
+</body>
+
+</html>

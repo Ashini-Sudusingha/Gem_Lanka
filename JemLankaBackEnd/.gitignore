@@ -1,0 +1,23 @@
+# NetBeans specific private configuration and build directories
+/nbproject/private/
+/build/
+/dist/
+
+# Compiled Java class files
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Log files
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

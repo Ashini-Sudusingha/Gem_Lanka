@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Filters Sidebar</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="src/output.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+
+        }
+
+        .sidebar-container {
+            width: 100%;
+            max-width: 24rem;
+            /* Adjust width as needed */
+            min-height: 100vh;
+            /* Make sure it takes the full height */
+            padding: 2rem;
+            /* Tailwind's gray-900 for a darker look */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            /* Darker shadow */
+        }
+
+        @media (min-width: 768px) {
+            .sidebar-container {
+                max-width: 20rem;
+                /* Tweak for desktop */
+            }
+        }
+    </style>
+</head>
+
+<body class=" text-white  font-['Poppins',sans-serif] overflow-x-hidden "
+    onload="loadDataSaerch();loadNavBar();loadFooter();">
+    <div class="sticky w-screen" id="navBar"></div>
+    <!-- Main container for the sidebar, now positioned on the left -->
+    <div class="flex">
+        <div class="">
+            <div class="sidebar-container  md:p-8 bg-[#460809] ">
+
+                <!-- Header section with title, close button is removed -->
+                <div class="flex items-center justify-start pb-4 border-b border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-200">Advanced filters</h2>
+                </div>
+
+                <!-- Filters section -->
+                <div class="mt-6 space-y-6">
+
+                    <!-- Price and Delivery Time Filters -->
+                    <div class="space-y-4">
+                        <!-- Price Filters max-->
+                        <div>
+                            <label class="block text-sm font-medium text-white">price range($)</label>
+                            <input type="range" min="100" max="100000" value="30"
+                                class="w-full mt-1 rounded-full accent-amber-100" id="priceRange" />
+                            <div class="flex items-center justify-between mt-2">
+                                <input type="number" id="priceNumber" value="100" min="100"
+                                    class="w-24 p-2 text-sm font-semibold text-center text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-amber-100" />
+                            </div>
+                        </div>
+
+                        <!-- Weight Filters -->
+                        <div>
+                            <label class="block text-sm font-medium text-white">Weight filter(ct)</label>
+                            <input type="range" min="0" max="500" value="0"
+                                class="w-full mt-1 rounded-full accent-amber-100" id="weightRange" />
+                            <div class="flex items-center justify-between mt-2">
+                                <input id="weightNumber" type="number" value="0" min="0" max="500"
+                                    class="w-24 p-2 text-sm font-semibold text-center text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-amber-100" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category  -->
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-white">Category</label>
+                        <div class="grid grid-cols-2 gap-2" id="category-container">
+                            <!--color iteam-->
+
+
+                        </div>
+                    </div>
+
+                    <!-- color -->
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-white">Color</label>
+                        <div class="grid grid-cols-2 gap-2" id="color-container">
+                            <!--color iteam-->
+
+                        </div>
+                    </div>
+
+                    <!-- claruty-->
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-white">Clarity</label>
+                        <div class="grid grid-cols-2 gap-2" id="clarity-container">
+                            <!--color iteam-->
+
+                        </div>
+                    </div>
+
+                    <!-- Shape-->
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-white">Shape</label>
+                        <div class="grid grid-cols-2 gap-2" id="shape-container">
+                            <!--color iteam-->
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Rating Radio Buttons (Using SVG for stars) -->
+
+                <!-- Footer buttons -->
+                <div
+                    class="flex flex-col pt-6 space-y-3 border-t border-gray-700 sm:flex-row sm:space-y-0 sm:space-x-4">
+                    <button
+                        class="flex-grow px-6 py-3 text-base font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg shadow-md hover:bg-blue-700"
+                        onclick="searchProduct(0);">Show
+                        10 Results</button>
+                    <button
+                        class="flex-grow px-6 py-3 text-base font-semibold text-gray-400 transition-colors duration-200 bg-transparent border border-gray-600 rounded-lg hover:border-gray-500 hover:text-gray-300">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="w-full bg-amber-50">
+            <!--Sort-->
+            <div class="absolute right-0 flex mt-2 mr-3 text-gray-700">
+                <span class="mt-2 mr-4">1-10 product view</span>
+                <select id="st-sort"
+                    class="block w-48 px-4 py-2 pr-8 leading-tight transition-all duration-200 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none cursor-pointer hover:border-gray-400 focus:outline-none focus:shadow-outline">
+                    <option>Sort by Latest</option>
+                    <option>Sort by Oldest</option>
+                    <option>Sort by Name</option>
+                    <option>Sort by Price</option>
+                </select>
+            </div>
+            <div class="w-full h-[60px] bg-[#E8D8C4]"> </div>
+            <!--container start-->
+            <div class="flex mt-5 bg-amber-50">
+                <section class="px-3 py-8 antialiased bg-amber-50 md:py-12">
+                    <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"
+                        id="st-product-container">
+                        <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm" id="st-product">
+                            <div class="w-full h-56">
+                                <a href="#" id="st-product-a-1">
+                                    <img class="h-full mx-auto rounded-4xl " src="#" id="st-product-img-1" />
+                                </a>
+                            </div>
+                            <div class="pt-6">
+                                <div class="flex items-center justify-between gap-4 mb-4">
+                                    <span
+                                        class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 text-black">
+                                        Up to 35% off </span>
+
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button type="button" data-tooltip-target="tooltip-quick-look"
+                                            class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                            <span class="sr-only"> Quick look </span>
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-width="2"
+                                                    d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                                <path stroke="currentColor" stroke-width="2"
+                                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            </svg>
+                                        </button>
+                                        <div id="tooltip-quick-look" role="tooltip"
+                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium transition-opacity duration-300 rounded-lg shadow-sm opacity-0 tooltip "
+                                            data-popper-placement="top">
+                                            <a href="#" id="st-product-a-2"> Quick look</a>
+                                            <div class="tooltip-arrow" data-popper-arrow=""></div>
+                                        </div>
+
+                                        <button type="button" data-tooltip-target="tooltip-add-to-favorites"
+                                            class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 ">
+                                            <span class="sr-only"> Add to Favorites </span>
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
+                                            </svg>
+                                        </button>
+                                        <div id="tooltip-add-to-favorites" role="tooltip"
+                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                                            data-popper-placement="top">
+                                            Add to favorites
+                                            <div class="tooltip-arrow" data-popper-arrow=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline"
+                                    id="st-product-title-1">nbdf
+                                </a>
+
+                                <div class="flex items-center gap-2 mt-2">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 text-yellow-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                        </svg>
+
+                                        <svg class="w-4 h-4 text-yellow-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                        </svg>
+
+                                        <svg class="w-4 h-4 text-yellow-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                        </svg>
+
+                                        <svg class="w-4 h-4 text-yellow-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                        </svg>
+
+                                        <svg class="w-4 h-4 text-yellow-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                        </svg>
+                                    </div>
+
+                                    <p class="text-sm font-medium text-gray-900 ">5.0</p>
+                                    <p class="text-sm font-medium text-gray-500 ">(455)</p>
+                                </div>
+
+                                <ul class="flex items-center gap-4 mt-2">
+                                    <li class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                                        </svg>
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery
+                                        </p>
+                                    </li>
+
+                                    <li class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                        </svg>
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
+                                    </li>
+                                </ul>
+
+                                <div class="flex items-center justify-between gap-4 mt-4">
+                                    <p class="text-2xl font-extrabold leading-tight text-gray-900"
+                                        id="st-product-price-1">
+
+                                    </p>
+
+                                    <button type="button" id="st-product-add-to-cart"
+                                        class="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-mediumhover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 text-black">
+                                        <svg class="w-5 h-5 text-black -ms-2 me-2" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                            viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                                        </svg>
+                                        Add to cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--container start-->
+                </section>
+
+            </div>
+            
+                <nav id="st-pagination-container" class="flex justify-center mb-4 space-x-4" aria-label="Pagination">
+                    <!-- Buttons will be added from JS -->
+                </nav>
+
+                <!-- Hidden pagination button template -->
+                <span id="st-pagination-button" style="display:none"
+                    class="px-4 py-2 text-gray-700 border border-teal-500 rounded-lg">
+                </span>
+
+        </div>
+    </div>
+
+    <div id="footer" class=""></div>
+
+
+    <script>
+        const weightRange = document.getElementById("weightRange");
+        const weightNumber = document.getElementById("weightNumber");
+        const priceRange = document.getElementById("priceRange");
+        const priceNumber = document.getElementById("priceNumber");
+
+
+        // Range → Number update
+        weightRange.addEventListener("input", function () {
+            weightNumber.value = this.value;
+        });
+
+        // Number → Range update
+        weightNumber.addEventListener("input", function () {
+            // Value limit check
+            if (this.value < 1) this.value = 1;
+            if (this.value > 500) this.value = 90;
+            weightRange.value = this.value;
+        });
+
+        // Range → Number update
+        priceRange.addEventListener("input", function () {
+            priceNumber.value = this.value;
+        });
+
+        // Number → Range update
+        priceNumber.addEventListener("input", function () {
+            // Value limit check
+            if (this.value < 1) this.value = 1;
+            if (this.value > 10000) this.value = 90;
+            priceRange.value = this.value;
+        });
+    </script>
+    <script src="js/notification.js"></script>
+    <script src="js/saerch.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

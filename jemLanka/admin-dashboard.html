@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="src/output.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+</head>
+
+<body class="min-h-screen overflow-x-hidden bg-white"
+    onload="loadPageWithIframe('http://localhost/jemLanka/admin-overveiw.html');loadFooter();">
+    <div class="flex w-screen">
+        <!-- Sidebar -->
+        <div class="flex-col hidden w-64 md:flex " id="sidebar">
+            <div class="flex items-center justify-center h-16 bg-[#460809] border-b-2 border-amber-50"><a
+                    href="index.html">
+                    <img src="resources/logo.png" alt="JemLanka Logo" class="p-4 mb-1 rounded-full w-100 h-25"></a>
+
+            </div>
+            <div class="flex flex-col flex-1 overflow-y-auto" id="sidebar">
+                <nav class="flex-1 px-2 py-4 bg-[#FCF0E0]">
+                    <a href="#" onclick="loadPageWithIframe('http://localhost/jemLanka/admin-overveiw.html');"
+                        class="flex items-center px-4 py-2 text-black hover:bg-[#460809] hover:text-gray-100 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        Ecommerse dashboard
+                    </a>
+                    <!--Product section-->
+                    <details class="mb-1">
+                        <summary
+                            class="px-4 py-2 mb-4 text-black rounded-md cursor-pointer hover:bg-[#460809] hover:text-gray-100">
+                            <span class="font-semibold">Product Section</span>
+                        </summary>
+                        <ul class="ml-8 space-y-4">
+                            <li>
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 text-black hover:bg-[#ECA32D] hover:text-gray-100 rounded-md font-['Poppins',sans-serif] font-medium"
+                                    onclick="loadPageWithIframe('http://localhost/jemLanka/add-newproduct.html');">
+                                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="#000000"
+                                        class="w-[25px] h-[25px] mr-2">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <g fill="none" fill-rule="evenodd">
+                                                <path d="m0 0h32v32h-32z"></path>
+                                                <path
+                                                    d="m19 1.73205081 7.8564065 4.53589838c1.8564064 1.07179677 3 3.05255889 3 5.19615241v9.0717968c0 2.1435935-1.1435936 4.1243556-3 5.1961524l-7.8564065 4.5358984c-1.8564065 1.0717968-4.1435935 1.0717968-6 0l-7.85640646-4.5358984c-1.85640646-1.0717968-3-3.0525589-3-5.1961524v-9.0717968c0-2.14359352 1.14359354-4.12435564 3-5.19615241l7.85640646-4.53589838c1.8564065-1.07179677 4.1435935-1.07179677 6 0zm4.0203166 9.82532719c-.259282-.4876385-.8647807-.672758-1.3524192-.4134761l-5.6794125 3.0187491-5.6793299-3.0187491c-.4876385-.2592819-1.09313718-.0741624-1.35241917.4134761-.25928198.4876385-.07416246 1.0931371.41347603 1.3524191l5.61827304 2.9868539.0000413 6.7689186c0 .5522848.4477153 1 1 1 .5522848 0 1-.4477152 1-1l-.0000413-6.7689186 5.6183556-2.9868539c.4876385-.259282.6727581-.8647806.4134761-1.3524191z"
+                                                    fill="#202327"></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                    Add Product
+                                </a>
+                            </li>
+                            <li>
+                                <div class="px-4 py-2 text-black hover:bg-[#ECA32D] rounded-md flex items-center ">
+                                    <a href="#"
+                                        class="flex items-center px-4 py-2 text-black hover:bg-[#ECA32D] hover:text-gray-100 rounded-md font-['Poppins',sans-serif] font-medium"
+                                        onclick="loadPageWithIframe('http://localhost/jemLanka/product-list.html');">
+                                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="#000000"
+                                            class="w-[25px] h-[25px] mr-2">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g fill="none" fill-rule="evenodd">
+                                                    <path d="m0 0h32v32h-32z"></path>
+                                                    <path
+                                                        d="m19 1.73205081 7.8564065 4.53589838c1.8564064 1.07179677 3 3.05255889 3 5.19615241v9.0717968c0 2.1435935-1.1435936 4.1243556-3 5.1961524l-7.8564065 4.5358984c-1.8564065 1.0717968-4.1435935 1.0717968-6 0l-7.85640646-4.5358984c-1.85640646-1.0717968-3-3.0525589-3-5.1961524v-9.0717968c0-2.14359352 1.14359354-4.12435564 3-5.19615241l7.85640646-4.53589838c1.8564065-1.07179677 4.1435935-1.07179677 6 0zm4.0203166 9.82532719c-.259282-.4876385-.8647807-.672758-1.3524192-.4134761l-5.6794125 3.0187491-5.6793299-3.0187491c-.4876385-.2592819-1.09313718-.0741624-1.35241917.4134761-.25928198.4876385-.07416246 1.0931371.41347603 1.3524191l5.61827304 2.9868539.0000413 6.7689186c0 .5522848.4477153 1 1 1 .5522848 0 1-.4477152 1-1l-.0000413-6.7689186 5.6183556-2.9868539c.4876385-.259282.6727581-.8647806.4134761-1.3524191z"
+                                                        fill="#202327"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        Add Product
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </details>
+                    <a class="flex items-center px-4 py-2 text-black hover:bg-[#460809] hover:text-gray-100 rounded-md font-semibold"
+                        onclick="loadPageWithIframe('http://localhost/jemLanka/all-oders.html');">
+                        <svg viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px]"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>attach</title>
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="add" fill="#000000" transform="translate(45.152000, 54.745600)">
+                                        <path
+                                            d="M130.389333,396.672 C95.552,396.672 62.784,383.104 38.144,358.464 C-12.7146667,307.605333 -12.7146667,224.832 38.144,173.973333 L212.117333,-7.10542736e-15 L239.274667,27.1786667 L65.3013333,201.130667 C29.4186667,237.034667 29.4186667,295.424 65.3013333,331.306667 C82.688,348.693333 105.813333,358.272 130.389333,358.272 C154.965333,358.272 178.090667,348.693333 195.477333,331.306667 L367.594667,159.189333 C388.992,137.792 388.992,102.997333 367.594667,81.6 C346.858667,60.8426667 310.698667,60.9066667 290.005333,81.5786667 L121.450667,250.005333 C117.909333,253.546667 115.968,258.261333 115.968,263.274667 C115.968,268.288 117.909333,273.002667 121.472,276.544 C128.554667,283.690667 140.949333,283.648 148.032,276.544 L289.536,135.061333 L316.693333,162.24 L175.210667,303.722667 C152.874667,326.016 116.608,325.973333 94.3146667,303.722667 C72.0213333,281.429333 72.0213333,245.12 94.3146667,222.848 L262.869333,54.4426667 C280.448,36.8426667 303.893333,27.136 328.810667,27.136 C353.706667,27.136 377.130667,36.8213333 394.773333,54.4426667 C431.125333,90.816 431.125333,149.994667 394.773333,186.368 L222.634667,358.464 C197.994667,383.104 165.248,396.672 130.389333,396.672"
+                                            id="attach"> </path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        All Oder report
+                    </a>
+
+                </nav>
+            </div>
+        </div>
+
+
+
+
+        <!-- Main Content -->
+        <div class="flex-1 p-6">
+            <!-- Mobile Toggle -->
+
+            <div id="main-content" class="p-6 bg-white rounded shadow">
+                <iframe id="main-frame" src="" class="w-full h-screen border-none"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer" class=""></div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const openSidebarButton = document.getElementById("open-sidebar");
+
+
+            openSidebarButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log("enva");
+                sidebar.classList.toggle('hidden');
+
+            });
+
+            // Close the sidebar when clicking outside of it
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && !openSidebarButton.contains(e.target)) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            });
+        }
+
+
+        function loadPageWithIframe(url) {
+            const iframe = document.getElementById("main-frame");
+            iframe.src = url;
+        }
+
+        function logout() {
+            alert("Logged out!");
+        }
+
+
+        function loadFooter() {
+
+            fetch("footer.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("footer").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error("Footer loading failed:", error);
+                });
+        }
+
+        // Call after page loads
+        document.addEventListener("DOMContentLoaded", loadFooter);
+    </script>
+</body>
+</script>
+<script src="profile-dashboard.js"></script>
+</body>
+
+</html>

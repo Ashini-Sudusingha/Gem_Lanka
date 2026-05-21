@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Product Page</title>
+    <!-- Include Tailwind CSS -->
+    <link href="src/output.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for dark theme body */
+        body {
+            /* Dark background color */
+            color: #E2E8F0;
+            /* Light text color */
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Custom styling for input focus rings */
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+            /* blue-500 with opacity */
+            border-color: #3B82F6;
+            /* blue-500 */
+        }
+
+        /* Custom styling for the quantity dropdown arrow */
+        .quantity-dropdown-arrow {
+            /* This is a common way to style a custom dropdown arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            /* Make space for the arrow */
+        }
+
+        /* Custom styles for accordion items (static, no JS) */
+        .accordion-header {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        /* For demonstration, you can manually add 'active' class to expand */
+        /* .accordion-item.active .accordion-content {
+            max-height: 200px; /* Adjust as needed for content height */
+        /* } */
+    </style>
+</head>
+
+<body class="items-center justify-center min-h-screen overflow-x-hidden" onload="loadData();loadNavBar();loadFooter();">
+ <div class="sticky w-screen" id="navBar"></div>
+    <div class="flex flex-col mx-20 rounded-lg shadow-xl bg- lg:flex-row lg:p-8 bg-amber-50">
+
+        <!-- Left Section: Image Gallery -->
+        <div class="mb-6 lg:flex-row lg:w-1/2 lg:pr-8">
+
+            <div
+                class="flex justify-center w-full pb-2 space-x-2 overflow-x-auto lg:space-x-0 lg:space-y-2 lg:mb-0 lg:mr-4 lg:overflow-y-auto lg:pb-0">
+                <div
+                    class="flex items-center justify-center flex-shrink-0 w-32 h-32 p-1 bg-white border-2 rounded-lg shadow-md">
+                    <img src="resources/test.jpg" alt="iMac Thumbnail 1" class="object-contain" id="image1">
+                </div>
+                <div
+                    class="flex items-center justify-center flex-shrink-0 w-32 h-32 p-1 bg-white border-2 border-transparent rounded-lg shadow-md cursornot-any-pointer-none: hover:border-blue-500">
+                    <img src="resources/test.jpg" alt="iMac Thumbnail 2" class="object-contain" id="image2">
+                </div>
+
+                <div
+                    class="flex items-center justify-center flex-shrink-0 w-32 h-32 p-1 bg-white border-2 border-transparent rounded-lg shadow-md cursornot-any-pointer-none: hover:border-blue-500">
+                    <img src="resources/test.jpg" alt="iMac Thumbnail 2" class="object-contain" id="image3">
+                </div>
+
+            </div>
+
+            <div class="flex justify-center flex-1 p-4 mb-4 bg-white rounded-lg shadow-md lg:mb-0">
+                <img src="resources/test.jpg" alt="Apple iMac 24 All-in-One Computer"
+                    class="object-contain w-[500px] h-[500px]" id="thumb-image1">
+            </div>
+
+        </div>
+
+        <!-- Right Section: Product Details -->
+        <div class="px-4 lg:w-1/2">
+            <h1 class="mb-2 text-2xl font-extrabold text-black font-profile" id="product-title">Blue Safaya Jemstone
+                carte'50</h1>
+
+            <!-- Reviews and Stock -->
+            <div class="flex items-center mb-4 text-sm text-gray-400">
+                <span
+                    class="bg-red-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full mr-2 font-['Poppins',sans-serif]"
+                    id="qty">the
+                    last 2 products</span>
+                <div class="flex items-center mr-2">
+                    <!-- Stars -->
+                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M10 15.27L16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z" />
+                    </svg>
+                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M10 15.27L16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z" />
+                    </svg>
+                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M10 15.27L16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z" />
+                    </svg>
+                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M10 15.27L16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z" />
+                    </svg>
+                    <svg class="w-4 h-4 text-gray-600 fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M10 15.27L16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z" />
+                    </svg>
+                </div>
+                <span class="font-['Poppins',sans-serif]" id="published-on">345 Reviews</span>
+            </div>
+
+            <!-- Delivery Location -->
+            <div class="flex items-center mb-4 text-sm text-blue-400 font-['Poppins',sans-serif]">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Deliver to Bonnie Green - Sacramento 23647
+            </div>
+
+            <!-- Price and Quantity -->
+            <div class="flex items-center justify-between mb-6">
+                <span class="text-3xl font-bold text-black" id="product-price">$1,249.99</span>
+                <div class="flex items-center space-x-2">
+                    <label for="quantity" class="text-sm text-gray-600 font-['Poppins',sans-serif]">Quantity</label>
+                    <div class="relative">
+                        <div>
+
+                            <input type="number" id="add-to-cart-qty"
+                                class="px-4 py-2 text-white placeholder-gray-400 bg-amber-900 border border-gray-300 rounded-md w-[70px] focus:ring-blue-500 focus:border-blue-500"
+                                value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col mb-6 space-y-3">
+                <button
+                    class="flex items-center justify-center w-full px-4 py-2 text-black transition-colors duration-200 border border-gray-600 rounded-md bg-amber-50 hover:bg-amber-400">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                        </path>
+                    </svg>
+                    Add to favorites
+                </button>
+                <button id="add-to-cart-main"
+                    class="flex items-center justify-center w-full px-4 py-2 text-white transition-colors duration-200 bg-[#460809] rounded-md hover:bg-[#930003] font-['Poppins',sans-serif]">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                    Add to cart
+                </button>
+            </div>
+
+            <!-- Additional Information/Options -->
+            <p class="mb-6 text-xs text-gray-400 font-['Poppins',sans-serif]">
+                Also available at competitive prices from <a href="#" class="text-blue-400 hover:underline">authorized
+                    retailers</a>, with optional Premium delivery for expedited shipping.
+            </p>
+
+            <!-- Color Options -->
+            <div class="mb-6">
+
+                <div class="flex space-x-2">
+                    <h3 class="mb-2 text-sm font-semibold text-black">Category</h3>
+                    <button
+                        class="px-4 py-2 text-sm text-white bg-blue-500 border border-blue-500 rounded-md Weight font-['Poppins',sans-serif]"
+                        id="cat-background">Green</button>
+                    <h3 class="mb-2 text-sm font-semibold text-black">Colour</h3>
+                    <button
+                        class="px-4 py-2 text-sm text-white bg-blue-500 border border-blue-500 rounded-md Weight font-['Poppins',sans-serif]"
+                        id="color">Green</button>
+                </div>
+            </div>
+
+            <!-- SSD Capacity Options -->
+            <div class="mb-6 font-semibold">
+                <div class="flex space-x-2">
+                    <h3 class="mb-2 text-sm text-black font-semi ">Weight</h3>
+                    <button class="px-4 py-2 text-sm text-white bg-blue-500 border border-blue-500 rounded-md"
+                        id="product-weight">2.5ct</button>
+                </div>
+            </div>
+
+            <!-- Pickup Options -->
+            <div class="mb-6">
+                <h3 class="mb-2 text-sm font-medium font-['Poppins',sans-serif] text-black">Pickup</h3>
+                <div class="space-y-3">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="pickup-option" value="shipping"
+                            class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 form-radio checked:bg-blue-600 focus:ring-blue-500"
+                            checked>
+                        <span class="ml-2 text-black font-['Poppins',sans-serif]">Shipping - $18</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="pickup-option" value="pickup"
+                            class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 form-radio checked:bg-blue-600 focus:ring-blue-500">
+                        <span class="ml-2 text-black font-['Poppins',sans-serif]">Pickup from Flowbox - $9</span>
+                        <span class="ml-2 text-xs text-black font-['Poppins',sans-serif]">Arrives Nov 17</span>
+                    </label>
+                </div>
+            </div>
+
+
+            <!-- Product Details Accordion (Static for Tailwind-only) -->
+            <div class="pt-4 mt-4 border-t border-gray-700 accordion-item">
+                <div
+                    class="flex items-center justify-between text-black accordion-header hover:text-amber-800 hover:font-semibold">
+                    <h3 class="font-medium">Product Details</h3>
+                    <svg class="w-5 h-5 transition-transform duration-300 transform rotate-0" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="pt-2 text-sm text-black font-['Poppins',sans-serif] accordion-content">
+                    <p id="description">
+                        The Apple iMac 24" All-in-One computer is powered by the revolutionary Apple M1 chip,
+                        delivering incredible performance and power efficiency. It features a stunning 4.5K Retina
+                        display,
+                        a 1080p FaceTime HD camera, and studio-quality mics.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Specifications Accordion (Static for Tailwind-only) -->
+            <div class="pt-4 mt-4 border-t border-gray-700 accordion-item">
+                <div
+                    class="flex items-center justify-between text-black accordion-header hover:text-amber-800 hover:font-semibold">
+                    <h3 class="font-medium">Specifications</h3>
+                    <svg class="w-5 h-5 transition-transform duration-300 transform rotate-0" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="pt-2 text-sm text-black accordion-content font-['Poppins',sans-serif]" id="specifications">
+                    <ul class="space-y-1 list-disc list-inside">
+                        <li id="list1">Category: 24-inch 4.5K Retina display</li>
+                        <li id="list2">Shape: Apple M1 chip with 8-core CPU and 8-core GPU</li>
+                        <li id="list3">Color: 8GB unified memory</li>
+                        <li id="list4">Weight: Configurable SSD options</li>
+                        <li id="list5">Width: 1080p FaceTime HD camera</li>
+                        <li id="list6">Height: Six-speaker sound system with force-cancelling woofers</li>
+                        <li id="list7">Length: Six-speaker sound system with force-cancelling woofers</li>
+                        <li id="list8">Clarity: Six-speaker sound system with force-cancelling woofers</li>
+                        <li id="list9">Treatment: Six-speaker sound system with force-cancelling woofers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Warranty Accordion (Static for Tailwind-only) -->
+            <div class="pt-4 mt-4 border-t border-gray-700 accordion-item">
+                <div class="flex items-center justify-between text-black accordion-header hover:text-amber-800 hover:font-semibold"">
+                    <h3 class="font-medium ">Warranty</h3>
+            <svg class="w-5 h-5 transition-transform duration-300 transform rotate-0 " fill=" none"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="pt-2 text-sm text-black font-['Poppins',sans-serif] accordion-content">
+                    <p>
+                        The product comes with a comprehensive warranty that covers manufacturing defects and
+                        hardware failures for a period of one year from the date of purchase.
+                        Extended warranty options are available.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--review section area start-->
+    <div class="w-screen h-6 bg-amber-200" id="review section">
+
+    </div>
+    <!--review section area end-->
+
+    <!--semilar product section start-->
+    <div class="px-6">
+         <h1 class="font-magical text-[60px] font-bold ml-10 text-[#460809] mb-5">Similar Products</h1>
+        <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4" id="smiler-product-main">
+            <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm" id="similer-product">
+                <div class="w-full h-56">
+                    <a href="" id="similer-product-a1">
+                        <img class="h-full mx-auto rounded-4xl" src="" id="similer-product-image"/>
+                        <!--img class="hidden h-full mx-auto dark:block" src="" alt="Product Imamges" /-->
+                    </a>
+                </div>
+                <div class="pt-6">
+                    <div class="flex items-center justify-between gap-4 mb-4">
+                        <span
+                            class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
+                            Up to 35% off </span>
+
+                        <div class="flex items-center justify-end gap-1">
+                            <button type="button" data-tooltip-target="tooltip-quick-look"
+                                class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span class="sr-only"> Quick look </span>
+                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-width="2"
+                                        d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                    <path stroke="currentColor" stroke-width="2"
+                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                            </button>
+                            <div id="tooltip-quick-look" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                                data-popper-placement="top">
+                                Quick look
+                                <div class="tooltip-arrow" data-popper-arrow=""></div>
+                            </div>
+
+                            <button type="button" data-tooltip-target="tooltip-add-to-favorites"
+                                class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span class="sr-only"> Add to Favorites </span>
+                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
+                                </svg>
+                            </button>
+                            <div id="tooltip-add-to-favorites" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                                data-popper-placement="top">
+                                Add to favorites
+                                <div class="tooltip-arrow" data-popper-arrow=""></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline"
+                        id="similer-product-a2"> <h5 id="similer-product-title"></h5></a>
+
+                    <div class="flex items-center gap-2 mt-2">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                            </svg>
+
+                            <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                            </svg>
+
+                            <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                            </svg>
+
+                            <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                            </svg>
+
+                            <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                            </svg>
+                        </div>
+
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">5.0</p>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(455)</p>
+                    </div>
+
+                    <ul class="flex items-center gap-4 mt-2">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                            </svg>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery</p>
+                        </li>
+
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                    d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                            </svg>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
+                        </li>
+                    </ul>
+
+                    <div class="flex items-center justify-between gap-4 mt-4">
+                        <p class="text-2xl font-extrabold leading-tight text-gray-900" id="similer-product-price"> </p>
+
+                        <button type="button" id="simler-product-add-to-cart"
+                            class="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-mediumhover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 ">
+                            <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                            </svg>
+                            Add to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div id="footer" class=""></div>
+      <script src="script.js"></script>
+        <!--semilar product section start-->
+
+        <script src="js/notification.js"></script>
+        <script src="js/singal-productview.js"></script>
+        <!-- JavaScript for basic accordion toggle (optional, but makes accordions functional) -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+                accordionHeaders.forEach(header => {
+                    header.addEventListener('click', () => {
+                        const accordionItem = header.closest('.accordion-item');
+                        const accordionContent = accordionItem.querySelector('.accordion-content');
+                        const arrowIcon = header.querySelector('svg');
+
+                        accordionItem.classList.toggle('active');
+
+                        if (accordionItem.classList.contains('active')) {
+                            accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                            arrowIcon.classList.add('rotate-180');
+                        } else {
+                            accordionContent.style.maxHeight = 0;
+                            arrowIcon.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            });
+        </script>
+</body>
+
+</html>
