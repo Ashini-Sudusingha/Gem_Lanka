@@ -84,6 +84,31 @@ public class Product implements Serializable {
     @JoinColumn(name = "status_id")
     private States status;
 
+    @ManyToOne
+    @JoinColumn(name = "origin_id")
+    private Country origin;
+
+    @Column(name = "lab_name", length = 100)
+    private String lab_name;
+
+    @Column(name = "cert_number", length = 100)
+    private String cert_number;
+
+    @Column(name = "cert_image", length = 255)
+    private String cert_image;
+
+    @Column(name = "cert_url", length = 255)
+    private String cert_url;
+
+    @Column(name = "video_url", length = 255)
+    private String video_url;
+
+    @Column(name = "cut_style", length = 100)
+    private String cut_style;
+
+    @Column(name = "price_per_carat")
+    private Double price_per_carat;
+
     public int getId() {
         return id;
     }
@@ -308,6 +333,70 @@ public class Product implements Serializable {
      */
     public void setStatus(States status) {
         this.status = status;
+    }
+
+    public Country getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(Country origin) {
+        this.origin = origin;
+    }
+
+    public String getLab_name() {
+        return lab_name;
+    }
+
+    public void setLab_name(String lab_name) {
+        this.lab_name = lab_name;
+    }
+
+    public String getCert_number() {
+        return cert_number;
+    }
+
+    public void setCert_number(String cert_number) {
+        this.cert_number = cert_number;
+    }
+
+    public String getCert_image() {
+        return cert_image;
+    }
+
+    public void setCert_image(String cert_image) {
+        this.cert_image = cert_image;
+    }
+
+    public String getCert_url() {
+        return cert_url;
+    }
+
+    public void setCert_url(String cert_url) {
+        this.cert_url = cert_url;
+    }
+
+    public String getVideo_url() {
+        return video_url;
+    }
+
+    public void setVideo_url(String video_url) {
+        this.video_url = video_url;
+    }
+
+    public String getCut_style() {
+        return cut_style;
+    }
+
+    public void setCut_style(String cut_style) {
+        this.cut_style = cut_style;
+    }
+
+    public Double getPrice_per_carat() {
+        return price_per_carat;
+    }
+
+    public void setPrice_per_carat(Double price_per_carat) {
+        this.price_per_carat = price_per_carat;
     }
 
 }

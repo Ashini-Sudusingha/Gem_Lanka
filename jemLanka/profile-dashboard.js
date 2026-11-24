@@ -1,20 +1,16 @@
 async function signOut() {
-    const response = await fetch("http://localhost:8080/JemLankaBackEnd/SignOut",
-         {
+    try {
+        const response = await fetch("http://localhost:8080/JemLankaBackEnd/SignOut", {
             method: "GET",
             credentials: "include"
-        }
-    );
+        });
         if (response.ok) {
             const json = await response.json();
-            if (json.status) {
-                window.location = "http://localhost/jemLanka/sign-in.html";
-            } else {
-                window.location.reload();
-            }
-        } else {
-            console.log("Logout Failed!");
+            console.log("Signed out:", json);
         }
+    } catch (err) {
+        console.error("SignOut error:", err);
+    } finally {
+        window.location.href = "sign-in.html";
+    }
 }
-
- 

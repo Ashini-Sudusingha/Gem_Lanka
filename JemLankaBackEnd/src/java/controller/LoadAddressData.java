@@ -31,32 +31,42 @@ public class LoadAddressData extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JsonObject responseObject = new JsonObject();
         responseObject.addProperty("status", false);
-        Gson gson = new Gson();
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
-
-        //search-city
-        Criteria c1 = s.createCriteria(City.class);
-        List<City> cityList = c1.list();
-
-        //get-country
-        Criteria c2 = s.createCriteria(Country.class);
-        List<Country> countryList = c2.list();
-
-        //get-province
-        Criteria c3 = s.createCriteria(Province.class);
-        List<Province> provinceList = c3.list();
-
-        responseObject.add("cityList", gson.toJsonTree(cityList));
-        responseObject.add("countryList", gson.toJsonTree(countryList));
-        responseObject.add("provinceList", gson.toJsonTree(provinceList));
-        responseObject.addProperty("status", true);
-        System.out.println(gson.toJson(responseObject));
-
-        String toJson = gson.toJson(responseObject);
         response.setContentType("application/json");
-        response.getWriter().write(toJson);
-        s.close();
+        response.setCharacterEncoding("UTF-8");
+        Gson gson = new Gson();
+        Session s = null;
+        try {
+            SessionFactory sf = HibernateUtil.getSessionFactory();
+            s = sf.openSession();
+
+            //search-city
+            Criteria c1 = s.createCriteria(City.class);
+            List<City> cityList = c1.list();
+
+            //get-country
+            Criteria c2 = s.createCriteria(Country.class);
+            List<Country> countryList = c2.list();
+
+            //get-province
+            Criteria c3 = s.createCriteria(Province.class);
+            List<Province> provinceList = c3.list();
+
+            responseObject.add("cityList", gson.toJsonTree(cityList));
+            responseObject.add("countryList", gson.toJsonTree(countryList));
+            responseObject.add("provinceList", gson.toJsonTree(provinceList));
+            responseObject.addProperty("status", true);
+
+            String toJson = gson.toJson(responseObject);
+            response.getWriter().write(toJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseObject.addProperty("message", "Failed to load address metadata");
+            response.getWriter().write(gson.toJson(responseObject));
+        } finally {
+            if (s != null && s.isOpen()) {
+                s.close();
+            }
+        }
     }
 
     @Override
@@ -95,38 +105,65 @@ public class LoadAddressData extends HttpServlet {
             responseObject.addProperty("message", "Enter your mobile number");//mobile eka verify karala ne karanna 
         } else {
             HttpSession ses = request.getSession(false);
-            if (ses.getAttribute("user") != null) {
-                User u = (User) ses.getAttribute("user"); //get session user
+            if (ses != null && ses.getAttribute("user") != null) {
+                User u = (User) ses.getAttribute("user");
 
-                SessionFactory sf = HibernateUtil.getSessionFactory();
-                Session s = sf.openSession();
+                Session s = null;
+                org.hibernate.Transaction tx = null;
+                try {
+                    SessionFactory sf = HibernateUtil.getSessionFactory();
+                    s = sf.openSession();
 
-                Criteria c = s.createCriteria(User.class);
-                c.add(Restrictions.eq("email", u.getEmail()));//session user email
-                if (!c.list().isEmpty()) {
-                    User u1 = (User) c.list().get(0); //db user
-                    City city = (City) s.load(City.class, cityId); // primary key search
+                    Criteria c = s.createCriteria(User.class);
+                    c.add(Restrictions.eq("email", u.getEmail()));
+                    if (!c.list().isEmpty()) {
+                        User u1 = (User) c.list().get(0);
+                        City city = (City) s.load(City.class, cityId);
 
-                    Address address = new Address();
-                    address.setLineOne(lineOne);
-                    address.setLineTwo(lineTwo);
-                    address.setPostalCode(postalCode);  
-                    address.setMobile(mobile);
-                    address.setCity(city);
-                    address.setUser(u1);
+                        tx = s.beginTransaction();
 
-                    //session-management
-                    ses.setAttribute("user", u1);
-                    //session-management-end
+                        // Check if address already exists for user to update, or create new
+                        Criteria addrCriteria = s.createCriteria(Address.class);
+                        addrCriteria.add(Restrictions.eq("user", u1));
+                        List<Address> existingAddresses = addrCriteria.list();
 
-                    s.merge(u1);
-                    s.save(address);
+                        Address address;
+                        if (existingAddresses != null && !existingAddresses.isEmpty()) {
+                            address = existingAddresses.get(0);
+                        } else {
+                            address = new Address();
+                            address.setUser(u1);
+                        }
 
-                    s.beginTransaction().commit();
-                    responseObject.addProperty("status", true);
-                    responseObject.addProperty("message", "User profile details update successfully!");
-                    s.close();
+                        address.setLineOne(lineOne);
+                        address.setLineTwo(lineTwo);
+                        address.setPostalCode(postalCode);
+                        address.setMobile(mobile);
+                        address.setCity(city);
+
+                        s.saveOrUpdate(address);
+                        tx.commit();
+
+                        ses.setAttribute("user", u1);
+                        responseObject.addProperty("status", true);
+                        responseObject.addProperty("message", "Shipping address saved successfully!");
+                    } else {
+                        responseObject.addProperty("message", "User not found in database!");
+                    }
+                } catch (Exception ex) {
+                    if (tx != null) {
+                        try { tx.rollback(); } catch (Exception ignored) {}
+                    }
+                    ex.printStackTrace();
+                    responseObject.addProperty("message", "Database error: " + ex.getMessage());
+                } finally {
+                    if (s != null && s.isOpen()) {
+                        s.close();
+                    }
                 }
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                responseObject.addProperty("message", "Session expired! Please sign in again.");
             }
         }
 

@@ -1,7 +1,8 @@
 function closealert(){
- const close = document.getElementById("errorMessage");
- close.classList.add("hidden");
-
+ const err = document.getElementById("errorMessage");
+ if (err) err.classList.add("hidden");
+ const succ = document.getElementById("successMessage");
+ if (succ) succ.classList.add("hidden");
 }
 
 

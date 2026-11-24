@@ -4,346 +4,818 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Form</title>
-    <!-- Include Tailwind CSS -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>JemLanka - Merchant Store Onboarding</title>
+
     <link href="src/output.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <style>
-        /* Custom styles if needed for specific icon sizes or complex layouts not easily done with Tailwind */
+        :root {
+            --jl-maroon: #460809;
+            --jl-maroon-dark: #320506;
+            --jl-maroon-light: #6D2932;
+            --jl-gold: #ECA32D;
+            --jl-gold-soft: #fbf3e6;
+            --jl-sand: #E8D8C4;
+            --jl-ivory: #FAF5EE;
+            --jl-border: #E8D8C4;
+            --jl-text: #2D1A1A;
+            --jl-muted: #7A6868;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-
-            /* Dark background color */
-            color: #E2E8F0;
-            /* Light text color */
-            font-family: "Inter", sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--jl-ivory);
+            color: var(--jl-text);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Custom styling for the checkmark icon in the steps */
-        .step-icon-checked {
-            background-color: #38A169;
-            /* Green background for checked steps */
-            border-color: #38A169;
-            color: white;
+        .jl-wizard-container {
+            max-width: 960px;
+            margin: 28px auto 60px;
+            padding: 0 20px;
         }
 
-        .step-icon-unchecked {
-            background-color: transparent;
-            border-color: #4A5568;
-            /* Gray border for unchecked steps */
-            color: #4A5568;
+        /* Top Header */
+        .jl-wizard-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--jl-sand);
+            margin-bottom: 26px;
         }
 
-        .step-line {
-            background-color: #4A5568;
-            /* Gray line */
+        .jl-wizard-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
-        .step-line-active {
-            background-color: #38A169;
-            /* Green line for active/completed */
+        .jl-wizard-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #460809 0%, #6D2932 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--jl-gold);
+            font-size: 22px;
+            box-shadow: 0 4px 12px rgba(70, 8, 9, 0.18);
+        }
+
+        .jl-wizard-title {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--jl-maroon);
+            letter-spacing: -0.3px;
+        }
+
+        .jl-badge-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(236, 163, 45, 0.15);
+            border: 1px solid rgba(236, 163, 45, 0.45);
+            color: #9C6207;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Step Progress Wizard */
+        .jl-stepper-wrapper {
+            background: #FFFFFF;
+            border: 1px solid var(--jl-border);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .jl-stepper-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .jl-stepper-line {
+            position: absolute;
+            top: 22px;
+            left: 60px;
+            right: 60px;
+            height: 3px;
+            background: #EFE6DC;
+            z-index: 1;
+        }
+
+        .jl-stepper-progress {
+            position: absolute;
+            top: 22px;
+            left: 60px;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #460809 0%, #ECA32D 100%);
+            z-index: 2;
+            transition: width 0.35s ease;
+        }
+
+        .jl-step-item {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            width: 140px;
+            text-align: center;
+        }
+
+        .jl-step-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #FAF8F5;
+            border: 2px solid #D8C5AF;
+            color: #8C7878;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.25s ease;
+        }
+
+        .jl-step-item.active .jl-step-circle {
+            background: var(--jl-maroon);
+            border-color: var(--jl-gold);
+            color: var(--jl-gold);
+            box-shadow: 0 0 0 4px rgba(236, 163, 45, 0.2);
+            transform: scale(1.08);
+        }
+
+        .jl-step-item.completed .jl-step-circle {
+            background: #15803D;
+            border-color: #15803D;
+            color: #FFFFFF;
+        }
+
+        .jl-step-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--jl-muted);
+            transition: color 0.2s;
+        }
+
+        .jl-step-item.active .jl-step-label {
+            font-weight: 700;
+            color: var(--jl-maroon);
+        }
+
+        .jl-step-item.completed .jl-step-label {
+            color: #15803D;
+        }
+
+        /* Step Card Container */
+        .jl-step-card {
+            background: #FFFFFF;
+            border: 1px solid var(--jl-border);
+            border-radius: 16px;
+            padding: 34px;
+            box-shadow: 0 4px 20px rgba(70, 8, 9, 0.05);
+            display: none;
+            animation: fadeInStep 0.25s ease-out;
+        }
+
+        .jl-step-card.active {
+            display: block;
+        }
+
+        @keyframes fadeInStep {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .jl-card-header {
+            border-bottom: 1px solid #F0E6D8;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .jl-card-title {
+            margin: 0 0 6px 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--jl-maroon);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .jl-card-title i {
+            color: var(--jl-gold);
+            font-size: 20px;
+        }
+
+        .jl-card-subtitle {
+            margin: 0;
+            font-size: 13px;
+            color: var(--jl-muted);
+        }
+
+        /* Form Controls */
+        .jl-form-group {
+            margin-bottom: 18px;
+        }
+
+        .jl-form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4A3A3A;
+            margin-bottom: 6px;
+        }
+
+        .jl-form-label span.req {
+            color: #B91C1C;
+        }
+
+        .jl-form-input,
+        .jl-form-select,
+        .jl-form-textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #D8C5AF;
+            border-radius: 9px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #2D1A1A;
+            background: #FAF8F5;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .jl-form-input:focus,
+        .jl-form-select:focus,
+        .jl-form-textarea:focus {
+            border-color: var(--jl-maroon);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(70, 8, 9, 0.1);
+        }
+
+        /* File Upload Dropzone */
+        .jl-dropzone {
+            border: 2px dashed #D8C5AF;
+            border-radius: 12px;
+            background: #FAF8F5;
+            padding: 24px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .jl-dropzone:hover {
+            border-color: var(--jl-maroon);
+            background: #FFFFFF;
+        }
+
+        .jl-dropzone-icon {
+            font-size: 32px;
+            color: var(--jl-sand);
+            margin-bottom: 8px;
+        }
+
+        .jl-dropzone-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--jl-maroon);
+            margin-bottom: 4px;
+        }
+
+        .jl-dropzone-desc {
+            font-size: 12px;
+            color: var(--jl-muted);
+        }
+
+        .jl-file-selected {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: #F0FDF4;
+            border: 1px solid #86EFAC;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #15803D;
+            font-weight: 500;
+        }
+
+        .jl-file-remove {
+            color: #B91C1C;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-size: 14px;
+            padding: 4px;
+        }
+
+        /* Wizard Actions */
+        .jl-wizard-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #F0E6D8;
+        }
+
+        .jl-btn-back {
+            padding: 12px 24px;
+            background: #FAF5EE;
+            border: 1px solid var(--jl-sand);
+            border-radius: 9px;
+            color: #554444;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .jl-btn-back:hover {
+            background: #EFE6DC;
+            color: #222;
+        }
+
+        .jl-btn-next {
+            padding: 12px 28px;
+            background: var(--jl-maroon);
+            border: 1px solid var(--jl-maroon);
+            border-radius: 9px;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(70, 8, 9, 0.2);
+            margin-left: auto;
+        }
+
+        .jl-btn-next:hover {
+            background: var(--jl-maroon-light);
+            border-color: var(--jl-maroon-light);
+            transform: translateY(-1px);
+        }
+
+        /* Review Summary Box */
+        .jl-review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            background: #FAF8F5;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #EFE6DC;
+            margin-bottom: 24px;
+        }
+
+        .jl-review-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .jl-review-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--jl-muted);
+            font-weight: 600;
+        }
+
+        .jl-review-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--jl-text);
+            word-break: break-word;
+        }
+
+        /* Alerts */
+        .jl-alert {
+            padding: 12px 16px;
+            border-radius: 9px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .jl-alert-danger {
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            color: #B91C1C;
+        }
+
+        .jl-alert-success {
+            background: #F0FDF4;
+            border: 1px solid #86EFAC;
+            color: #15803D;
+        }
+
+        /* Trust Callout */
+        .jl-trust-callout {
+            background: #FAF5EE;
+            border-left: 4px solid var(--jl-gold);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            font-size: 13px;
+            color: #554444;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        @media (max-width: 768px) {
+            .jl-step-item {
+                width: auto;
+            }
+            .jl-step-label {
+                display: none;
+            }
+            .jl-stepper-steps {
+                padding: 0 10px;
+            }
+            .jl-step-card {
+                padding: 22px 18px;
+            }
         }
     </style>
 </head>
 
-<body class="overflow-x-hidden bg-white" onload="loadStoreData();">
-    <div class="flex flex-col justify-center p-4 ">
-        <!-- Header -->
-        <header
-            class="sticky top-0 z-30 flex items-center justify-between px-6 py-4 bg-white shadow-sm md:justify-start">
+<body onload="loadStoreData();">
+    <div class="jl-wizard-container">
 
-
-            <div class="flex items-center ">
-                <svg fill="#FDC12F" viewBox="0 0 512 512" id="_x30_1" version="1.1" xml:space="preserve"
-                    class="mr-2 w-15 h-15" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M256,90 c37.02,0,67.031,35.468,67.031,79.219S293.02,248.438,256,248.438s-67.031-35.468-67.031-79.219S218.98,90,256,90z M369.46,402 H142.54c-11.378,0-20.602-9.224-20.602-20.602C121.938,328.159,181.959,285,256,285s134.062,43.159,134.062,96.398 C390.062,392.776,380.839,402,369.46,402z">
-                        </path>
-                    </g>
-                </svg>
-
-                <h1 class="text-xl font-bold text-gray-900 hidden font-['Poppins',sans-serif] md:block mr-6 ">Create
-                    store
-                </h1>
+        <!-- Top Header & Breadcrumbs -->
+        <header class="jl-wizard-topbar">
+            <div class="jl-wizard-title-group">
+                <div class="jl-wizard-icon">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <div>
+                    <h1 class="jl-wizard-title">Merchant Center</h1>
+                    <div style="font-size: 13px; color: var(--jl-muted);">
+                        <a href="index.html" target="_top" style="color: var(--jl-maroon); text-decoration: none; font-weight: 500;">Home</a> / 
+                        <span>Dashboard</span> / 
+                        <span style="color: var(--jl-maroon); font-weight: 600;">Create Gem Store</span>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center ml-auto md:ml-0">
-                <h2 class="text-sm font-medium text-gray-800 md:block ml-3 font-['Poppins',sans-serif] ">create
-                   store</h2>
-                <span class="hidden mx-2 text-gray-500 md:block">/</span>
-                <nav class="items-center hidden text-sm text-gray-600 md:flex">
-                    <a href="#" class="hover:text-blue-600 font-['Poppins',sans-serif] ">Home</a>
-                    <span class="mx-1">&gt;</span>
-                    <a href="#" class="text-blue-600">Profile</a>
-                </nav>
-            </div>
-            <button class="ml-auto text-gray-500 md:hidden hover:text-gray-700">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 12h.01M12 12h.01M19 12h.01"></path>
-                </svg>
-            </button>
 
+            <div class="jl-badge-verified">
+                <i class="fa-solid fa-shield-halved" style="color: var(--jl-gold);"></i>
+                <span>NGJA Verified Dealer Program</span>
+            </div>
         </header>
-        <!--end header-->
 
-        <!--guid line-->
-        <div class="flex justify-center">
-            <div class="w-full max-w-2xl p-6 mt-3 rounded-lg shadow-md">
-                <!-- Step Indicator -->
-                <div class="relative flex items-center justify-between">
-                    <!-- Line connecting steps -->
-                    <div
-                        class="absolute left-0 right-0 h-0.5 bg-gray-600 -translate-y-1/2 sm:ml-[70px] sm:mr-[55px] mb-5 ">
-                    </div>
-                    <!-- Step 1: Cart (Completed) -->
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div
-                            class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-full">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7">
-                                </path>
-                            </svg>
-                        </div>
-                        <span class="mt-2 text-sm font-medium text-blue-700 ">Add Bussiness Information </span>
-                    </div>
+        <!-- Stepper Progress Bar -->
+        <div class="jl-stepper-wrapper">
+            <div class="jl-stepper-steps">
+                <div class="jl-stepper-line"></div>
+                <div class="jl-stepper-progress" id="stepperProgressBar"></div>
 
-                    <!-- Step 2: Checkout (Completed) -->
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div
-                            class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-full">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7">
-                                </path>
-                            </svg>
-                        </div>
-                        <span class="mt-2 text-sm font-medium text-blue-700">Comfirm mail</span>
-                    </div>
+                <!-- Step 1 Indicator -->
+                <div class="jl-step-item active" id="stepIndicator1" onclick="jumpToStep(1)">
+                    <div class="jl-step-circle"><i class="fa-solid fa-store"></i></div>
+                    <span class="jl-step-label">Store Profile</span>
+                </div>
 
-                    <!-- Step 3: Order summary (Completed) -->
-                    <!-- Step 2: Checkout (Completed) -->
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div
-                            class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-full">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7">
-                                </path>
-                            </svg>
-                        </div>
-                        <span class="mt-2 text-sm font-medium text-blue-700">Active Store</span>
-                    </div>
+                <!-- Step 2 Indicator -->
+                <div class="jl-step-item" id="stepIndicator2" onclick="jumpToStep(2)">
+                    <div class="jl-step-circle"><i class="fa-solid fa-certificate"></i></div>
+                    <span class="jl-step-label">NGJA & KYC</span>
+                </div>
 
+                <!-- Step 3 Indicator -->
+                <div class="jl-step-item" id="stepIndicator3" onclick="jumpToStep(3)">
+                    <div class="jl-step-circle"><i class="fa-solid fa-building-columns"></i></div>
+                    <span class="jl-step-label">Office & Bank</span>
+                </div>
 
+                <!-- Step 4 Indicator -->
+                <div class="jl-step-item" id="stepIndicator4" onclick="jumpToStep(4)">
+                    <div class="jl-step-circle"><i class="fa-solid fa-circle-check"></i></div>
+                    <span class="jl-step-label">Review & Submit</span>
                 </div>
             </div>
         </div>
 
-    </div>
-    <div class="max-w-3xl p-6 mx-auto mb-2 bg-white border border-blue-300 rounded-lg shadow ">
-        <h2 class="mb-4 text-2xl font-semibold text-blue-700 font-['Poppins',sans-serif]">📝 Gem Shop Registration
-            Guidelines</h2>
-        <ul class="pl-5 space-y-2 text-sm leading-relaxed text-blue-800 list-disc font-['Poppins',sans-serif]">
-            <li>Use your official business name as registered with local authorities.</li>
-            <li>Enter a valid email address — it will be used for verification and login.</li>
-            <li>Provide accurate shop address details for better customer trust.</li>
-            <li>Upload your business license or certificate, if required.</li>
-            <li>Create a strong password (minimum 8 characters, include letters and numbers).</li>
-            <li>Do not share your login credentials with others.</li>
-            <li>After registration, your shop will be reviewed by an admin (if applicable).</li>
-        </ul>
-    </div>
+        <div id="statusMessage" class="jl-alert"></div>
 
+        <!-- Form Form Container -->
+        <form id="storeRegisterForm" onsubmit="event.preventDefault(); submitFinalStore();">
 
-    <!--create store-->
-    <div class="flex items-center justify-center p-4">
-        <div class="">
-              <h2 class="mb-4 text-2xl font-profile text-blue-700 font-['Poppins',sans-serif] font-bold">Welcome, join the JemLanka Global Seller Cente</h2>
-
- <label for="name" class="block mb-2 text-sm font-medium  font-['Poppins',sans-serif] text-red-600" id="message"></label>
-              
-            <div
-                class="grid grid-cols-4 gap-4 px-14 w-full my-[26px] p-6 mb-6 bg-white rounded-lg shadow-md md:lg:px-14 py-10 md:w-[800px]">
-
-                <div class="col-span-4 mb-4 ">
-                    <label for="name"
-                        class="block mb-2 text-sm font-medium  font-['Poppins',sans-serif] text-gray-400">Business
-                        Name</label>
-                    <input type="text" id="bussName"
-                        class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
-                        placeholder="Andrew Jackson" required value="">
+            <!-- STEP 1: Store & Business Profile -->
+            <div class="jl-step-card active" id="stepCard1">
+                <div class="jl-card-header">
+                    <h2 class="jl-card-title">
+                        <i class="fa-solid fa-store"></i>
+                        <span>1. Business & Store Identity</span>
+                    </h2>
+                    <p class="jl-card-subtitle">Establish your official gemstone merchant storefront details</p>
                 </div>
 
-                <div class="col-span-4 mb-4 ">
-                    <label for="name"
-                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Business Email
-                    </label>
-                    <input type="email" id="email"
-                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
-                        placeholder="Andrew Jackson" required value="">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="bussName">Business / Store Name <span class="req">*</span></label>
+                        <input type="text" id="bussName" class="jl-form-input" placeholder="e.g. Ceylon Royal Sapphires" required>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="email">Business Email <span class="req">*</span></label>
+                        <input type="email" id="email" class="jl-form-input" placeholder="e.g. sales@ceylonroyalsapphires.com" required>
+                    </div>
                 </div>
 
-                <div class="col-span-2 mb-4">
-                    <label for="mobile"
-                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Mobile</label>
-                    <input type="text" id="mobile"
-                        class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
-                        placeholder="Sudusinghe" required value="">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="mobile">Official Contact Mobile <span class="req">*</span></label>
+                        <input type="tel" id="mobile" class="jl-form-input" placeholder="+94 77 123 4567" required>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="category">Business Category <span class="req">*</span></label>
+                        <select id="category" class="jl-form-select" required>
+                            <option value="0" selected>Select Category</option>
+                            <option value="1">Gemstone Wholesaler / Dealer</option>
+                            <option value="2">Gem Miner & Rough Supplier</option>
+                            <option value="3">Lapidary / Master Gem Cutter</option>
+                            <option value="4">Fine Jewelry Manufacturer</option>
+                            <option value="5">Independent Gem Merchant</option>
+                        </select>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="position">Your Position in Business <span class="req">*</span></label>
+                        <select id="position" class="jl-form-select" required>
+                            <option value="0" selected>Select Position</option>
+                            <option value="1">Owner / Proprietor</option>
+                            <option value="2">Managing Director</option>
+                            <option value="3">Authorized Gem Trader</option>
+                            <option value="4">Partner</option>
+                            <option value="5">Store Manager</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="col-span-2 mb-4">
-                    <label for="email"
-                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Business
-                        category</label>
-                     <select id="category"
-                                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] ">
-                                    <option value="0" class="text-gray-300" selected>Select</option>
-                                </select>
-                </div>
-
-
-                <div class="col-span-2 mb-4">
-                    <label for="position"
-                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Your
-                        Position</label>
-                    <select id="position"
-                                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] ">
-                                    <option value="0" class="text-gray-300" selected>Select</option>
-                                </select>
-                </div>
-
-                <div class="col-span-2 mb-4">
-                    <label for="password"
-                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400"> Business
-                        License</label>
-                    <input type="file" id="liseImage"
-                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
-                        placeholder="Send Image" required value="">
-                </div>
-
-                <div class="col-span-2 mb-4">
-                    <label for="password"
-                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] ">Password</label>
-                    <input type="password" id="password"
-                        class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
-                        placeholder="*********" required value="">
-                </div>
-
-
-
-                <div class="col-span-2 mb-4">
-                    <label for="password"
-                        class="block mb-2 text-sm font-medium font-['Poppins',sans-serif] text-gray-400">Comfirm
-                        password</label>
-                    <input type="password" id="comfirmPassword"
-                        class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4 font-semibold font-['Poppins',sans-serif] "
-                        placeholder="*********" required value="">
-                </div>
-
-                <div class="col-span-4 text-center">
-
-                    <button type="submit" onclick="storeRegistor();"
-                        class="flex justify-center w-full px-6 py-3 text-white bg-blue-800 rounded-md font-xl sm:mb-0">Create
-                        Store
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            class="w-[20px] h-[20px] ml-3">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path
-                                    d="M8 16H5.43C3.14 16 2 14.86 2 12.57V5.43C2 3.14 3.14 2 5.43 2H10C12.29 2 13.43 3.14 13.43 5.43"
-                                    stroke="#fdfcfc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                </path>
-                                <path
-                                    d="M18.57 22H14C11.71 22 10.57 20.86 10.57 18.57V11.43C10.57 9.14 11.71 8 14 8H18.57C20.86 8 22 9.14 22 11.43V18.57C22 20.86 20.86 22 18.57 22Z"
-                                    stroke="#fdfcfc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                </path>
-                                <path d="M14.87 15H18.13" stroke="#fdfcfc" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                                <path d="M16.5 16.6301V13.3701" stroke="#fdfcfc" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                            </g>
-                        </svg>
+                <div class="jl-wizard-actions">
+                    <button type="button" class="jl-btn-next" onclick="goToStep(2)">
+                        <span>Continue to NGJA & KYC</span>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
-
             </div>
-            <p class="text-2xl">
-            </p>
-        </div>
+
+            <!-- STEP 2: NGJA & Legal Verification -->
+            <div class="jl-step-card" id="stepCard2">
+                <div class="jl-card-header">
+                    <h2 class="jl-card-title">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>2. NGJA Regulatory & Identity (KYC)</span>
+                    </h2>
+                    <p class="jl-card-subtitle">Ensure buyer confidence and legal compliance under the Sri Lanka Gem & Jewellery Act</p>
+                </div>
+
+                <div class="jl-trust-callout">
+                    <strong style="color: var(--jl-maroon);">Why NGJA Verification Matters:</strong><br>
+                    Global gem buyers demand certified authenticity. Providing your National Gem & Jewellery Authority (NGJA) Dealer License guarantees instant verified merchant status and priority product placement across Europe, USA, and East Asia.
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="ngjaLicenseNo">NGJA Dealer License Number <span class="req">*</span></label>
+                        <input type="text" id="ngjaLicenseNo" class="jl-form-input" placeholder="e.g. NGJA/DL/2026/0892" required>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="brNumber">Business Registration Number (BRC)</label>
+                        <input type="text" id="brNumber" class="jl-form-input" placeholder="e.g. PV00291823 (Optional if Sole Trader)">
+                    </div>
+                </div>
+
+                <div class="jl-form-group">
+                    <label class="jl-form-label" for="nic">Owner / Authorized Trader NIC or Passport <span class="req">*</span></label>
+                    <input type="text" id="nic" class="jl-form-input" placeholder="e.g. 199012345678 or N1234567" required>
+                </div>
+
+                <div class="jl-form-group">
+                    <label class="jl-form-label">Upload NGJA License or Business Certificate</label>
+                    <div class="jl-dropzone" onclick="document.getElementById('liseImage').click()">
+                        <i class="fa-solid fa-cloud-arrow-up jl-dropzone-icon"></i>
+                        <div class="jl-dropzone-title">Click or drag & drop certificate here</div>
+                        <div class="jl-dropzone-desc">Supports PDF, PNG, JPG (Max. 10MB)</div>
+                        <input type="file" id="liseImage" accept=".pdf,.png,.jpg,.jpeg" style="display: none;" onchange="handleFileSelect(this)">
+                    </div>
+                    <div id="fileSelectedDisplay" class="jl-file-selected">
+                        <span id="fileNameLabel"><i class="fa-solid fa-file-pdf"></i> document.pdf</span>
+                        <button type="button" class="jl-file-remove" onclick="removeSelectedFile()" title="Remove file">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="jl-wizard-actions">
+                    <button type="button" class="jl-btn-back" onclick="goToStep(1)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button type="button" class="jl-btn-next" onclick="goToStep(3)">
+                        <span>Continue to Location & Bank</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Office Address & Banking -->
+            <div class="jl-step-card" id="stepCard3">
+                <div class="jl-card-header">
+                    <h2 class="jl-card-title">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span>3. Office Location & Payout Account</span>
+                    </h2>
+                    <p class="jl-card-subtitle">Define your trade hub location and secure bank payout destination</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 18px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="address">Shop / Office Street Address <span class="req">*</span></label>
+                        <input type="text" id="address" class="jl-form-input" placeholder="e.g. 88 Demuwawatha Road, Ratnapura" required>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="cityId">City / Trade Hub <span class="req">*</span></label>
+                        <select id="cityId" class="jl-form-select" required>
+                            <option value="0" selected>Select City</option>
+                            <option value="4">Ratnapura (City of Gems)</option>
+                            <option value="5">Beruwala (China Fort)</option>
+                            <option value="2">Colombo</option>
+                            <option value="6">Galle</option>
+                            <option value="7">Kandy</option>
+                            <option value="8">Elahera</option>
+                            <option value="9">Balangoda</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0 16px; border-top: 1px dashed var(--jl-sand); padding-top: 16px;">
+                    <span style="font-size: 14px; font-weight: 700; color: var(--jl-maroon); display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-lock" style="color: var(--jl-gold);"></i>
+                        Bank Account for Gemstone Payouts
+                    </span>
+                    <span style="font-size: 12px; color: var(--jl-muted);">Funds from gemstone sales will be directly settled into this verified account.</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="bankName">Bank Name</label>
+                        <input type="text" id="bankName" class="jl-form-input" placeholder="e.g. Commercial Bank of Ceylon">
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="bankBranch">Branch</label>
+                        <input type="text" id="bankBranch" class="jl-form-input" placeholder="e.g. Ratnapura City">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="accountNo">Account Number</label>
+                        <input type="text" id="accountNo" class="jl-form-input" placeholder="e.g. 10002938491">
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="accountHolder">Account Holder Name</label>
+                        <input type="text" id="accountHolder" class="jl-form-input" placeholder="e.g. Ceylon Royal Sapphires (Pvt) Ltd">
+                    </div>
+                </div>
+
+                <div class="jl-wizard-actions">
+                    <button type="button" class="jl-btn-back" onclick="goToStep(2)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button type="button" class="jl-btn-next" onclick="goToStep(4)">
+                        <span>Continue to Review</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Security & Final Review -->
+            <div class="jl-step-card" id="stepCard4">
+                <div class="jl-card-header">
+                    <h2 class="jl-card-title">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>4. Security & Application Review</span>
+                    </h2>
+                    <p class="jl-card-subtitle">Set your merchant credentials and review application details before submission</p>
+                </div>
+
+                <!-- Review Summary -->
+                <div class="jl-review-grid" id="reviewSummaryGrid">
+                    <div class="jl-review-item">
+                        <span class="jl-review-label">Store Name</span>
+                        <span class="jl-review-value" id="revStoreName">-</span>
+                    </div>
+                    <div class="jl-review-item">
+                        <span class="jl-review-label">Business Email</span>
+                        <span class="jl-review-value" id="revEmail">-</span>
+                    </div>
+                    <div class="jl-review-item">
+                        <span class="jl-review-label">Contact Mobile</span>
+                        <span class="jl-review-value" id="revMobile">-</span>
+                    </div>
+                    <div class="jl-review-item">
+                        <span class="jl-review-label">NGJA License</span>
+                        <span class="jl-review-value" id="revLicense">-</span>
+                    </div>
+                    <div class="jl-review-item">
+                        <span class="jl-review-label">Owner NIC</span>
+                        <span class="jl-review-value" id="revNIC">-</span>
+                    </div>
+                    <div class="jl-review-item">
+                        <span class="jl-review-label">City Hub</span>
+                        <span class="jl-review-value" id="revCity">-</span>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 20px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="password">Store Password <span class="req">*</span></label>
+                        <input type="password" id="password" class="jl-form-input" placeholder="Min. 8 characters" oninput="checkPasswordStrength()" required>
+                        <div id="pwdStrengthBar" style="height: 4px; border-radius: 2px; margin-top: 6px; background: #eee; transition: all 0.3s;"></div>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="comfirmPassword">Confirm Password <span class="req">*</span></label>
+                        <input type="password" id="comfirmPassword" class="jl-form-input" placeholder="Repeat password" required>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #4A3A3A; cursor: pointer;">
+                        <input type="checkbox" id="termsCheck" required style="margin-top: 3px; accent-color: var(--jl-maroon);">
+                        <span>I confirm that all provided gemstone dealer licensing and identity details are accurate, and I agree to adhere to the JemLanka Merchant Standards and NGJA regulations.</span>
+                    </label>
+                </div>
+
+                <div class="jl-wizard-actions">
+                    <button type="button" class="jl-btn-back" onclick="goToStep(3)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button type="submit" id="submitBtn" class="jl-btn-next" style="background: #15803D; border-color: #15803D; box-shadow: 0 4px 12px rgba(21, 128, 61, 0.25);">
+                        <i class="fa-solid fa-gem"></i>
+                        <span>Submit Merchant Application</span>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
     </div>
-    <!--create account section-->
-    <!-- Submit Button (Optional, not in image but common for forms) -->
-    <!---->
-    <div class="hidden max-w-3xl p-6 mx-auto mb-8 bg-white border border-gray-300 rounded-lg shadow">
-        <h2 class="mb-6 text-2xl font-semibold text-gray-800">📨 Formal Request Letter to Admin for Gem Shop Approval
-        </h2>
 
-        <div
-            class="p-6 text-sm leading-relaxed text-gray-800 whitespace-pre-wrap border border-gray-200 rounded shadow-inner bg-gray-50">
-            <strong>To:</strong> Platform Administrator<br>
-            <strong>From:</strong> [Your Full Name]<br>
-            <strong>Date:</strong> [Today’s Date]<br><br>
-
-            <strong>Subject:</strong> Formal Request for Approval of Gem Shop Registration<br><br>
-
-            Dear Sir/Madam,<br><br>
-
-            I am writing this letter to formally request approval for registering my gem business, <strong>[Gem Shop
-                Name]</strong>, on your platform. I am the proprietor of this business, and I am genuinely interested in
-            expanding our online presence through your marketplace.<br>
-
-            Our gem shop specializes in selling high-quality, ethically-sourced precious and semi-precious stones
-            including sapphires, rubies, and emeralds. We ensure authenticity by working directly with licensed miners
-            and gem dealers across Sri Lanka. I believe that listing our shop on your platform will allow us to better
-            reach local and global clients while maintaining full transparency and credibility.<br>
-
-            As part of the registration process, I have submitted the following documents and details:<br>
-            - Business registration license<br>
-            - Government-issued ID copy<br>
-            - Store address and contact details<br>
-            - Email and phone verification<br>
-            - Product sample images<br><br>
-
-            I understand the platform’s commitment to maintaining a high standard for all vendors. I assure you that my
-            gem shop adheres to all applicable laws and ethical practices. I am also committed to providing excellent
-            customer service and accurate product listings.<br><br>
-
-            I respectfully request that you review my application and consider approving my store so that I can begin
-            showcasing our collection on your site. Please feel free to contact me if you require any further details or
-            clarifications.<br><br>
-
-            Thank you for your time and consideration.<br><br>
-
-            Yours sincerely,<br>
-            <strong>[Your Full Name]</strong><br>
-            Email: [your@email.com]<br>
-            Phone: [Your Contact Number]<br>
-            Business Name: [Gem Shop Name]<br>
-            Address: [Shop Address]
-        </div>
-    </div>
-    <!--end letter Section-->
-    <!--start cetreficate-->
-    <div class="hidden max-w-md mx-auto mt-6">
-        <div class="overflow-hidden border border-gray-200 shadow-lg rounded-2xl">
-      
-        </div>
-    </div>
-    <!--end-->
-
-    </div>
-    <script src="js/store-register.js"></script>
-
+    <script src="js/store-register.js?v=2.5"></script>
 </body>
 
 </html>

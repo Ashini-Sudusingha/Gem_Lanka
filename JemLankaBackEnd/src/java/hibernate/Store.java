@@ -3,6 +3,7 @@ package hibernate;
 import controller.*;
 import hibernate.ActiveState;
 import hibernate.BusinessCat;
+import hibernate.City;
 import hibernate.Position;
 import hibernate.User;
 import java.io.Serializable;
@@ -36,8 +37,39 @@ public class Store implements Serializable {
     @Column(name = "mobile", nullable = false, length = 10)
     private String mobile;
 
-    @Column(name = "license", nullable = false, length = 10)
+    @Column(name = "license", length = 255)
     private String license;
+
+    @Column(name = "ngja_license_no", length = 50)
+    private String ngja_license_no;
+
+    @Column(name = "br_number", length = 50)
+    private String br_number;
+
+    @Column(name = "nic", length = 20)
+    private String nic;
+
+    @Column(name = "address", columnDefinition = "TEXT")
+    private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
+    @Column(name = "bank_name", length = 100)
+    private String bank_name;
+
+    @Column(name = "bank_branch", length = 100)
+    private String bank_branch;
+
+    @Column(name = "account_no", length = 50)
+    private String account_no;
+
+    @Column(name = "account_holder", length = 100)
+    private String account_holder;
+
+    @Column(name = "verification_status", length = 20)
+    private String verification_status = "PENDING";
 
     @ManyToOne
     @JoinColumn(name = "bussiness_cat_id")
@@ -62,7 +94,7 @@ public class Store implements Serializable {
     @Column(name = "otp", length = 10)
     private String otp;
     
-     @Column(name = "password", length = 20)
+    @Column(name = "password", length = 20)
     private String password;
 
     public int getId() {
@@ -105,6 +137,86 @@ public class Store implements Serializable {
         this.license = license;
     }
 
+    public String getNgja_license_no() {
+        return ngja_license_no;
+    }
+
+    public void setNgja_license_no(String ngja_license_no) {
+        this.ngja_license_no = ngja_license_no;
+    }
+
+    public String getBr_number() {
+        return br_number;
+    }
+
+    public void setBr_number(String br_number) {
+        this.br_number = br_number;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public String getBank_name() {
+        return bank_name;
+    }
+
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
+
+    public String getBank_branch() {
+        return bank_branch;
+    }
+
+    public void setBank_branch(String bank_branch) {
+        this.bank_branch = bank_branch;
+    }
+
+    public String getAccount_no() {
+        return account_no;
+    }
+
+    public void setAccount_no(String account_no) {
+        this.account_no = account_no;
+    }
+
+    public String getAccount_holder() {
+        return account_holder;
+    }
+
+    public void setAccount_holder(String account_holder) {
+        this.account_holder = account_holder;
+    }
+
+    public String getVerification_status() {
+        return verification_status;
+    }
+
+    public void setVerification_status(String verification_status) {
+        this.verification_status = verification_status;
+    }
+
     public BusinessCat getBusinessCat() {
         return businessCat;
     }
@@ -133,7 +245,6 @@ public class Store implements Serializable {
         return user;
     }
 
-  
     public void setUser(User user) {
         this.user = user;
     }
@@ -145,7 +256,6 @@ public class Store implements Serializable {
     public void setActiveState(ActiveState activeState) {
         this.activeState = activeState;
     }
-
 
     public String getOtp() {
         return otp;

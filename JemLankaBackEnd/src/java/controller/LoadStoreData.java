@@ -1,4 +1,3 @@
-
 package controller;
 
 import com.google.gson.Gson;
@@ -8,9 +7,7 @@ import hibernate.City;
 import hibernate.Country;
 import hibernate.HibernateUtil;
 import hibernate.Position;
-import hibernate.Province;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,40 +18,45 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-
 @WebServlet(name = "LoadStoreData", urlPatterns = {"/LoadStoreData"})
 public class LoadStoreData extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         JsonObject responseObject = new JsonObject();
         responseObject.addProperty("status", false);
         Gson gson = new Gson();
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
 
-        //search-city
-        Criteria c1 = s.createCriteria(BusinessCat.class);
-        List<BusinessCat> bussinessList = c1.list();
+        Session s = null;
+        try {
+            SessionFactory sf = HibernateUtil.getSessionFactory();
+            s = sf.openSession();
 
-        //get-country
-        Criteria c2 = s.createCriteria(Position.class);
-        List<Position> positionList = c2.list();
+            Criteria c1 = s.createCriteria(BusinessCat.class);
+            List<BusinessCat> bussinessList = c1.list();
 
-        //get-province
-        Criteria c3 = s.createCriteria(Province.class);
-        List<Province> provinceList = c3.list();
+            Criteria c2 = s.createCriteria(Position.class);
+            List<Position> positionList = c2.list();
 
-        responseObject.add("bussinessList", gson.toJsonTree(bussinessList));
-        responseObject.add("positionList", gson.toJsonTree(positionList));
-        responseObject.addProperty("status", true);
-      //  System.out.println(gson.toJson(responseObject));
+            Criteria c3 = s.createCriteria(City.class);
+            List<City> cityList = c3.list();
 
-        String toJson = gson.toJson(responseObject);
-        response.setContentType("application/json");
-        response.getWriter().write(toJson);
-        s.close();
+            responseObject.add("bussinessList", gson.toJsonTree(bussinessList));
+            responseObject.add("positionList", gson.toJsonTree(positionList));
+            responseObject.add("cityList", gson.toJsonTree(cityList));
+            responseObject.addProperty("status", true);
+
+            response.getWriter().write(gson.toJson(responseObject));
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseObject.addProperty("message", "Failed to load store metadata");
+            response.getWriter().write(gson.toJson(responseObject));
+        } finally {
+            if (s != null && s.isOpen()) {
+                s.close();
+            }
+        }
     }
-        
-
 }
