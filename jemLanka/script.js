@@ -153,3 +153,38 @@ function searchAnimation() {
                 });
         }
 
+// Navigation Bar Mobile & Dropdown Handlers
+function toggleJlMobileMenu() {
+  const menu = document.getElementById('jl-mobile-menu');
+  if (menu) {
+    menu.classList.toggle('active');
+  }
+}
+
+function toggleJlAccountDropdown(event) {
+  if (event) event.stopPropagation();
+  const dropdown = document.getElementById('jl-account-dropdown');
+  if (dropdown) {
+    dropdown.classList.toggle('open');
+  }
+}
+
+document.addEventListener('click', function(event) {
+  const dropdown = document.getElementById('jl-account-dropdown');
+  if (dropdown && !dropdown.contains(event.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+function handleNavSearch(event) {
+  if (event) event.preventDefault();
+  const form = event ? event.target : null;
+  const input = form ? form.querySelector('input[name="topic"]') : document.getElementById('jl-search-input');
+  const val = input ? input.value.trim() : '';
+  if (val) {
+    window.location.href = 'advance-search.html?topic=' + encodeURIComponent(val);
+  } else {
+    window.location.href = 'advance-search.html';
+  }
+}
+

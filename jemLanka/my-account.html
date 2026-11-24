@@ -4,545 +4,820 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <!-- Include Tailwind CSS -->
+    <title>JemLanka - My Profile</title>
+
     <link href="src/output.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <style>
-        /* Custom styles for sidebar transition and overlay */
-        .sidebar {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(-100%);
-            /* Hidden by default on mobile */
+        :root {
+            --jl-maroon: #460809;
+            --jl-maroon-light: #6D2932;
+            --jl-gold: #ECA32D;
+            --jl-sand: #E8D8C4;
+            --jl-ivory: #FAF5EE;
+            --jl-card-bg: #FFFFFF;
+            --jl-text-main: #2D1A1A;
+            --jl-text-muted: #7A6868;
+            --jl-border: #E8D8C4;
         }
 
-        .sidebar.active {
-            transform: translateX(0);
-            /* Show when active */
+        * {
+            box-sizing: border-box;
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 40;
-            /* Below sidebar, above main content */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--jl-ivory);
+            color: var(--jl-text-main);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .overlay.active {
-            display: block;
+        .jl-prof-container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 32px 24px 60px;
         }
 
-        /* Custom scrollbar for content area */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
+        /* Top Header Bar */
+        .jl-prof-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--jl-sand);
+            margin-bottom: 28px;
         }
 
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        .jl-prof-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        /* Modal specific styles */
-        .modal-overlay {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
-            /* Darker overlay for modal */
-            z-index: 1000;
-            /* Ensure modal is on top */
+        .jl-prof-icon-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #460809 0%, #6D2932 100%);
+            color: var(--jl-gold);
+            display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(70, 8, 9, 0.15);
+        }
+
+        .jl-prof-heading {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--jl-maroon);
+            letter-spacing: -0.3px;
+        }
+
+        .jl-breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--jl-text-muted);
+        }
+
+        .jl-breadcrumbs a {
+            color: var(--jl-maroon);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .jl-breadcrumbs a:hover {
+            color: var(--jl-gold);
+        }
+
+        .jl-breadcrumbs span.sep {
+            color: #C0B0A0;
+        }
+
+        /* Welcome Banner */
+        .jl-welcome-banner {
+            background: linear-gradient(135deg, #460809 0%, #350506 100%);
+            border-radius: 16px;
+            padding: 24px 28px;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 24px rgba(70, 8, 9, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jl-welcome-banner::after {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(236, 163, 45, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .jl-welcome-text h2 {
+            margin: 0 0 6px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .jl-welcome-text p {
+            margin: 0;
+            font-size: 13px;
+            color: #E8D8C4;
+        }
+
+        .jl-badge-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(236, 163, 45, 0.18);
+            border: 1px solid rgba(236, 163, 45, 0.4);
+            color: var(--jl-gold);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Cards Styling */
+        .jl-card {
+            background: var(--jl-card-bg);
+            border: 1px solid var(--jl-border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .jl-card:hover {
+            box-shadow: 0 6px 20px rgba(70, 8, 9, 0.06);
+        }
+
+        .jl-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #F0E6D8;
+        }
+
+        .jl-card-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--jl-maroon);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .jl-card-title i {
+            color: var(--jl-gold);
+            font-size: 18px;
+        }
+
+        .jl-btn-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: #FAF5EE;
+            border: 1px solid var(--jl-sand);
+            border-radius: 8px;
+            color: var(--jl-maroon);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .jl-btn-edit:hover {
+            background: var(--jl-maroon);
+            color: #FFFFFF;
+            border-color: var(--jl-maroon);
+            box-shadow: 0 4px 10px rgba(70, 8, 9, 0.15);
+        }
+
+        /* Profile Layout */
+        .jl-profile-body {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .jl-profile-body {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 32px;
+            }
+        }
+
+        /* Monogram Avatar */
+        .jl-avatar-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .jl-avatar-badge {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #460809 0%, #6D2932 100%);
+            border: 3px solid var(--jl-gold);
+            box-shadow: 0 6px 16px rgba(70, 8, 9, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--jl-gold);
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .jl-avatar-status {
+            font-size: 12px;
+            color: var(--jl-text-muted);
+            font-weight: 500;
+        }
+
+        /* Information Grid */
+        .jl-info-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .jl-info-item {
+            background: #FAF8F5;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid #EFE6DC;
+        }
+
+        .jl-info-label {
+            font-size: 12px;
+            color: var(--jl-text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .jl-info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--jl-text-main);
+            word-break: break-word;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .jl-pwd-mask {
+            letter-spacing: 2px;
+            color: #6D2932;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        /* Shipping Address Card */
+        .jl-address-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .jl-addr-line {
+            font-size: 15px;
+            font-weight: 500;
+            color: #2D1A1A;
+            line-height: 1.5;
+        }
+
+        .jl-addr-meta {
+            font-size: 14px;
+            color: var(--jl-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .jl-addr-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Empty Address State */
+        .jl-empty-state {
+            text-align: center;
+            padding: 36px 20px;
+            background: #FAF8F5;
+            border-radius: 12px;
+            border: 1px dashed var(--jl-sand);
+        }
+
+        .jl-empty-icon {
+            font-size: 36px;
+            color: var(--jl-sand);
+            margin-bottom: 12px;
+        }
+
+        .jl-empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--jl-maroon);
+            margin-bottom: 4px;
+        }
+
+        .jl-empty-desc {
+            font-size: 13px;
+            color: var(--jl-text-muted);
+            margin-bottom: 16px;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             overflow-y: auto;
-            /* Allow scrolling if content is too long */
         }
 
         .modal-overlay.active {
             display: flex;
-            /* Show when active */
         }
-
-
 
         .modal-content {
-            background-color: white;
-            border-radius: 0.75rem;
-            /* rounded-xl */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            /* shadow-xl */
-            width: 95%;
-            /* Responsive width for mobile */
-            max-width: 600px;
-            /* Max width for desktop */
-            margin: 20px auto;
-            /* Margin for vertical centering and spacing */
-            padding: 1.5rem;
-            /* p-6 */
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 560px;
+            padding: 28px;
             position: relative;
+            border: 1px solid var(--jl-border);
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.25s ease-out;
         }
 
-        /* Responsive adjustments for modal */
-        @media (min-width: 640px) {
-
-            /* sm breakpoint */
-            .modal-content {
-                width: 80%;
-                /* Slightly wider on small tablets */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
             }
         }
 
-        @media (min-width: 768px) {
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #F0E6D8;
+            margin-bottom: 18px;
+        }
 
-            /* md breakpoint */
-            .modal-content {
-                width: 600px;
-                /* Fixed width on desktop */
-            }
+        .modal-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--jl-maroon);
+        }
+
+        .modal-close-icon {
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            color: #999;
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .modal-close-icon:hover {
+            color: var(--jl-maroon);
+        }
+
+        .jl-form-group {
+            margin-bottom: 16px;
+        }
+
+        .jl-form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4A3A3A;
+            margin-bottom: 6px;
+        }
+
+        .jl-form-input,
+        .jl-form-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #D8C5AF;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #2D1A1A;
+            background: #FAF8F5;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .jl-form-input:focus,
+        .jl-form-select:focus {
+            border-color: var(--jl-maroon);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(70, 8, 9, 0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding-top: 20px;
+            border-top: 1px solid #F0E6D8;
+            margin-top: 24px;
+        }
+
+        .jl-btn-cancel {
+            padding: 10px 20px;
+            background: #FAF5EE;
+            border: 1px solid var(--jl-sand);
+            border-radius: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .jl-btn-cancel:hover {
+            background: #F0E6D8;
+            color: #222;
+        }
+
+        .jl-btn-save {
+            padding: 10px 24px;
+            background: var(--jl-maroon);
+            border: 1px solid var(--jl-maroon);
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(70, 8, 9, 0.2);
+        }
+
+        .jl-btn-save:hover {
+            background: #6D2932;
+            border-color: #6D2932;
+            transform: translateY(-1px);
+        }
+
+        .jl-alert-box {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .jl-alert-box.active {
+            display: block;
+        }
+
+        .jl-alert-danger {
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            color: #B91C1C;
+        }
+
+        .jl-alert-success {
+            background: #F0FDF4;
+            border: 1px solid #86EFAC;
+            color: #15803D;
         }
     </style>
 </head>
 
-<body class="font-sans antialiased text-gray-800 bg-gray-100" onload="getUserData();">
-    <div class="flex"">
-        <!-- Main Content Wrapper -->
-        <div class="flex flex-col flex-1 min-h-screen">
-            <!-- Header -->
-            <header
-                class="sticky top-0 z-30 flex items-center justify-between px-6 py-4 bg-white shadow-sm md:justify-start">
+<body onload="getUserData();">
+    <div class="jl-prof-container">
 
-
-                <div class="flex items-center">
-                    <svg fill="#FDC12F" viewBox="0 0 512 512" id="_x30_1" version="1.1" xml:space="preserve"
-                        class="mr-2 w-15 h-15" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <path
-                                d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M256,90 c37.02,0,67.031,35.468,67.031,79.219S293.02,248.438,256,248.438s-67.031-35.468-67.031-79.219S218.98,90,256,90z M369.46,402 H142.54c-11.378,0-20.602-9.224-20.602-20.602C121.938,328.159,181.959,285,256,285s134.062,43.159,134.062,96.398 C390.062,392.776,380.839,402,369.46,402z">
-                            </path>
-                        </g>
-                    </svg>
-
-                    <h1 class="text-xl font-bold text-gray-900 hidden font-['Poppins',sans-serif] md:block">My Profile
-                    </h1>
+        <!-- Top Bar -->
+        <header class="jl-prof-topbar">
+            <div class="jl-prof-title-group">
+                <div class="jl-prof-icon-badge">
+                    <i class="fa-solid fa-gem"></i>
                 </div>
-                <div class="flex items-center ml-auto md:ml-0">
-                    <h2 class="text-sm font-medium text-gray-800 md:block ml-3 font-['Poppins',sans-serif] ">profile
-                        Details</h2>
-                    <span class="hidden mx-2 text-gray-500 md:block">/</span>
-                    <nav class="items-center hidden text-sm text-gray-600 md:flex">
-                        <a href="#" class="hover:text-blue-600 font-['Poppins',sans-serif] ">Home</a>
-                        <span class="mx-1">&gt;</span>
-                        <a href="#" class="text-blue-600">Profile</a>
-                    </nav>
+                <div>
+                    <h1 class="jl-prof-heading">Customer Profile</h1>
+                    <div class="jl-breadcrumbs">
+                        <a href="index.html" target="_top">Home</a>
+                        <span class="sep">/</span>
+                        <span>Dashboard</span>
+                        <span class="sep">/</span>
+                        <span style="color: var(--jl-maroon); font-weight: 600;">My Profile</span>
+                    </div>
                 </div>
-                <button class="ml-auto text-gray-500 md:hidden hover:text-gray-700">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 12h.01M12 12h.01M19 12h.01"></path>
-                    </svg>
+            </div>
+
+            <div class="jl-badge-verified">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Verified Account</span>
+            </div>
+        </header>
+
+        <!-- Welcome Banner -->
+        <div class="jl-welcome-banner">
+            <div class="jl-welcome-text">
+                <h2 id="header">Welcome to your Profile!</h2>
+                <p id="date">JemLanka Member</p>
+            </div>
+        </div>
+
+        <!-- Profile Information Card -->
+        <section class="jl-card">
+            <div class="jl-card-header">
+                <h2 class="jl-card-title">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Personal Information</span>
+                </h2>
+                <button id="editProfile" class="jl-btn-edit" onclick="personalInforOpen()">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Edit Profile</span>
                 </button>
-
-            </header>
-
-            <div class="" id="profileContent" role="tabpanel">
-                <!-- Main Content Area -->
-                <main class="flex-1 px-6 py-4 overflow-y-auto custom-scrollbar " id="profile">
-                    <h2 class="text-2xl font-semibold mb-5 text-[#460809] font-profile" id="header">
-                        Hi Mena welcome to your Profile!</h2>
-
-                    <!-- Profile Card -->
-                    <div class="p-6 mb-6 bg-white rounded-lg shadow-md">
-
-                        <div class="flex flex-col items-center md:flex-row md:items-start md:space-x-6">
-                            <svg viewBox="-0.39 0 62.5708 62.5708" xmlns="http://www.w3.org/2000/svg" class="w-20"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <defs>
-                                        <clipPath id="clip-path">
-                                            <path clip-rule="evenodd"
-                                                d="M52.797 52.701c-.576-1.384-.505-2.763-4.626-4.83a2.862 2.862 0 0 0-.74-.357c-.488-.116-1.36-.286-1.792-.372-1.167 7.133-19.287 16.863-28.956-.047-1.04.244-3.219.752-3.801.907-4.093 1.819-3.625 2.926-4.165 4.406a30.896 30.896 0 0 0 44.08.293z"
-                                                fill="none"></path>
-                                        </clipPath>
-                                        <clipPath id="clip-path-2">
-                                            <path clip-rule="evenodd"
-                                                d="M24.258 39.172a1.633 1.633 0 0 0-.186 1.22 8.903 8.903 0 0 1-.45 3.562c-2.458 4.146 10.967 11.122 16.245 1.57.69-1.034-2.328-1.983-1.358-5.17a.895.895 0 0 0-.834-1.238s-5.344 4.481-13.417.056z"
-                                                fill="none"></path>
-                                        </clipPath>
-                                    </defs>
-                                    <title></title>
-                                    <g data-name="Layer 2" id="Layer_2">
-                                        <g data-name="—ÎÓÈ 1" id="_ÎÓÈ_1">
-                                            <path
-                                                d="M31.129 8.432c21.281 0 12.988 35.266 0 35.266-12.266 0-21.281-35.266 0-35.266z"
-                                                fill="#ffe8be" fill-rule="evenodd"></path>
-                                            <circle cx="30.8999" cy="30.8999" fill="#117dd4" r="30.8999"></circle>
-                                            <path
-                                                d="M52.797 52.701c-.608-1.462-.494-2.918-5.365-5.187-2.293-.542-8.21-1.319-9.328-3.4-.566-1.052-.43-2.535-.43-5.292l-12.93-.143c0 2.778.109 4.259-.524 5.299-1.19 1.957-8.935 3.384-11.338 4.024-4.093 1.819-3.625 2.925-4.165 4.406a30.896 30.896 0 0 0 44.08.293z"
-                                                fill="#f9dca4" fill-rule="evenodd"></path>
-                                            <path
-                                                d="M52.797 52.701c-.576-1.384-.505-2.763-4.626-4.83a2.862 2.862 0 0 0-.74-.357c-.488-.116-1.36-.286-1.792-.372-1.167 7.133-19.287 16.863-28.956-.047-1.04.244-3.219.752-3.801.907-4.093 1.819-3.625 2.926-4.165 4.406a30.896 30.896 0 0 0 44.08.293z"
-                                                fill="#9f82bb" fill-rule="evenodd"></path>
-                                            <g clip-path="url(#clip-path)" fill="#ffffff">
-                                                <circle cx="15.1239" cy="50.84395" r="1.5609"></circle>
-                                                <circle cx="16.67482" cy="57.07985" r="1.56097"></circle>
-                                                <circle cx="24.05245" cy="57.3965" r="1.5609"></circle>
-                                                <circle cx="31.82595" cy="61.00985" r="1.5609"></circle>
-                                                <circle cx="39.6363" cy="56.9044" r="1.56095"></circle>
-                                                <circle cx="47.05002" cy="57.0654" r="1.56097"></circle>
-                                                <circle cx="47.5752" cy="50.5551" r="1.5609"></circle>
-                                            </g>
-                                            <path
-                                                d="M45.238 36.967a6.24 6.24 0 0 0 7.535-2.61l3.7 1.753s-2.61 6.137-8.318 4.84c-2.126-.483-3.471-1.05-4.699-1.282-3.998-.755-5.39 3.056-1.005 4.111 2.415.58 5.555-.042 6.318-1.478 1.36 1.826-.883 4.965-2.885 4.89-5.495-.208-8.256-2.587-8.222-5.69.035-3.234 2.413-6.215 7.576-4.534z"
-                                                fill="#e9573e" fill-rule="evenodd"></path>
-                                            <path
-                                                d="M24.258 39.172a1.633 1.633 0 0 0-.186 1.22 8.903 8.903 0 0 1-.45 3.562c-2.458 4.146 10.967 11.122 16.245 1.57.69-1.034-2.328-1.983-1.358-5.17a.895.895 0 0 0-.834-1.238s-5.344 4.481-13.417.056z"
-                                                fill="#e9573e" fill-rule="evenodd"></path>
-                                            <g clip-path="url(#clip-path-2)">
-                                                <path
-                                                    d="M37.677 38.778l1.691.851c.04.87.089 4.6.702 5.537-1.807 4.15-14.135 3.408-15.874-6.55z"
-                                                    fill-rule="evenodd" opacity="0.11"></path>
-                                            </g>
-                                            <path
-                                                d="M19.11 24.183c-2.958 1.29-.442 7.41 1.42 7.383a30.847 30.847 0 0 1-1.42-7.383z"
-                                                fill="#f9dca4" fill-rule="evenodd"></path>
-                                            <path
-                                                d="M43.507 24.182c2.96 1.292.443 7.411-1.419 7.384a30.827 30.827 0 0 0 1.419-7.384z"
-                                                fill="#f9dca4" fill-rule="evenodd"></path>
-                                            <path
-                                                d="M31.114 8.666c8.722 0 12.377 6.2 12.601 13.367.307 9.81-5.675 21.43-12.6 21.43-6.56 0-12.706-12.018-12.333-21.928.26-6.953 3.814-12.869 12.332-12.869z"
-                                                fill="#ffe8be" fill-rule="evenodd"></path>
-                                            <path
-                                                d="M38.361 16.587c-.174.728-3.174 6.273-7.684 8.137.756-1.317 1.97-2.892 2.058-4.4-2.162 3.173-10.983 6.337-16.2 4.79C15.364 5.79 30.182 6.256 31.183 6.31c1.002-.054 15.857-.34 14.686 18.982-5.835-1.09-7.83-5.543-7.508-8.705z"
-                                                fill="#ecbe6a" fill-rule="evenodd"></path>
-                                            <path
-                                                d="M16.754 19.778c1.271-18.485 27.928-17.772 28.88 0-4.396-12.378-25.125-12.187-28.88 0z"
-                                                fill="#e9573e" fill-rule="evenodd"></path>
-                                            <path
-                                                d="M43.66 24.657s-2.289 10.706-9.639 14.83c23.528-6.236 15.887-32.31 6.597-32.324-2.883-7.863-24.45-5.7-27.45 9.45s9.923 21.763 10.947 22.372a31.976 31.976 0 0 1-3.785-7.438 4.952 4.952 0 0 1-2.151-2.747 6.622 6.622 0 0 1-.212-3.412c-.726-.131-1.284-.275-1.284-.275a27.284 27.284 0 0 1 .06-5.017c.39-3.894 1.789-9.096 6.83-11.947 3.523-1.992 11.119-2.55 15.692.328 5.362 3.374 6.821 10.69 6.452 16.627z"
-                                                fill="#d6a956" fill-rule="evenodd"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                            <div class="flex-1 text-center md:text-left">
-
-                                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <div>
-                                        <label class="block text-sm text-gray-500 font-['Poppins',sans-serif] ">First
-                                            Name</label>
-                                        <p class="font-medium text-gray-800 font-['Poppins',sans-serif] "
-                                            id="dfirstName">Chowdury</p>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm text-gray-500 font-['Poppins',sans-serif] ">Last
-                                            Name</label>
-                                        <p class="font-medium text-gray-800 font-['Poppins',sans-serif] "
-                                            id="dlastName">Musharof</p>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm text-gray-500 font-['Poppins',sans-serif] ">Email
-                                            address</label>
-                                        <p class="font-medium text-gray-800 font-['Poppins',sans-serif] " id="demail">
-                                            randomuser@pimjo.com</p>
-                                    </div>
-                                    <div>
-                                        <label
-                                            class="block text-sm text-gray-500 font-['Poppins',sans-serif] ">Phone</label>
-                                        <p class="font-medium text-gray-800 font-['Poppins',sans-serif] " id="dmobile">
-                                            +09 363 398 46</p>
-                                    </div>
-                                       <div>
-                                        <label
-                                            class="block text-sm text-gray-500 font-['Poppins',sans-serif] ">Password</label>
-                                        <p class="font-medium text-gray-800 font-['Poppins',sans-serif] " id="currentPassword">
-                                         Ams#0103menu   </p>
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label
-                                            class="block text-sm text-gray-500 font-['Poppins',sans-serif] ">Membership
-                                            since</label>
-                                        <p class="font-medium text-gray-800 font-['Poppins',sans-serif] " id="date">
-                                            2025.01.02</p>
-                                    </div>
-                                </div>
-                                <button id="editProfile"
-                                    class="flex items-center justify-center px-6 py-2 mx-auto mt-4 text-gray-700 transition-colors duration-200 border border-gray-300 rounded-md hover:bg-gray-50 md:mx-0 font-['Poppins',sans-serif] "
-                                    onclick="personalInforOpen();">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
-                                        </path>
-                                    </svg>
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- shipping AddressCard -->
-                    <div class="p-6 mb-6 bg-white rounded-lg shadow-md">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="flex text-xl font-bold text-gray-800 font-['Poppins',sans-serif] ">
-                                <svg fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                                    class="w-[35px] h-[35px] mr-2" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    viewBox="0 0 24 24" xml:space="preserve">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <style type="text/css">
-                                            .st0 {
-                                                fill: none;
-                                            }
-                                        </style>
-                                        <path
-                                            d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10v-1c-0.6,0.9-1.2,1.7-1.7,2.4c-0.4,2.2-1.6,4.1-3.3,5.4 c-0.1-0.3-0.2-0.7-0.3-1c-0.1-0.4-0.2-0.8-0.4-1.2c-0.1-0.4-0.2-0.8-0.4-1.1c-0.1-0.1-0.3-0.2-0.5-0.3c-0.7-0.2-1.6,0.1-2.1-0.6 c-0.2-0.3-0.2-0.6-0.1-1c0.2-0.3,0.3-0.6,0.5-0.9c0.2-0.4,0.5-0.9,0.6-1.4c-0.8-1.2-1.6-2.6-2-3.9h-0.1c-0.1,0-0.1,0-0.2-0.1 c-0.2-0.2-0.3-0.7-0.2-1c0-0.5,0.3-0.8,0.2-1.3c0-0.1-0.1-0.9-0.1-0.9c-0.3,0-0.8,0-0.7-0.5V3.5H12h0.5c0.2-0.6,0.6-1.1,0.9-1.5H12z M18,2c-2.2,0-4,1.8-4,4s4,7,4,7s4-4.8,4-7S20.2,2,18,2z M18,4.5c0.8,0,1.5,0.7,1.5,1.5S18.8,7.5,18,7.5S16.5,6.8,16.5,6 S17.2,4.5,18,4.5z M8,5.1c0.4,0,0.7,0,1,0.1s0.6,0.3,0.8,0.5s0.5,0.5,0.5,0.8c0,0.1,0,0.2-0.1,0.2C10.1,6.8,10,6.8,9.9,6.8 c-0.3,0-0.6,0-0.8-0.1C9,6.6,8.8,6.4,8.6,6.3C8.1,6.1,7.2,7.4,7.1,7.8C7,8.1,7,8.8,7.5,8.9c0.3,0,1-0.6,1.2-0.8C8.9,8,9,7.9,9.2,7.8 c0.8-0.1,1.4,0.6,1.6,1.3C11,9.9,9.6,10.5,9,10.7c-0.2,0.1-0.3-0.1-0.5,0c-0.5,0.2-1.1,0.9-1.1,1.4s-0.1,1-0.2,1.5 c-0.1,0-0.2-0.1-0.2-0.1v-0.2c0-0.3-0.1-0.6-0.4-0.8c-0.1,0-0.1-0.1-0.2-0.1c-0.3-0.1-0.6-0.4-0.9-0.1c-0.2,0.2-0.4,0.5-0.4,0.8 c0,0.1,0,0.2,0.1,0.3c0.2,0.1,0.4,0,0.6,0c0.1,0,0.2,0.2,0.3,0.3c0.2,0.3,0.3,0.8,0.7,0.8h0.7h1.3c0.3,0.1,0.8,0.2,1,0.4 c0.1,0.2,0.1,0.4,0.2,0.6c0.4,0.5,1.1,0.5,1.7,0.7c0.2,0.1,0.3,0.2,0.3,0.4c0,0.3-0.1,0.7-0.2,1s-0.2,0.7-0.4,0.9s-0.4,0.3-0.6,0.4 c-0.4,0.2-0.6,0.6-0.8,0.9c0,0-0.1,0.2-0.2,0.3c-0.8-0.2-1.5-0.5-2.2-1v-0.2c-0.1-0.4-0.2-0.7-0.3-1c-0.2-0.5-0.5-1.1-0.6-1.6 c0-0.5,0.1-1-0.2-1.4c-0.3-0.5-1.1-0.5-1.6-0.8c-0.4-0.4-0.9-0.8-1.3-1.3V12c0-2.7,1.3-5.1,3.3-6.7C7.3,5.2,7.6,5.1,8,5.1z">
-                                        </path>
-                                        <rect class="st0" width="24" height="24"></rect>
-                                        <rect class="st0" width="24" height="24"></rect>
-                                    </g>
-                                </svg>
-                                Shipping address
-                            </h3>
-                            <button id="editAddress"
-                                class="flex items-center px-4 py-2 text-gray-700 transition-colors duration-200 border border-gray-300 rounded-md hover:bg-gray-50 font-['Poppins',sans-serif] "
-                                onclick="openEditAddressModel();loadAddressData();">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
-                                    </path>
-                                </svg>
-                                Edit
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-1 gap-1 md:grid-cols-2">
-                            <div class="">
-                                <label class="block text-sm text-gray-500 font-['Poppins',sans-serif] ">Address
-                                    01</label>
-                                <div class="col-span-1 font-medium md:col-span-2 font-['Poppins',sans-serif] ">
-                                    <span id="dline1">Line 01</span> <span
-                                        id="dline2">Line 02</span>
-                                </div>
-                                <p class="col-span-1 font-medium md:col-span-2 font-['Poppins',sans-serif]" id="dcity">City</p>
-                                <p class="col-span-1 font-medium md:col-span-2 font-['Poppins',sans-serif]" id="dprovince">Province
-                                </p>
-                                <p class="col-span-1 font-medium md:col-span-2 font-['Poppins',sans-serif]" id="dcountry">Country
-                                </p>
-                                <p class="col-span-1 font-medium md:col-span-2 font-['Poppins',sans-serif]" id="dpostal">Postal code/p>
-                                <p class="col-span-1 font-medium md:col-span-2 font-['Poppins',sans-serif]" id="dmobileaddress">
-                                    +94758659512</p>
-
-                            </div>
-                        </div>
-                    </div>
-                </main>
             </div>
-        </div>
-        <!-- Edit Profile Modal -->
-        <div id="edit-profile-modal" class="modal-overlay">
-            <div class="modal-content">
-                <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-200">
 
-                    <h3 class="text-xl font-bold font-profile text-amber-900">Edit Personal Information</h3>
-
-                    <button id="close-modal-button" class="text-gray-400 hover:text-gray-600 focus:outline-none"
-                        onclick="personalInforClose();">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
+            <div class="jl-profile-body">
+                <!-- Avatar Column -->
+                <div class="jl-avatar-col">
+                    <div class="jl-avatar-badge" id="userAvatarInitials">JL</div>
+                    <span class="jl-avatar-status">Active Profile</span>
                 </div>
 
-                <p class="mb-6 text-sm text-gray-600 font-['Poppins',sans-serif]">Update your details to keep your
-                    profile up-to-date.</p>
-
-                <div class="space-y-6">
-
-                    <!-- Personal Information -->
-                    <div>
-                        <h4 class="mb-3 text-lg font-semibold text-gray-800 font-['Poppins',sans-serif]" id="message">Personal
-                            Information</h4>
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div class="col-span-2">
-                                <label for="first-name"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">First
-                                    Name</label>
-                                <input type="text" id="firstName"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            </div>
-                            <div class="col-span-2">
-                                <label for="last-name"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Last
-                                    Name</label>
-                                <input type="text" id="lastName"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            </div>
-                            <div class="col-span-2">
-                                <label for="last-name"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">New Password</label>
-                                <input type="password" id="newPassword"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            </div>
-                            <div class="col-span-2">
-                                <label for="last-name"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Comfirm Password</label>
-                                <input type="password" id="confirmPassword"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            </div>
-                        </div>
+                <!-- Info Grid -->
+                <div class="jl-info-grid">
+                    <div class="jl-info-item">
+                        <div class="jl-info-label">First Name</div>
+                        <p class="jl-info-value" id="dfirstName">-</p>
                     </div>
-                </div>
 
-                <div class="flex justify-end pt-4 space-x-3 border-t border-gray-200">
-                    <button id="modal-close-button"
-                        class="px-6 py-2 text-gray-700 transition-colors duration-200 border border-gray-300 rounded-md hover:bg-gray-50"
-                        onclick="personalInforClose();">
-                        Close
-                    </button>
-                    <button id="save-changes-button" onclick="saveProfileChanges();"
-                        class="px-6 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700">
-                        Save Changes
-                    </button>
+                    <div class="jl-info-item">
+                        <div class="jl-info-label">Last Name</div>
+                        <p class="jl-info-value" id="dlastName">-</p>
+                    </div>
+
+                    <div class="jl-info-item">
+                        <div class="jl-info-label">Email Address</div>
+                        <p class="jl-info-value" id="demail">-</p>
+                    </div>
+
+                    <div class="jl-info-item">
+                        <div class="jl-info-label">Phone Number</div>
+                        <p class="jl-info-value" id="dmobile">-</p>
+                    </div>
+
+                    <div class="jl-info-item">
+                        <div class="jl-info-label">Password</div>
+                        <p class="jl-info-value">
+                            <span class="jl-pwd-mask" id="currentPassword">••••••••••••</span>
+                            <a href="javascript:void(0)" onclick="personalInforOpen()" style="font-size: 12px; color: var(--jl-maroon); font-weight: 600; text-decoration: underline;">Change</a>
+                        </p>
+                    </div>
+
+                    <div class="jl-info-item">
+                        <div class="jl-info-label">Account Status</div>
+                        <p class="jl-info-value" style="color: #15803D;">
+                            <span>Active Member</span>
+                            <i class="fa-solid fa-shield-halved" style="color: var(--jl-gold);"></i>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--Edit Profile Model-->
+        </section>
 
-        <!-- Edit Address Modal -->
-        <div id="edit-address-modal" class="modal-overlay bg-amber-50">
-            <div class="modal-content">
-                <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-200">
+        <!-- Shipping Address Card -->
+        <section class="jl-card">
+            <div class="jl-card-header">
+                <h2 class="jl-card-title">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Shipping Address</span>
+                </h2>
+                <button id="editAddress" class="jl-btn-edit" onclick="openEditAddressModel(); loadAddressData();">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span id="btnAddressActionText">Edit Address</span>
+                </button>
+            </div>
 
-                    <h3 class="text-xl font-bold font-profile text-amber-900">Edit Personal Information</h3>
-                    <button id="close-modal-button" class="text-gray-400 hover:text-gray-600 focus:outline-none"
-                        onclick="addressModelClose();">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
+            <!-- Existing Address Container -->
+            <div id="addressDisplayBox" class="jl-address-details" style="display: none;">
+                <div class="jl-addr-line" style="font-size: 16px; font-weight: 600; color: var(--jl-maroon);">
+                    <span id="dline1"></span>, <span id="dline2"></span>
                 </div>
-
-                <p class="mb-6 text-sm text-gray-600 font-['Poppins',sans-serif]" id="messageAddress">Addyour shipping address</p>
-
-                <div class="space-y-6">
-
-                    <!-- Information -->
-                    <div>
-                        <h4 class="mb-3 text-lg font-semibold text-gray-800 font-['Poppins',sans-serif]">Address
-                            Information</h4>
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div>
-                                <label for="country"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Select
-                                    country</label>
-                                <select id="country" onchange="loadProvince();"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                                    <option value="0" selected>Select</option>
-                                   
-                                </select>
-
-                            </div>
-                            <div>
-                                <label for="last-name"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">
-                                    Province</label>
-                                <select id="province" onchange="loadCity();"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                                    <option value="0" selected>Select</option>
-                                   
-                                </select>
-                            </div>
-                            <div>
-                                <label for=""
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">City</label>
-                              <select id="city" 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                                    <option value="0" selected>Select</option>
-                                   
-                                </select>
-                            </div>
-                            <div class="">
-                                <label for="email-address"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Posatal
-                                    code</label>
-                                <input type="text" id="postalcode"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
-                                    value="randomuser@pimjo.com">
-                            </div>
-                            <div class="col-span-2 ">
-                                <label for="phone"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Line
-                                    01</label>
-                                <input type="tel" id="line1"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
-                                    value="+09 363 398 46">
-                            </div>
-                            <div class="col-span-2">
-                                <label for="bio"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Line
-                                    02</label>
-                                <input type="tel" id="line2"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
-                                    value="+09 363 398 46">
-                            </div>
-                             <div class="col-span-2">
-                                <label for="bio"
-                                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Mobile
-                                    </label>
-                                <input type="tel" id="mobile"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]"
-                                    value="+09 363 398 46">
-                            </div>
-                        </div>
-                    </div>
+                <div class="jl-addr-line">
+                    <span id="dcity"></span>, <span id="dprovince"></span>, <span id="dcountry"></span>
                 </div>
-
-                <div class="flex justify-end pt-4 space-x-3 border-t border-gray-200">
-                    <button id="modal-close-button"
-                        class="px-6 py-2 text-gray-700 transition-colors duration-200 border border-gray-300 rounded-md hover:bg-gray-50"
-                        onclick="addressModelClose();">
-                        Close
-                    </button>
-                    <button id="save-changes-button" onclick="saveAddressChanges();"
-                        class="px-6 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700">
-                        Save Changes
-                    </button>
+                <div class="jl-addr-meta">
+                    <span class="jl-addr-tag">
+                        <i class="fa-solid fa-envelope" style="color: var(--jl-gold);"></i>
+                        <span>Postal: <strong id="dpostal">-</strong></span>
+                    </span>
+                    <span class="jl-addr-tag">
+                        <i class="fa-solid fa-phone" style="color: var(--jl-gold);"></i>
+                        <span>Contact: <strong id="dmobileaddress">-</strong></span>
+                    </span>
                 </div>
             </div>
-        </div>
-        <!--Edit Profile Model-->
+
+            <!-- Empty Address State -->
+            <div id="addressEmptyBox" class="jl-empty-state">
+                <div class="jl-empty-icon">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <div class="jl-empty-title">No Shipping Address Saved</div>
+                <div class="jl-empty-desc">Add your delivery destination to speed up your gemstone checkout process.</div>
+                <button class="jl-btn-edit" onclick="openEditAddressModel(); loadAddressData();" style="background: var(--jl-maroon); color: #fff; border-color: var(--jl-maroon);">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Shipping Address</span>
+                </button>
+            </div>
+        </section>
+
     </div>
-    <script src="my-account.js"></script>
 
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Personal Information</h3>
+                <button class="modal-close-icon" onclick="personalInforClose()" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="message" class="jl-alert-box jl-alert-danger"></div>
+
+            <form id="editProfileForm" onsubmit="event.preventDefault(); saveProfileChanges();">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="jl-form-input" required>
+                    </div>
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="jl-form-input" required>
+                    </div>
+                </div>
+
+                <div style="margin: 18px 0 14px; border-top: 1px dashed var(--jl-sand); padding-top: 14px;">
+                    <span style="font-size: 13px; font-weight: 600; color: var(--jl-maroon); display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-key" style="color: var(--jl-gold);"></i>
+                        Change Password (Optional)
+                    </span>
+                    <span style="font-size: 11px; color: var(--jl-text-muted);">Leave empty to keep your existing password unchanged.</span>
+                </div>
+
+                <div class="jl-form-group">
+                    <label class="jl-form-label" for="currentPasswordInput">Current Password</label>
+                    <input type="password" id="currentPasswordInput" class="jl-form-input" placeholder="Required only if changing password">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" class="jl-form-input" placeholder="Min. 8 characters">
+                    </div>
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" class="jl-form-input" placeholder="Repeat new password">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="jl-btn-cancel" onclick="personalInforClose()">Cancel</button>
+                    <button type="submit" id="save-changes-button" class="jl-btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Address Modal -->
+    <div id="edit-address-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Shipping Address</h3>
+                <button class="modal-close-icon" onclick="addressModelClose()" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="messageAddress" class="jl-alert-box jl-alert-danger"></div>
+
+            <form id="editAddressForm" onsubmit="event.preventDefault(); saveAddressChanges();">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="country">Country</label>
+                        <select id="country" class="jl-form-select" onchange="loadProvince();">
+                            <option value="0" selected>Select Country</option>
+                        </select>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="province">Province</label>
+                        <select id="province" class="jl-form-select" onchange="loadCity();">
+                            <option value="0" selected>Select Province</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="city">City</label>
+                        <select id="city" class="jl-form-select">
+                            <option value="0" selected>Select City</option>
+                        </select>
+                    </div>
+
+                    <div class="jl-form-group">
+                        <label class="jl-form-label" for="postalcode">Postal Code</label>
+                        <input type="text" id="postalcode" class="jl-form-input" placeholder="e.g. 70000" required>
+                    </div>
+                </div>
+
+                <div class="jl-form-group">
+                    <label class="jl-form-label" for="line1">Address Line 01</label>
+                    <input type="text" id="line1" class="jl-form-input" placeholder="House no, Street name" required>
+                </div>
+
+                <div class="jl-form-group">
+                    <label class="jl-form-label" for="line2">Address Line 02</label>
+                    <input type="text" id="line2" class="jl-form-input" placeholder="Apartment, suite, unit (optional)">
+                </div>
+
+                <div class="jl-form-group">
+                    <label class="jl-form-label" for="mobile">Contact Mobile Number</label>
+                    <input type="tel" id="mobile" class="jl-form-input" placeholder="e.g. +94 77 123 4567" required>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="jl-btn-cancel" onclick="addressModelClose()">Cancel</button>
+                    <button type="submit" id="save-address-button" class="jl-btn-save">Save Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="my-account.js"></script>
 </body>
 
 </html>

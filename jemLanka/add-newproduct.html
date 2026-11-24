@@ -4,331 +4,422 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
-    <!-- Include Tailwind CSS -->
+    <title>JemLanka - Add Gemstone Product</title>
+
     <link href="src/output.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Custom styles for light theme body */
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-        /* Custom styling for input focus rings */
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-            /* blue-500 with opacity */
-            border-color: #3B82F6;
-            /* blue-500 */
+    <style>
+        :root {
+            --jl-maroon: #460809;
+            --jl-maroon-dark: #320506;
+            --jl-maroon-light: #6D2932;
+            --jl-gold: #ECA32D;
+            --jl-sand: #E8D8C4;
+            --jl-ivory: #FAF5EE;
+            --jl-border: #E8D8C4;
         }
 
-        /* Custom styling for dropdown arrows (for select elements) */
-        .custom-select-arrow {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            /* Darker arrow for light background */
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.5em 1.5em;
-            padding-right: 2.5rem;
-            /* Make space for the arrow */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--jl-ivory);
+            color: #2D1A1A;
+            margin: 0;
+            padding: 0;
+        }
 
-            .fixed.inset-0.transition-opacity {
-    pointer-events: none;
-}
+        .jl-prod-container {
+            max-width: 1040px;
+            margin: 30px auto 60px;
+            padding: 0 20px;
+        }
+
+        .jl-card {
+            background: #FFFFFF;
+            border: 1px solid var(--jl-border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(70, 8, 9, 0.05);
+            margin-bottom: 24px;
+        }
+
+        .jl-section-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--jl-maroon);
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #F0E6D8;
+            padding-bottom: 10px;
+        }
+
+        .jl-section-title i {
+            color: var(--jl-gold);
+        }
+
+        .jl-form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4A3A3A;
+            margin-bottom: 6px;
+        }
+
+        .jl-form-input,
+        .jl-form-select,
+        .jl-form-textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid #D8C5AF;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #2D1A1A;
+            background: #FAF8F5;
+            transition: all 0.2s ease;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .jl-form-input:focus,
+        .jl-form-select:focus,
+        .jl-form-textarea:focus {
+            border-color: var(--jl-maroon);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(70, 8, 9, 0.1);
+        }
+
+        .jl-upload-slot {
+            border: 2px dashed #D8C5AF;
+            border-radius: 12px;
+            background: #FAF8F5;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .jl-upload-slot:hover {
+            border-color: var(--jl-maroon);
+            background: #FFFFFF;
+        }
+
+        .jl-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--jl-maroon);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(70, 8, 9, 0.25);
+        }
+
+        .jl-btn-primary:hover {
+            background: var(--jl-maroon-light);
+            transform: translateY(-1px);
+        }
+
+        .jl-alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .jl-alert-danger {
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            color: #B91C1C;
+        }
+
+        .jl-alert-success {
+            background: #F0FDF4;
+            border: 1px solid #86EFAC;
+            color: #15803D;
         }
     </style>
 </head>
 
-<body class="p-4 sm:p-6 lg:p-8" onload="loadStoreData();">
-    <div id="notificatoion">
-      
-    </div>
+<body onload="loadStoreData();">
+    <div class="jl-prod-container">
 
-    <div class="max-w-6xl p-6 mx-auto bg-white rounded-lg shadow-md sm:p-8">
-        <!-- Header -->
-        <!-- Header -->
-        <header
-            class="sticky top-0 z-30 flex items-center justify-between px-2 py-4 bg-white shadow-sm md:justify-start">
-
-
-            <div class="flex items-center">
-                <svg fill="#FDC12F" viewBox="0 0 512 512" id="_x30_1" version="1.1" xml:space="preserve"
-                    class="mr-2 w-15 h-15" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M256,90 c37.02,0,67.031,35.468,67.031,79.219S293.02,248.438,256,248.438s-67.031-35.468-67.031-79.219S218.98,90,256,90z M369.46,402 H142.54c-11.378,0-20.602-9.224-20.602-20.602C121.938,328.159,181.959,285,256,285s134.062,43.159,134.062,96.398 C390.062,392.776,380.839,402,369.46,402z">
-                        </path>
-                    </g>
-                </svg>
-
-                <h1 class="text-xl font-bold text-gray-900 hidden font-['Poppins',sans-serif] md:block">Product Section
-                </h1>
+        <!-- Top Header & Breadcrumbs -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #460809 0%, #6D2932 100%); display: flex; align-items: center; justify-content: center; color: #ECA32D; font-size: 20px; box-shadow: 0 4px 12px rgba(70, 8, 9, 0.15);">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <div>
+                    <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #460809;">List New Gemstone</h1>
+                    <div style="font-size: 13px; color: #7A6868;">
+                        <a href="index.html" target="_top" style="color: #460809; text-decoration: none;">Home</a> / 
+                        <span>Merchant Center</span> / 
+                        <span style="color: #460809; font-weight: 600;">Add Product</span>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center ml-auto md:ml-0">
-                <h2 class="text-sm font-medium text-gray-800 md:block ml-3 font-['Poppins',sans-serif] ">profile
-                    Details</h2>
-                <span class="hidden mx-2 text-gray-500 md:block">/</span>
-                <nav class="items-center hidden text-sm text-gray-600 md:flex">
-                    <a href="#" class="hover:text-blue-600 font-['Poppins',sans-serif] ">Home</a>
-                    <span class="mx-1">&gt;</span>
-                    <a href="#" class="text-blue-600">Profile</a>
-                </nav>
-            </div>
-            <button class="ml-auto text-gray-500 md:hidden hover:text-gray-700">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 12h.01M12 12h.01M19 12h.01"></path>
-                </svg>
-            </button>
 
-        </header>
-
-        <div class="flex flex-col items-start justify-between mb-6 sm:flex-row sm:items-center mt-3.5">
-            <h1 class="text-2xl font-semibold text-gray-900 font-['Poppins',sans-serif] ">Add Product</h1>
-
+            <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(236, 163, 45, 0.15); border: 1px solid rgba(236, 163, 45, 0.4); color: #B3740D; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;">
+                <i class="fa-solid fa-certificate"></i>
+                GIA & NGJA Trade Standards
+            </span>
         </div>
 
-        <!-- Products Description Section -->
-        <div class="p-6 mb-8 border border-gray-200 rounded-lg bg-gray-50">
-            <h2 class="mb-4 text-lg font-semibold text-gray-800 font-['Poppins',sans-serif]" id="message">Products
-                Description</h2>
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <!-- Product Name -->
-                <div>
-                    <label for="product-name"
-                        class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif] ">Product
-                        Title</label>
-                    <input type="text" id="productName"
-                        class="font-['Poppins',sans-serif] w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md  focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Enter product name">
-                </div>
-                <!-- Category -->
-                <div>
-                    <label for="category"
-                        class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Category</label>
-                    <div class="relative">
-                        <select id="category"
-                            class="font-['Poppins',sans-serif] w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:ring-blue-500 focus:border-blue-500">
-                            <option value="0" selected>Select</option>
+        <div id="statusMessage" class="jl-alert"></div>
 
-                        </select>
-                    </div>
-                </div>
-                <!-- Brand -->
-                <div>
-                    <label for="brand"
-                        class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Shape</label>
-                    <div class="relative">
-                        <select id="shape"
-                            class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            <option value="0" selected>Select</option>
-                        </select>
-                    </div>
+        <form id="addProductForm" onsubmit="event.preventDefault(); saveProduct();">
+
+            <!-- Section 1: Gemstone Identity -->
+            <div class="jl-card">
+                <div class="jl-section-title">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>1. Gemstone Identity & Origin</span>
                 </div>
 
-                <!--clarity-->
-                <div>
-                    <label for="brand"
-                        class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Clarity</label>
-                    <div class="relative">
-                        <select id="calarity"
-                            class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            <option value="0" selected>Select</option>
+                <div style="margin-bottom: 18px;">
+                    <label class="jl-form-label" for="productName">Gemstone Title *</label>
+                    <input type="text" id="productName" class="jl-form-input" placeholder="e.g. 2.45 Carat Natural Ceylon Royal Blue Sapphire (Unheated)" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+                    <div>
+                        <label class="jl-form-label" for="category">Gemstone Variety / Category *</label>
+                        <select id="category" class="jl-form-select" required>
+                            <option value="0" selected>Select Gem Variety</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="jl-form-label" for="originId">Origin / Mining Country *</label>
+                        <select id="originId" class="jl-form-select" required>
+                            <option value="0">Select Origin</option>
+                            <option value="1" selected>Sri Lanka (Ceylon)</option>
+                            <option value="2">Madagascar</option>
+                            <option value="3">Myanmar (Burma)</option>
+                            <option value="4">Mozambique</option>
+                            <option value="5">Colombia</option>
                         </select>
                     </div>
                 </div>
 
-                <!--color-->
-                <div>
-                    <label for="color"
-                        class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Color</label>
-                    <div class="relative">
-                        <select id="color"
-                            class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            <option value="0" selected>Select</option>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+                    <div>
+                        <label class="jl-form-label" for="shape">Shape *</label>
+                        <select id="shape" class="jl-form-select" required>
+                            <option value="0">Select Shape</option>
+                            <option value="1" selected>Oval</option>
+                            <option value="2">Cushion</option>
+                            <option value="3">Round</option>
+                            <option value="4">Emerald Cut</option>
+                            <option value="5">Pear</option>
+                            <option value="6">Heart</option>
+                            <option value="7">Marquise</option>
                         </select>
                     </div>
-                </div>
-                <!-- Weight -->
 
-                <!--treatment -->
-                <div>
-                    <label for="color"
-                        class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Treatment</label>
-                    <div class="relative">
-                        <select id="treatment"
-                            class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:ring-blue-500 focus:border-blue-500 font-['Poppins',sans-serif]">
-                            <option value="0" selected>Select</option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-            <!-- Description -->
-            <div class="mt-6">
-                <label for="description"
-                    class="block mb-1 text-sm font-medium text-gray-700 font-['Poppins',sans-serif]">Description</label>
-                <textarea id="description" rows="4"
-                    class="w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue- font-['Poppins',sans-serif]"
-                    placeholder="Receipt info (optional)"></textarea>
-            </div>
-        </div>
-
-        <!-- Pricing & Availability Section -->
-        <div class="p-6 mb-8 border border-gray-200 rounded-lg bg-gray-50">
-            <h2 class="mb-4 text-lg font-semibold text-gray-800 font-['Poppins',sans-serif]">Pricing & Availability</h2>
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <!-- Weight -->
-                <div>
-                    <label for="price-weight" class="block mb-1 text-sm font-medium text-gray-700">Weight (ct)</label>
-                    <input type="number" id="weight" step="0.01"
-                        class="w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        value="" min="0">
-                </div>
-                <!-- Length -->
-                <div>
-                    <label for="price-length" class="block mb-1 text-sm font-medium text-gray-700">Length (cm)</label>
-                    <input type="number" id="length" step="0.01"
-                        class="w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        value="" min="0">
-                </div>
-                <!-- Width -->
-                <div>
-                    <label for="price-width" class="block mb-1 text-sm font-medium text-gray-700">Width (cm)</label>
-                    <input type="number" id="Width" step="0.01"
-                        class="w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        value="" min="0">
-                </div>
-                <!-- Height -->
-                <div>
-                    <label for="price-width" class="block mb-1 text-sm font-medium text-gray-700">Hight (cm)</label>
-                    <input type="number" id="hight" step="0.01"
-                        class="w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        value="" min="0">
-                </div>
-                <!-- Stock Quantity -->
-                <div class="md:col-span-2">
-                    <label for="stock-quantity" class="block mb-1 text-sm font-medium text-gray-700">Stock
-                        Quantity</label>
-                    <div class="flex items-center overflow-hidden border border-gray-300 rounded-md">
-                        <button
-                            class="px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">-</button>
-                        <input type="number" id="stockquantity"
-                            class="flex-1 px-4 py-2 text-center text-gray-800 bg-white focus:outline-none focus:ring-0"
-                            value="1" min="1">
-                        <button
-                            class="px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">+</button>
-                    </div>
-                </div>
-                <!-- Availability Status -->
-                <div>
-                    <label for="availability-status" class="block mb-1 text-sm font-medium text-gray-700">Availability
-                        Status</label>
-                    <div class="relative">
-                        <select id="status"
-                            class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md custom-select-arrow focus:ring-blue-500 focus:border-blue-500">
-                            <option value="0" selected>Select</option>
+                    <div>
+                        <label class="jl-form-label" for="cutStyle">Cut Style</label>
+                        <select id="cutStyle" class="jl-form-select">
+                            <option value="Faceted Brilliant" selected>Faceted Brilliant</option>
+                            <option value="Mixed Cut">Mixed Cut</option>
+                            <option value="Step Cut">Step Cut</option>
+                            <option value="Cabochon">Cabochon</option>
+                            <option value="Princess Cut">Princess Cut</option>
+                            <option value="Cushion Modified">Cushion Modified</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- selling price -->
-                <div>
-                    <label for="price-weight" class="block mb-1 text-sm font-medium text-gray-700">Selling price</label>
-                    <input id="sellprice" type="text" pattern="^\d+(\.\d{2})?$" placeholder="0.00" step="0.01"
-                        class="w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+                    <div>
+                        <label class="jl-form-label" for="color">Color Grade *</label>
+                        <select id="color" class="jl-form-select" required>
+                            <option value="0" selected>Select Color</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="jl-form-label" for="calarity">Clarity Grade *</label>
+                        <select id="calarity" class="jl-form-select" required>
+                            <option value="0" selected>Select Clarity</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="jl-form-label" for="treatment">Enhancement / Treatment *</label>
+                        <select id="treatment" class="jl-form-select" required>
+                            <option value="0">Select Treatment</option>
+                            <option value="2" selected>Natural (Completely Unheated)</option>
+                            <option value="1">Heat Treated</option>
+                            <option value="3">Traditional Heat (Low Temp)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- cost-->
                 <div>
-                    <label for="price-weight" class="block mb-1 text-sm font-medium text-gray-700">Cost</label>
-                    <input id="cost" type="text" pattern="^\d+(\.\d{2})?$" placeholder="0.00" step="0.01"
-                        class="w-full px-4 py-2 text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    <label class="jl-form-label" for="description">Detailed Description & Gemological Observations</label>
+                    <textarea id="description" rows="3" class="jl-form-textarea" placeholder="Include visual color saturation, pleochroism, natural silk or inclusions, polish quality..."></textarea>
                 </div>
             </div>
-        </div>
 
+            <!-- Section 2: Weight, Dimensions & Pricing -->
+            <div class="jl-card">
+                <div class="jl-section-title">
+                    <i class="fa-solid fa-ruler-combined"></i>
+                    <span>2. Weight (ct), Millimeter Dimensions (mm) & Pricing</span>
+                </div>
 
-        <!-- Products Images Section -->
-        <div class="grid w-full grid-cols-6 gap-3 p-6 mb-8 border border-gray-200 rounded-lg bg-gray-50">
-            <h2 class="col-span-6 mb-4 text-lg font-semibold text-gray-800">Products Images</h2>
-            <div class="col-span-2">
-                <label for="dropzone-file"
-                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L7.6 8.3M10 6l2.4 2.3" />
-                        </svg>
-                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag
-                            and drop SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                        <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+                    <div>
+                        <label class="jl-form-label" for="weight">Weight (Carats / ct) *</label>
+                        <input type="number" id="weight" step="0.01" min="0.01" class="jl-form-input" placeholder="e.g. 2.45" oninput="calculatePricePerCarat()" required>
                     </div>
-                    <input class="w-full h-full" type="file" accept="image/*" id="img1">
-                </label>
+                    <div>
+                        <label class="jl-form-label" for="length">Length (mm) *</label>
+                        <input type="number" id="length" step="0.01" min="0.1" class="jl-form-input" placeholder="e.g. 8.42" required>
+                    </div>
+                    <div>
+                        <label class="jl-form-label" for="Width">Width (mm) *</label>
+                        <input type="number" id="Width" step="0.01" min="0.1" class="jl-form-input" placeholder="e.g. 6.85" required>
+                    </div>
+                    <div>
+                        <label class="jl-form-label" for="hight">Depth / Height (mm) *</label>
+                        <input type="number" id="hight" step="0.01" min="0.1" class="jl-form-input" placeholder="e.g. 4.90" required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                    <div>
+                        <label class="jl-form-label" for="sellprice">Total Selling Price ($ / LKR) *</label>
+                        <input type="number" id="sellprice" step="0.01" min="1" class="jl-form-input" placeholder="e.g. 3200.00" oninput="calculatePricePerCarat()" required>
+                    </div>
+                    <div>
+                        <label class="jl-form-label" for="pricePerCarat">Price per Carat (Auto)</label>
+                        <input type="number" id="pricePerCarat" step="0.01" class="jl-form-input" placeholder="Auto calculated" readonly style="background: #EFE8DC; font-weight: 600; color: #460809;">
+                    </div>
+                    <div>
+                        <label class="jl-form-label" for="cost">Cost Price (Optional)</label>
+                        <input type="number" id="cost" step="0.01" class="jl-form-input" placeholder="e.g. 2100.00">
+                    </div>
+                    <div>
+                        <label class="jl-form-label" for="stockquantity">Stock Qty *</label>
+                        <input type="number" id="stockquantity" min="1" value="1" class="jl-form-input" required>
+                    </div>
+                </div>
+
+                <div style="width: 50%;">
+                    <label class="jl-form-label" for="status">Availability Status</label>
+                    <select id="status" class="jl-form-select">
+                        <option value="1" selected>In Stock / Available</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="col-span-2">
-                <label for="dropzone-file"
-                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L7.6 8.3M10 6l2.4 2.3" />
-                        </svg>
-                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag
-                            and drop SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                        <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+            <!-- Section 3: Lab Certification & Video -->
+            <div class="jl-card">
+                <div class="jl-section-title">
+                    <i class="fa-solid fa-stamp"></i>
+                    <span>3. Gemological Lab Certificate & 360° Video</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+                    <div>
+                        <label class="jl-form-label" for="labName">Certification Authority / Lab</label>
+                        <select id="labName" class="jl-form-select">
+                            <option value="NGJA (National Gem & Jewellery Authority)" selected>NGJA (National Gem & Jewellery Authority)</option>
+                            <option value="GIA (Gemological Institute of America)">GIA (Gemological Institute of America)</option>
+                            <option value="GRS (GemResearch Swisslab)">GRS (GemResearch Swisslab)</option>
+                            <option value="Gübelin Gem Lab">Gübelin Gem Lab</option>
+                            <option value="SSEF (Swiss Gemmological Institute)">SSEF (Swiss Gemmological Institute)</option>
+                            <option value="Lotus Gemology">Lotus Gemology</option>
+                            <option value="TGL (Tokyo Gem Laboratory)">TGL (Tokyo Gem Laboratory)</option>
+                            <option value="AIGS (Asian Institute of Gemological Sciences)">AIGS (Asian Institute of Gemological Sciences)</option>
+                            <option value="None / Uncertified">None / Uncertified</option>
+                        </select>
                     </div>
-                    <input class="w-full h-full" type="file" accept="image/*" id="img2">
-                </label>
+
+                    <div>
+                        <label class="jl-form-label" for="certNumber">Certificate Report Number</label>
+                        <input type="text" id="certNumber" class="jl-form-input" placeholder="e.g. NGJA-C-2026-90412">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+                    <div>
+                        <label class="jl-form-label" for="certImage">Upload Certificate Photo / PDF</label>
+                        <input type="file" id="certImage" accept=".jpg,.jpeg,.png,.pdf" class="jl-form-input" style="padding: 7px 10px;">
+                    </div>
+
+                    <div>
+                        <label class="jl-form-label" for="certUrl">Online Lab Verification Link</label>
+                        <input type="url" id="certUrl" class="jl-form-input" placeholder="https://www.gia.edu/report-check?reportno=...">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="jl-form-label" for="videoUrl">360° Rotating Video URL (YouTube / Vimeo / MP4)</label>
+                    <input type="url" id="videoUrl" class="jl-form-input" placeholder="https://www.youtube.com/watch?v=... or direct MP4 link">
+                    <span style="font-size: 11px; color: #7A6868;">High-definition 360-degree daylight video significantly increases overseas buyer conversion!</span>
+                </div>
             </div>
 
-            <div class="col-span-2">
-                <label for="dropzone-file"
-                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L7.6 8.3M10 6l2.4 2.3" />
-                        </svg>
-                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag
-                            and drop SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                        <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                    </div>
-                    <input class="w-full h-full" type="file" accept="image/*" id="img3">
-                </label>
-            </div>
-        </div>
+            <!-- Section 4: High-Res Product Photos -->
+            <div class="jl-card">
+                <div class="jl-section-title">
+                    <i class="fa-solid fa-camera"></i>
+                    <span>4. Gemstone Photographs (3 Angles)</span>
+                </div>
 
-        <!-- Footer Buttons -->
-        <div class="flex justify-end mt-6 space-x-4">
-            <button
-                class="px-6 py-3 font-medium text-gray-700 transition-colors duration-200 border border-gray-300 rounded-md hover:bg-gray-100">
-                Draft
-            </button>
-            <button onclick="saveProduct();"
-                class="px-6 py-3 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700">
-                Publish Product
-            </button>
-        </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                    <div class="jl-upload-slot">
+                        <i class="fa-solid fa-image" style="font-size: 32px; color: var(--jl-sand); margin-bottom: 10px;"></i>
+                        <p style="font-size: 13px; font-weight: 600; color: var(--jl-maroon); margin: 0 0 4px 0;">Primary Photo (Table View) *</p>
+                        <p style="font-size: 11px; color: #888; margin: 0 0 10px 0;">Face-up crown orientation</p>
+                        <input type="file" id="img1" accept="image/*" class="jl-form-input" style="padding: 5px;" required>
+                    </div>
+
+                    <div class="jl-upload-slot">
+                        <i class="fa-solid fa-image" style="font-size: 32px; color: var(--jl-sand); margin-bottom: 10px;"></i>
+                        <p style="font-size: 13px; font-weight: 600; color: var(--jl-maroon); margin: 0 0 4px 0;">Side / Profile Angle</p>
+                        <p style="font-size: 11px; color: #888; margin: 0 0 10px 0;">Girdle and depth profile</p>
+                        <input type="file" id="img2" accept="image/*" class="jl-form-input" style="padding: 5px;">
+                    </div>
+
+                    <div class="jl-upload-slot">
+                        <i class="fa-solid fa-image" style="font-size: 32px; color: var(--jl-sand); margin-bottom: 10px;"></i>
+                        <p style="font-size: 13px; font-weight: 600; color: var(--jl-maroon); margin: 0 0 4px 0;">Back / Hand Display</p>
+                        <p style="font-size: 11px; color: #888; margin: 0 0 10px 0;">Pavilion or on-finger scale</p>
+                        <input type="file" id="img3" accept="image/*" class="jl-form-input" style="padding: 5px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div style="display: flex; justify-content: flex-end; gap: 14px;">
+                <button type="submit" id="submitProductBtn" class="jl-btn-primary">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>Publish Gemstone to Marketplace</span>
+                </button>
+            </div>
+
+        </form>
 
     </div>
 
     <script src="js/add-newproduct.js"></script>
-    <script src="js/alert.js"></script>
-
 </body>
 
 </html>

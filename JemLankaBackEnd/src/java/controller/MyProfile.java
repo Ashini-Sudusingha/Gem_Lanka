@@ -29,116 +29,177 @@ public class MyProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("profile ekata enava ");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        Gson gson = new Gson();
+
         HttpSession ses = request.getSession(false);
         if (ses != null && ses.getAttribute("user") != null) {
             System.out.println("session eka thiyanava");
             User user = (User) ses.getAttribute("user");
             JsonObject responseObject = new JsonObject();
+            responseObject.addProperty("status", true);
             responseObject.addProperty("firstName", user.getFirst_name());
             responseObject.addProperty("lastName", user.getLast_name());
             responseObject.addProperty("password", user.getPassword());
             responseObject.addProperty("email", user.getEmail());
             responseObject.addProperty("mobile", user.getMobile());
 
-            String since = new SimpleDateFormat("MMM yyyy").format(user.getCreated_at());
+            String since = user.getCreated_at() != null 
+                    ? new SimpleDateFormat("MMM yyyy").format(user.getCreated_at()) 
+                    : "Member";
             responseObject.addProperty("since", since);
 
-            Gson gson = new Gson();
-            SessionFactory sf = HibernateUtil.getSessionFactory();
-            Session s = sf.openSession();
-            Criteria c = s.createCriteria(Address.class);
-            c.add(Restrictions.eq("user", user));
-            if (!c.list().isEmpty()) {
-                System.out.println("address ekak thiyanava");
+            Session s = null;
+            try {
+                SessionFactory sf = HibernateUtil.getSessionFactory();
+                s = sf.openSession();
+                Criteria c = s.createCriteria(Address.class);
+                c.add(Restrictions.eq("user", user));
                 List<Address> addressList = c.list();
-                responseObject.add("addressList", gson.toJsonTree(addressList));
-            }else{
-                System.out.println("sesi ekak ne");
+                if (addressList != null && !addressList.isEmpty()) {
+                    System.out.println("address ekak thiyanava");
+                    responseObject.add("addressList", gson.toJsonTree(addressList));
+                } else {
+                    System.out.println("address ne");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (s != null && s.isOpen()) {
+                    s.close();
+                }
             }
 
             String toJson = gson.toJson(responseObject);
-            response.setContentType("application/json");
             response.getWriter().write(toJson);
+        } else {
+            System.out.println("session ne - unauthorized");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            JsonObject errorObject = new JsonObject();
+            errorObject.addProperty("status", false);
+            errorObject.addProperty("message", "User not logged in. Please sign in first.");
+            response.getWriter().write(gson.toJson(errorObject));
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         Gson gson = new Gson();
-        JsonObject userData = gson.fromJson(request.getReader(), JsonObject.class);
-
-        String firstName = userData.get("firstName").getAsString();
-        String lastName = userData.get("lastName").getAsString();
-        String currentPassword = userData.get("currentPassword").getAsString();
-        String newPassword = userData.get("newPassword").getAsString();
-        String confirmPassword = userData.get("confirmPassword").getAsString();
-
         JsonObject responseObject = new JsonObject();
         responseObject.addProperty("status", false);
 
-        if (firstName.isEmpty()) {
-            responseObject.addProperty("message", "First Name can not be empty!");
-        } else if (lastName.isEmpty()) {
-            responseObject.addProperty("message", "Last Name can not be empty!");
-        } else if (currentPassword.isEmpty()) {
-            responseObject.addProperty("message", "Enter your current password");
-        } else if (!newPassword.isEmpty() && !Util.isPasswordValid(newPassword)) {
-            responseObject.addProperty("message", "The password must contains at least uppercase, lowecase,"
-                    + " number, special character and to be minimum eight characters long!");
-        } else if (!newPassword.isEmpty() && newPassword.equals(currentPassword)) {
-            responseObject.addProperty("message", "The new password cannot be the same as the current password!");
-        } else if (!confirmPassword.isEmpty() && !Util.isPasswordValid(confirmPassword)) {
-            responseObject.addProperty("message", "The password must contains at least uppercase, lowecase,"
-                    + " number, special character and to be minimum eight characters long!");
-        } else if (!confirmPassword.equals(newPassword)) {
-            responseObject.addProperty("message", "Confirmed password does not matching entered new password!");
-        } else {
-            HttpSession ses = request.getSession();
-            System.out.println(ses.getAttribute("email"));
-            if (ses.getAttribute("user") != null) {
-                User u = (User) ses.getAttribute("user"); //get session user
+        try {
+            JsonObject userData = gson.fromJson(request.getReader(), JsonObject.class);
+            if (userData == null) {
+                responseObject.addProperty("message", "Invalid request data!");
+                response.getWriter().write(gson.toJson(responseObject));
+                return;
+            }
 
-                SessionFactory sf = HibernateUtil.getSessionFactory();
-                Session s = sf.openSession();
+            String firstName = userData.has("firstName") && !userData.get("firstName").isJsonNull() ? userData.get("firstName").getAsString().trim() : "";
+            String lastName = userData.has("lastName") && !userData.get("lastName").isJsonNull() ? userData.get("lastName").getAsString().trim() : "";
+            String currentPassword = userData.has("currentPassword") && !userData.get("currentPassword").isJsonNull() ? userData.get("currentPassword").getAsString() : "";
+            String newPassword = userData.has("newPassword") && !userData.get("newPassword").isJsonNull() ? userData.get("newPassword").getAsString() : "";
+            String confirmPassword = userData.has("confirmPassword") && !userData.get("confirmPassword").isJsonNull() ? userData.get("confirmPassword").getAsString() : "";
 
-                Criteria c = s.createCriteria(User.class);
-                c.add(Restrictions.eq("email", u.getEmail()));//session user email
-                if (!c.list().isEmpty()) {
-                    User u1 = (User) c.list().get(0); //db user
+            if (firstName.isEmpty()) {
+                responseObject.addProperty("message", "First Name cannot be empty!");
+            } else if (lastName.isEmpty()) {
+                responseObject.addProperty("message", "Last Name cannot be empty!");
+            } else {
+                HttpSession ses = request.getSession(false);
+                if (ses == null || ses.getAttribute("user") == null) {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    responseObject.addProperty("message", "Session expired! Please sign in again.");
+                    response.getWriter().write(gson.toJson(responseObject));
+                    return;
+                }
 
-                    u1.setFirst_name(firstName);
-                    u1.setLast_name(lastName);
-                    if (!confirmPassword.isEmpty()) {
-                        u1.setPassword(confirmPassword);
-                    } else {
-                        u1.setPassword(currentPassword);
+                User sessionUser = (User) ses.getAttribute("user");
+
+                // Validate current password if password change is requested or required
+                if (!currentPassword.isEmpty() && !currentPassword.equals(sessionUser.getPassword())) {
+                    responseObject.addProperty("message", "Current password does not match!");
+                    response.getWriter().write(gson.toJson(responseObject));
+                    return;
+                }
+
+                if (!newPassword.isEmpty()) {
+                    if (currentPassword.isEmpty()) {
+                        responseObject.addProperty("message", "Please enter your current password to set a new password!");
+                        response.getWriter().write(gson.toJson(responseObject));
+                        return;
                     }
-                    //session-management
-                    ses.setAttribute("user", u1);
-                    //session-management-end
-                    String sessionId = ses.getId();
-                    //add cookie id 
-                    Cookie cookie = new Cookie("JSESSIONID", sessionId);
-                    cookie.setPath("/");
-                    cookie.setHttpOnly(true);
-                    cookie.setSecure(true); // Only if using HTTPS
-                    cookie.setMaxAge(-1); // session cookie
-                    //     cookie.setSameSite("None"); // Only if cross-site
-                    response.addCookie(cookie);
+                    if (!Util.isPasswordValid(newPassword)) {
+                        responseObject.addProperty("message", "The password must contain at least uppercase, lowercase, number, special character and be at least 8 characters long!");
+                        response.getWriter().write(gson.toJson(responseObject));
+                        return;
+                    }
+                    if (newPassword.equals(currentPassword)) {
+                        responseObject.addProperty("message", "The new password cannot be the same as the current password!");
+                        response.getWriter().write(gson.toJson(responseObject));
+                        return;
+                    }
+                    if (confirmPassword.isEmpty()) {
+                        responseObject.addProperty("message", "Please confirm your new password!");
+                        response.getWriter().write(gson.toJson(responseObject));
+                        return;
+                    }
+                    if (!confirmPassword.equals(newPassword)) {
+                        responseObject.addProperty("message", "Confirmed password does not match the new password!");
+                        response.getWriter().write(gson.toJson(responseObject));
+                        return;
+                    }
+                }
 
-                    s.merge(u1);
+                Session s = null;
+                org.hibernate.Transaction tx = null;
+                try {
+                    SessionFactory sf = HibernateUtil.getSessionFactory();
+                    s = sf.openSession();
+                    tx = s.beginTransaction();
 
-                    s.beginTransaction().commit();
-                    responseObject.addProperty("status", true);
-                    responseObject.addProperty("message", "User profile details update successfully!");
-                    s.close();
+                    Criteria c = s.createCriteria(User.class);
+                    c.add(Restrictions.eq("email", sessionUser.getEmail()));
+                    List<User> list = c.list();
+                    if (!list.isEmpty()) {
+                        User dbUser = list.get(0);
+                        dbUser.setFirst_name(firstName);
+                        dbUser.setLast_name(lastName);
+                        if (!newPassword.isEmpty()) {
+                            dbUser.setPassword(newPassword);
+                        }
+
+                        s.update(dbUser);
+                        tx.commit();
+
+                        // Update session
+                        ses.setAttribute("user", dbUser);
+
+                        responseObject.addProperty("status", true);
+                        responseObject.addProperty("message", "Profile details updated successfully!");
+                    } else {
+                        responseObject.addProperty("message", "User not found in database!");
+                    }
+                } catch (Exception e) {
+                    if (tx != null) tx.rollback();
+                    e.printStackTrace();
+                    responseObject.addProperty("message", "Database error occurred while updating profile!");
+                } finally {
+                    if (s != null && s.isOpen()) {
+                        s.close();
+                    }
                 }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            responseObject.addProperty("message", "An unexpected error occurred!");
         }
 
-        String toJson = gson.toJson(responseObject);
-        response.setContentType("application/json");
-        response.getWriter().write(toJson);
+        response.getWriter().write(gson.toJson(responseObject));
     }
 
 }

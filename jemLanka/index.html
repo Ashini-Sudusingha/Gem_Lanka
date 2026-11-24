@@ -9,82 +9,491 @@
     <link href="src/output.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* ========================================================
+         HERO SECTION - ORIGINAL #E8D8C4 THEME & CLEAN DESIGN
+         ======================================================== */
+      .jl-hero-section {
+        width: 100%;
+        background-color: #E8D8C4;
+        min-height: calc(100vh - 155px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        box-sizing: border-box;
+        padding: 24px 24px 0;
+        position: relative;
+      }
+
+      .jl-hero-container {
+        max-width: 1360px;
+        margin: 0 auto;
+        width: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+        box-sizing: border-box;
+      }
+
+      .jl-hero-content {
+        flex: 1 1 58%;
+        max-width: 680px;
+        align-self: center;
+        padding-top: 24px;
+        padding-bottom: 36px;
+      }
+
+      .jl-hero-headline {
+        font-family: 'Profilen', sans-serif;
+        font-size: clamp(20px, 2.4vw, 28px);
+        font-weight: 700;
+        color: #1F2937;
+        line-height: 1.35;
+        margin: 0 0 10px 0;
+      }
+
+      .jl-hero-title {
+        font-family: 'MagicalParadise', sans-serif;
+        font-size: clamp(65px, 8.5vw, 120px);
+        font-weight: 700;
+        color: #460809;
+        line-height: 0.95;
+        margin: 0 0 16px 0;
+        letter-spacing: 1px;
+      }
+
+      .jl-hero-desc {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(14px, 1.15vw, 16px);
+        color: #374151;
+        line-height: 1.7;
+        margin: 0;
+        max-width: 580px;
+      }
+
+      /* Hero Trust Highlights / Line Icons */
+      .jl-hero-features {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        gap: 18px 28px;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(70, 8, 9, 0.12);
+        max-width: 520px;
+      }
+
+      .jl-feature-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .jl-feature-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(70, 8, 9, 0.07);
+        border: 1px solid rgba(70, 8, 9, 0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #460809;
+        font-size: 18px;
+        flex-shrink: 0;
+        transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .jl-feature-item:hover .jl-feature-icon {
+        background: #460809;
+        color: #E8D8C4;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(70, 8, 9, 0.15);
+      }
+
+      .jl-feature-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .jl-feature-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #1F2937;
+        line-height: 1.25;
+      }
+
+      .jl-feature-sub {
+        font-family: 'Poppins', sans-serif;
+        font-size: 11.5px;
+        color: #6B5555;
+        line-height: 1.35;
+        margin-top: 2px;
+      }
+
+      .jl-hero-visual {
+        flex: 1 1 42%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        align-self: flex-end;
+        line-height: 0;
+        margin: 0;
+        padding: 0;
+      }
+
+      .jl-hero-img {
+        width: auto;
+        max-width: 360px;
+        max-height: calc(100vh - 175px);
+        height: auto;
+        display: block;
+        vertical-align: bottom;
+        margin: 0;
+        padding: 0;
+        object-fit: contain;
+        object-position: bottom;
+      }
+
+      /* ========================================================
+         SECTION 2: CONCISE INTRODUCTION & SERVICES (WARM SILK IVORY #FAF5EE)
+         ======================================================== */
+      .jl-intro-section {
+        width: 100%;
+        background-color: #FAF5EE;
+        padding: 70px 24px 80px;
+        box-sizing: border-box;
+        border-top: 1px solid #D8C5AF;
+        border-bottom: 1px solid #E5D5C2;
+        scroll-margin-top: 130px;
+      }
+
+      .jl-intro-container {
+        max-width: 1360px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 60px;
+        box-sizing: border-box;
+      }
+
+      .jl-intro-left {
+        flex: 1 1 50%;
+        max-width: 620px;
+      }
+
+      .jl-intro-heading-left {
+        font-family: 'CavierDream', sans-serif;
+        font-size: clamp(26px, 3vw, 34px);
+        font-weight: 600;
+        color: #111827;
+        margin: 0 0 18px 0;
+      }
+
+      .jl-intro-p-left {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.75;
+        margin: 0 0 16px 0;
+      }
+
+      .jl-intro-brand-left {
+        font-family: 'MagicalParadise', sans-serif;
+        font-size: clamp(60px, 7vw, 90px);
+        font-weight: 700;
+        color: #460809;
+        line-height: 1;
+        margin: 20px 0 24px 0;
+      }
+
+      /* Original Styled About Us Button */
+      .jl-btn-about {
+        position: relative;
+        display: inline-block;
+        padding: 12px 32px;
+        background-color: #6D2932;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #FFFFFF !important;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(109, 41, 50, 0.3);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .jl-btn-about:hover {
+        background-color: #460809;
+        box-shadow: 0 6px 20px rgba(70, 8, 9, 0.4);
+        transform: translateY(-1px);
+        color: #FFFFFF !important;
+      }
+      .jl-btn-about::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.7s ease;
+      }
+      .jl-btn-about:hover::before {
+        transform: translateX(100%);
+      }
+
+      /* Right Column: Services */
+      .jl-intro-right {
+        flex: 1 1 50%;
+        max-width: 620px;
+      }
+
+      .jl-intro-heading-right {
+        font-family: 'Profilen', sans-serif;
+        font-size: clamp(24px, 3vw, 36px);
+        font-weight: 600;
+        color: #460809;
+        line-height: 1.35;
+        margin: 0 0 28px 0;
+      }
+
+      .jl-service-item {
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(70, 8, 9, 0.1);
+      }
+      .jl-service-item:first-of-type {
+        padding-top: 0;
+      }
+      .jl-service-item:last-of-type {
+        border-bottom: none;
+      }
+
+      .jl-service-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        color: #111827;
+        margin: 0 0 6px 0;
+      }
+
+      .jl-service-desc {
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: #4B5563;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* ========================================================
+         RESPONSIVE
+         ======================================================== */
+      @media (max-width: 960px) {
+        .jl-hero-section {
+          min-height: auto;
+          padding: 36px 16px 44px;
+        }
+        .jl-hero-container {
+          flex-direction: column-reverse;
+          text-align: center;
+          gap: 28px;
+        }
+        .jl-hero-content {
+          max-width: 100%;
+        }
+        .jl-hero-title {
+          font-size: clamp(48px, 13vw, 68px);
+        }
+        .jl-hero-desc {
+          max-width: 100%;
+        }
+        .jl-hero-features {
+          grid-template-columns: repeat(2, minmax(160px, 1fr));
+          max-width: 440px;
+          margin: 24px auto 0 auto;
+          gap: 16px 20px;
+          padding-top: 18px;
+        }
+        .jl-feature-item {
+          text-align: left;
+        }
+        .jl-hero-img {
+          max-width: 210px;
+        }
+        .jl-intro-section {
+          padding: 44px 16px 56px;
+        }
+        .jl-intro-container {
+          flex-direction: column;
+          gap: 36px;
+        }
+        .jl-intro-left,
+        .jl-intro-right {
+          max-width: 100%;
+        }
+        .jl-intro-brand-left {
+          text-align: center;
+        }
+        .jl-intro-left {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .jl-hero-features {
+          grid-template-columns: 1fr;
+          max-width: 260px;
+        }
+      }
+    </style>
 </head>
 
-<body class="w-screen overflow-x-hidden" onload="loadFooter();loadProductData();loadNavBar()">
+<body class="w-full overflow-x-hidden" onload="loadFooter();loadProductData();loadNavBar()">
     <!--call nav bar hear-->
-  <div class="sticky w-screen" id="navBar"></div>
+  <div class="sticky top-0 z-50 w-full" id="navBar"></div>
 
-  <section class="w-screen h-[557px] flex flex-col bg-[#E8D8C4] md:lg:flex-row">
-    <div class="flex-1 mt-[50px]">
-        <h1 class="text-[25px] font-bold font-profile px-[20px] text-start">Your Trusted Marketplace for Buying & Selling Precious Gems Worldwide.</h1>
-         <h1 class="font-magical text-[150px] font-bold text-[#460809] mt-[10px] ml-[30px]">JemLanka</h1>
-         <P class="">From rare Ceylon sapphires to exquisite global gemstones, find the perfect stone or sell yours effortlessly. We provide expert verification and a seamless trading experience for gem enthusiasts worldwide.</P>
-    </div>
-    <div class="flex-1 p-2 justify-center flex w-[350px]">
-        <img src="resources/fontimage.png" alt="Description of image" width="330" height="330" class="mt-[40px] mr-[90px]">
-        <h1>dd</h1>
+  <!-- ================= 1. HERO SECTION ================= -->
+  <section id="hero-section" class="jl-hero-section">
+    <div class="jl-hero-container">
+
+      <!-- Left Content Column -->
+      <div class="jl-hero-content">
+        <h1 class="jl-hero-headline">
+          Your Trusted Marketplace for Buying & Selling Precious Gems Worldwide.
+        </h1>
+
+        <h1 class="jl-hero-title">
+          JemLanka
+        </h1>
+
+        <p class="jl-hero-desc">
+          From rare Ceylon sapphires to exquisite global gemstones, find the perfect stone or sell yours effortlessly. We provide expert verification and a seamless trading experience for gem enthusiasts worldwide.
+        </p>
+
+        <!-- Trust & Heritage Highlights (Elegant Line Icons, No Bulky Cards, No Emojis) -->
+        <div class="jl-hero-features">
+          <div class="jl-feature-item">
+            <div class="jl-feature-icon">
+              <i class="fa-solid fa-gem"></i>
+            </div>
+            <div class="jl-feature-text">
+              <span class="jl-feature-title">100% Certified</span>
+              <span class="jl-feature-sub">NGJA & GIA Verified</span>
+            </div>
+          </div>
+
+          <div class="jl-feature-item">
+            <div class="jl-feature-icon">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+            <div class="jl-feature-text">
+              <span class="jl-feature-title">Ceylon Heritage</span>
+              <span class="jl-feature-sub">Direct Mine Sourced</span>
+            </div>
+          </div>
+
+          <div class="jl-feature-item">
+            <div class="jl-feature-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="jl-feature-text">
+              <span class="jl-feature-title">Verified Sellers</span>
+              <span class="jl-feature-sub">Buyer Protection</span>
+            </div>
+          </div>
+
+          <div class="jl-feature-item">
+            <div class="jl-feature-icon">
+              <i class="fa-solid fa-truck-fast"></i>
+            </div>
+            <div class="jl-feature-text">
+              <span class="jl-feature-title">Insured Transit</span>
+              <span class="jl-feature-sub">Worldwide Delivery</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Visual Column (Main Heritage Image on Natural Background) -->
+      <div class="jl-hero-visual">
+        <img src="resources/fontimage.png" alt="Description of image" class="jl-hero-img">
+      </div>
+
     </div>
   </section>
 
-    <div class="w-screen h-[557px] flex flex-col bg-[#E8D8C4] md:lg:flex-row">
-          
-        <div class="flex-1 mt-3 ">
-            <h2 class="p-2 text-2xl font-semibold font-cavier">concise introduction</h2>
-            <p class="ml-10">Through this platform, you will primarily be able to obtain various types of gemstones
-                sourced from Sri
-                Lanka on a wholesale basis, as well as have your jewelry manufactured through trusted Sri Lankan
-                factories. Additionally, if you wish, you can also acquire gemstone varieties from other countries.
 
-                All gemstones offered here are certified by recognized institutions that conduct thorough quality
-                testing. If needed, you can also directly connect with those institutions.</p>
-            <h1 class="font-magical text-[90px] font-bold ml-10 text-[#460809]">JemLanka</h1>
-            <div class="ml-[50px] mt-7">
-                <button class="
-          relative
-          px-6 py-2.5
-          bg-[#6D2932]
-          backdrop-blur-md
-          border border-white/30
-          text-teal-950 dark:text-white
-          font-medium
-          rounded-lg
-          shadow-lg
-          overflow-hidden
-          hover:bg-[#6D2932]
-          hover:shadow-xl
-          active:transform active:scale-95
-          transition-all duration-300
-          before:content-['']
-          before:absolute
-          before:top-0
-          before:left-0
-          before:w-full
-          before:h-full
-          before:bg-gradient-to-r
-          before:from-transparent
-          before:via-white/20
-          before:to-transparent
-          before:-translate-x-full
-          hover:before:translate-x-full
-          before:transition-transform
-          before:duration-700
-        ">
-                    About Us
-                </button>
-            </div>
+  <!-- ================= 2. CONCISE INTRODUCTION & SERVICES SECTION ================= -->
+  <section id="concise-intro" class="jl-intro-section">
+    <div class="jl-intro-container">
+
+      <!-- Left Column: Concise Introduction -->
+      <div class="jl-intro-left">
+        <h2 class="jl-intro-heading-left">concise introduction</h2>
+        
+        <p class="jl-intro-p-left">
+          Through this platform, you will primarily be able to obtain various types of gemstones sourced from Sri Lanka on a wholesale basis, as well as have your jewelry manufactured through trusted Sri Lankan factories. Additionally, if you wish, you can also acquire gemstone varieties from other countries.
+        </p>
+
+        <p class="jl-intro-p-left">
+          All gemstones offered here are certified by recognized institutions that conduct thorough quality testing. If needed, you can also directly connect with those institutions.
+        </p>
+
+        <h1 class="jl-intro-brand-left">JemLanka</h1>
+
+        <div>
+          <a href="advance-search.html" class="jl-btn-about">
+            About Us
+          </a>
         </div>
-        <!--methana thiyenne 2 kotasa-->
-        <div class="grid grid-cols-6 opacity-0 flex-2 md:lg:opacity-100">
-            <p class="col-start-3 my-6 font-profile text-[40px] col-span-3 font-semibold ml-5 mt-[100px]
-            ">Partner with us to source your gemstones and receive the services you need.</p>
-            <!--start the service-->
+      </div>
+
+      <!-- Right Column: Partnership & Services (No cards, No emojis) -->
+      <div class="jl-intro-right">
+        <h2 class="jl-intro-heading-right">
+          Partner with us to source your gemstones and receive the services you need.
+        </h2>
+
+        <div class="jl-services-list">
+          <div class="jl-service-item">
+            <h3 class="jl-service-title">Wholesale Sourcing</h3>
+            <p class="jl-service-desc">Direct mine-to-market pricing with no middlemen markups on authentic Ceylon gemstones.</p>
+          </div>
+
+          <div class="jl-service-item">
+            <h3 class="jl-service-title">Custom Manufacturing</h3>
+            <p class="jl-service-desc">Bespoke fine jewelry crafting by experienced Sri Lankan master gem cutters & goldsmiths.</p>
+          </div>
+
+          <div class="jl-service-item">
+            <h3 class="jl-service-title">Laboratory Certified</h3>
+            <p class="jl-service-desc">Government & international gemological testing lab certification accompanying every stone.</p>
+          </div>
+
+          <div class="jl-service-item">
+            <h3 class="jl-service-title">Worldwide Insured Transit</h3>
+            <p class="jl-service-desc">Secure international escrow payment protection and door-to-door insured logistics.</p>
+          </div>
         </div>
-        <div
-            class="hidden absolute w-[400px] h-[400px]  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-[67px]  opacity-0 md:lg:opacity-100">
-            <img src="resources/fontimage.png" alt="Description of image" width="300" height="300">
-        </div>
+      </div>
+
     </div>
+  </section>
     <!--special anounsment start-->
     <div x-data="{ activeSlide: 0, slides: 3, timer: null }"
         x-init="timer = setInterval(() => activeSlide = (activeSlide + 1) % slides, 3000)"
@@ -236,7 +645,6 @@
     <div id="footer" class=""></div>
     <!--call nav bar hear-->
     <script src="script.js"></script>
-    <script src="home.js"></script>
     <script src="js/index.js"></script>
 
 </body>

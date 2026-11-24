@@ -1,66 +1,156 @@
-
 async function loadStoreData() {
-
-    const response = await fetch("http://localhost:8080/JemLankaBackEnd/LoadProductData");
-    if (response.ok) {
-        const json = await response.json();
-        //  console.log(json);
-        if (json.status) {
-            loadSelect("category", json.catList, "type");
-            loadSelect("shape", json.shapeList, "name");
-            loadSelect("calarity", json.clarityList, "type");
-            loadSelect("color", json.colorList, "value");
-            loadSelect("treatment", json.treatmentList, "name");
-            loadSelect("treatment", json.treatmentList, "name");
-            loadSelect("status", json.statesList, "value");
-
-        } else {
-            document.getElementById("message").innerHTML = "Something went wrong. Please try again later";
-
+    try {
+        const response = await fetch("http://localhost:8080/JemLankaBackEnd/LoadProductData");
+        if (response.ok) {
+            const json = await response.json();
+            if (json.status) {
+                loadSelect("category", json.catList, "type", "Select Gem Variety");
+                loadSelect("shape", json.shapeList, "name", "Select Shape");
+                loadSelect("calarity", json.clarityList, "type", "Select Clarity Grade");
+                loadSelect("color", json.colorList, "value", "Select Color");
+                loadSelect("treatment", json.treatmentList, "name", "Select Treatment");
+                loadSelect("status", json.statesList, "value", "Select Status");
+                if (json.countryList) {
+                    loadSelect("originId", json.countryList, "name", "Select Origin (e.g. Sri Lanka)");
+                    // Default to Sri Lanka if available
+                    const originSelect = document.getElementById("originId");
+                    for (let opt of originSelect.options) {
+                        if (opt.text.toLowerCase().includes("sri lanka")) {
+                            opt.selected = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                showStatus(json.message || "Failed to load product metadata", false);
+            }
         }
-    } else {
-        document.getElementById("message").innerHTML = "Product loading failed. Please try again";
-
+    } catch (err) {
+        console.error("Error loading product form metadata:", err);
     }
 }
 
-function loadSelect(selectId, items, property) {
+function loadSelect(selectId, items, property, placeholder) {
     const select = document.getElementById(selectId);
+    if (!select) return;
+    if (!items || !Array.isArray(items) || items.length === 0) return;
+    select.innerHTML = `<option value="0" selected>${placeholder}</option>`;
     items.forEach(item => {
         const option = document.createElement("option");
         option.value = item.id;
-        option.innerHTML = item[property];
+        let text = item[property];
+        if (text === "Ovel") text = "Oval";
+        if (text === "Heat-teatment") text = "Heat Treated";
+        if (text === "Out-Off stock") text = "Out of Stock";
+        option.textContent = text;
         select.appendChild(option);
     });
 }
 
-async function saveProduct() {
+function calculatePricePerCarat() {
+    const weight = parseFloat(document.getElementById("weight").value);
+    const totalPrice = parseFloat(document.getElementById("sellprice").value);
+    const pricePerCaratEl = document.getElementById("pricePerCarat");
 
-    const productName = document.getElementById("productName").value;
+    if (!isNaN(weight) && weight > 0 && !isNaN(totalPrice) && totalPrice > 0) {
+        pricePerCaratEl.value = (totalPrice / weight).toFixed(2);
+    } else {
+        pricePerCaratEl.value = "";
+    }
+}
+
+function showStatus(message, isSuccess = false) {
+    const el = document.getElementById("statusMessage");
+    if (!el) return;
+    el.textContent = message;
+    el.className = `jl-alert ${isSuccess ? 'jl-alert-success' : 'jl-alert-danger'}`;
+    el.style.display = "block";
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function saveProduct() {
+    const productName = document.getElementById("productName").value.trim();
     const categoryId = document.getElementById("category").value;
+    const originId = document.getElementById("originId").value;
     const shapeId = document.getElementById("shape").value;
+    const cutStyle = document.getElementById("cutStyle").value;
     const calarityId = document.getElementById("calarity").value;
     const colorId = document.getElementById("color").value;
     const treatmentId = document.getElementById("treatment").value;
-    const description = document.getElementById("description").value;
-    const weight = document.getElementById("weight").value;
-    const length = document.getElementById("length").value;
-    const Width = document.getElementById("Width").value;
-    const hight = document.getElementById("hight").value;
-    const stockquantity = document.getElementById("stockquantity").value;
+    const description = document.getElementById("description").value.trim();
+    const weight = document.getElementById("weight").value.trim();
+    const length = document.getElementById("length").value.trim();
+    const Width = document.getElementById("Width").value.trim();
+    const hight = document.getElementById("hight").value.trim();
+    const stockquantity = document.getElementById("stockquantity").value.trim();
     const states = document.getElementById("status").value;
-    const sellprice = document.getElementById("sellprice").value;
-    const cost = document.getElementById("cost").value;
+    const sellprice = document.getElementById("sellprice").value.trim();
+    const cost = document.getElementById("cost").value.trim();
+    const pricePerCarat = document.getElementById("pricePerCarat").value.trim();
 
+    // Lab & Certification
+    const labName = document.getElementById("labName").value;
+    const certNumber = document.getElementById("certNumber").value.trim();
+    const certUrl = document.getElementById("certUrl").value.trim();
+    const videoUrl = document.getElementById("videoUrl").value.trim();
 
     const image1 = document.getElementById("img1").files[0];
     const image2 = document.getElementById("img2").files[0];
     const image3 = document.getElementById("img3").files[0];
+    const certImage = document.getElementById("certImage") ? document.getElementById("certImage").files[0] : null;
+
+    // Client-side validations
+    if (!productName) {
+        showStatus("Gemstone Title is required!", false);
+        return;
+    }
+    if (categoryId === "0") {
+        showStatus("Please select a Gemstone Category / Variety!", false);
+        return;
+    }
+    if (originId === "0") {
+        showStatus("Please select the Gemstone Origin / Mining Country!", false);
+        return;
+    }
+    if (shapeId === "0") {
+        showStatus("Please select a Gemstone Shape!", false);
+        return;
+    }
+    if (calarityId === "0") {
+        showStatus("Please select Clarity Grade!", false);
+        return;
+    }
+    if (colorId === "0") {
+        showStatus("Please select Gemstone Color!", false);
+        return;
+    }
+    if (treatmentId === "0") {
+        showStatus("Please select Enhancement / Treatment!", false);
+        return;
+    }
+    if (!weight || parseFloat(weight) <= 0) {
+        showStatus("Please enter a valid Carat Weight greater than 0!", false);
+        return;
+    }
+    if (!length || !Width || !hight) {
+        showStatus("Please enter all 3 dimensions (Length, Width, Depth in mm)!", false);
+        return;
+    }
+    if (!sellprice || parseFloat(sellprice) <= 0) {
+        showStatus("Please enter a valid Selling Price!", false);
+        return;
+    }
+    if (!image1) {
+        showStatus("Primary Product Image (Table View) is required!", false);
+        return;
+    }
 
     const form = new FormData();
     form.append("productName", productName);
     form.append("categoryId", categoryId);
+    form.append("originId", originId);
     form.append("shapeId", shapeId);
+    form.append("cutStyle", cutStyle);
     form.append("calarityId", calarityId);
     form.append("colorId", colorId);
     form.append("treatmentId", treatmentId);
@@ -69,158 +159,50 @@ async function saveProduct() {
     form.append("length", length);
     form.append("Width", Width);
     form.append("hight", hight);
-    form.append("stockquantity", stockquantity);
-    form.append("states", states);
+    form.append("stockquantity", stockquantity || "1");
+    form.append("states", states || "1");
     form.append("sellprice", sellprice);
-    form.append("cost", cost);
+    form.append("cost", cost || "0.0");
+    form.append("pricePerCarat", pricePerCarat || "");
+
+    form.append("labName", labName);
+    form.append("certNumber", certNumber);
+    form.append("certUrl", certUrl);
+    form.append("videoUrl", videoUrl);
+
     form.append("image1", image1);
-    form.append("image2", image2);
-    form.append("image3", image3);
+    if (image2) form.append("image2", image2);
+    if (image3) form.append("image3", image3);
+    if (certImage) form.append("certImage", certImage);
 
-    const response = await fetch("http://localhost:8080/JemLankaBackEnd/SaveProduct", {
-        method: "POST",
-        body: form
-    });
+    const submitBtn = document.getElementById("submitProductBtn");
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Publishing Gemstone...`;
+    }
 
-     const notificatoion = document.getElementById("notificatoion");
-    notificatoion.innerHTML = "";
+    try {
+        const response = await fetch("http://localhost:8080/JemLankaBackEnd/SaveProduct", {
+            method: "POST",
+            body: form,
+            credentials: "include"
+        });
 
-    if (response.ok) {
         const json = await response.json();
-        if (json.status) {
-           
-            document.getElementById("message").innerHTML = json.message;
-
-            document.getElementById("productName").value = "";
-            document.getElementById("category").value = "0";
-            document.getElementById("shape").value = "0";
-            document.getElementById("calarity").value = "0";
-            document.getElementById("color").value = "0";
-            document.getElementById("treatment").value = "0";
-            document.getElementById("description").value = "";
-            document.getElementById("weight").value = "";
-            document.getElementById("length").value = "";
-            document.getElementById("Width").value = "";
-            document.getElementById("hight").value = "";
-            document.getElementById("stockquantity").value = "1";
-            document.getElementById("status").value = "0";
-            document.getElementById("sellprice").value = "0.00";
-            document.getElementById("cost").value = "0.00";
-
-
-            const image1 = document.getElementById("img1").value= "";
-            const image2 = document.getElementById("img2").value = "";
-            const image3 = document.getElementById("img3").value= "";
-
-                        let sucessNotification = `
-  <div class="fixed inset-0 z-10 overflow-y-auto" id="noty">
-            <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-                </div>
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                <div class="sticky inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-                    role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-                    <div>
-                        <div class="flex items-center justify-center w-20 h-20 mx-auto bg-green-100 rounded-full">
-                            <svg viewBox="0 0 64 64" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                                fill="#000000">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <defs>
-                                        <style>
-                                            .cls-1 {
-                                                fill: #477e11;
-                                            }
-
-                                            .cls-2 {
-                                                fill: #ffb300;
-                                            }
-                                        </style>
-                                    </defs>
-                                    <title></title>
-                                    <path class="cls-1"
-                                        d="M41.78,57.13a7.12,7.12,0,0,1-4.2-1.39l-4.32-3.16a3.12,3.12,0,0,0-3.7,0l-4.32,3.16a7.14,7.14,0,0,1-11.31-6.53l.58-5.32a3.11,3.11,0,0,0-1.85-3.2L7.77,38.53a7.13,7.13,0,0,1,0-13.06l4.89-2.16a3.11,3.11,0,0,0,1.85-3.2l-.58-5.32A7.14,7.14,0,0,1,25.24,8.26l4.32,3.16a3.12,3.12,0,0,0,3.7,0l4.32-3.16A7,7,0,0,1,43,7a7.25,7.25,0,0,1,4.75,3.13,2,2,0,1,1-3.34,2.2,3.23,3.23,0,0,0-2.12-1.39,3,3,0,0,0-2.37.57l-4.32,3.16a7.13,7.13,0,0,1-8.43,0l-4.31-3.16a3.13,3.13,0,0,0-5,2.87l.58,5.31A7.11,7.11,0,0,1,14.28,27l-4.9,2.16a3.14,3.14,0,0,0,0,5.74L14.28,37a7.11,7.11,0,0,1,4.21,7.3l-.58,5.31a3.13,3.13,0,0,0,5,2.87l4.31-3.16a7.13,7.13,0,0,1,8.43,0l4.32,3.16a3.13,3.13,0,0,0,5-2.87l-.58-5.31A7.1,7.1,0,0,1,48.54,37l4.9-2.16a3.14,3.14,0,0,0,0-5.74L50.78,28a2,2,0,1,1,1.61-3.66l2.66,1.17a7.13,7.13,0,0,1,0,13.06l-4.89,2.16a3.13,3.13,0,0,0-1.86,3.2l.58,5.32a7,7,0,0,1-3.52,6.95A7.17,7.17,0,0,1,41.78,57.13Z">
-                                    </path>
-                                    <path class="cls-2"
-                                        d="M31.64,39a2,2,0,0,1-1.42-.59l-8.61-8.61A2,2,0,1,1,24.44,27l7.2,7.2L57.08,8.72a2,2,0,0,1,2.82,2.83L33.05,38.4A2,2,0,0,1,31.64,39Z">
-                                    </path>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-5">
-                            <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-headline">
-                                Succesfully add a new Product
-                            </h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">
-                                    Thank you your Order
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-5 sm:mt-6">
-                        <button
-                            class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-green-500 border border-transparent rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700 sm:text-sm"
-                            onclick="notyCloseModel();">
-                            OK
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-           `;
-            notificatoion.innerHTML += sucessNotification;
-
-
+        if (response.ok && json.status) {
+            showStatus(json.message || "Gemstone published successfully!", true);
+            document.getElementById("addProductForm").reset();
+            document.getElementById("pricePerCarat").value = "";
         } else {
-            if (json.message === "Please login") {
-                window.location = "sign-in.html";
-            } else {
-                             let sucessNotification = `
-    <div class="fixed z-10 inset-0 overflow-y-auto" id="noty">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sticky"
-            role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-            <div>
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                    <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </div>
-                <div class="mt-3 text-center sm:mt-5">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                        Error
-                    </h3>
-                    <div class="mt-2">
-                        <p class="text-sm text-gray-500">
-                        ${json.message}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-5 sm:mt-6">
-                <button
-                    class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
-                    onclick="closeModal()">
-                    OK
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-           `;
-            }
+            showStatus(json.message || "Failed to publish gemstone product.", false);
         }
-    } else {
-
+    } catch (err) {
+        console.error("Save product error:", err);
+        showStatus("An unexpected network error occurred while publishing gemstone.", false);
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="fa-solid fa-gem"></i> Publish Gemstone to Marketplace`;
+        }
     }
 }
